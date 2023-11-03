@@ -1,0 +1,223 @@
+﻿@page "{gname?}/{pageId:int?}"
+@model Web.Pages.ProductsModel
+@using Core.DTOs.General;
+@using Core.Services.Interfaces;
+@inject IProductService _productService
+@inject IUserService _userService
+@{
+    Layout = null;
+
+    string title = "محصولات عالیان سبز";
+
+    string gnme = string.Empty;
+    //string des = "محصولات عالیان سبز شامل عصاره های گیاهی یا عرقیات ترکیبی، دمنوش های گیاهی می باشد که به صورت پک های سلامتی عرضه می کند";
+    string description = " محصولات عالیان سبز گروه" + " " + Model.ProductsVM.CurrentProductGroup?.ProductGroupTitle + " " + Model.ProductsVM.CurrentProductGroup?.ProductGroupComment;
+
+    if (Model.ProductsVM.CurrentPoductGroupId != null)
+    {
+        gnme = Model.ProductsVM.CurrentProductGroup.ProductEnGroupTitle.Replace(" ", "-");
+        title = "عالیان سبز | " + Model.ProductsVM.CurrentProductGroup.Parent?.ProductGroupTitle + " " +
+                        Model.ProductsVM.CurrentProductGroup.ProductGroupTitle;
+    }
+
+    @if (Model.SitePage != null)
+    {
+        description = Model.SitePage.Description;
+    }
+    @if (Model.ProductsVM.CurrentPage > 1)
+    {
+        title += " - " + "صفحه " + Model.ProductsVM.CurrentPage.ToString();
+        description += " - " + "صفحه " + Model.ProductsVM.CurrentPage.ToString();
+    }
+}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BYLT1K82JQ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-BYLT1K82JQ');
+    </script>
+    <title>@title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property=og:site_name value="عالیان سبز">
+    <meta property=og:title content="@title">
+    <meta property=og:url content=https://aliansabz.com/Products>
+    <meta property=og:image content=https://aliansabz.com/images/alian-sabz-shop-100.png>
+    <meta property=og:image:url content="https://aliansabz.com/images/">
+    <meta property=og:image:type content=image/png>
+    <meta property=og:image:type content=image/jpg>
+    <meta property=og:image:alt content="محصولات عالیان سبز">
+    <meta property=og:price:currency content=IRR>
+    <meta property=og:locale content=ir_FA>
+
+
+    <link rel="canonical" href="https://aliansabz.com/Products" />
+    <meta name="description" content="@description" />
+    <link rel="stylesheet" type="text/css" href="~/Layout/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="~/lib/fonts/elegant-font/html-css/style.css">
+    <link rel="stylesheet" type="text/css" href="~/Layout/vendor/css-hamburgers/hamburgers.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Layout/Vendor/animsition/css/animsition.min.css">
+    <link href="~/Layout/css/util.css" rel="stylesheet" type="text/css" />
+    <link href="~/Layout/css/main.css" rel="stylesheet" type="text/css" />
+    <link href="~/Layout/css/tricklandstyle.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css">
+    <link rel="shortcut icon" href="/@Model.FavIcon" type="image/x-icon" />
+
+</head>
+<body class="animsition">
+
+    <!-- Header -->
+    <partial name="_Header" />
+
+
+    <!-- Title Page -->
+    <section class="bg-title-page p-t-100 p-b-150 flex-col-c-m general-page-bg02">
+        @{
+            string ptitle = "محصولات";
+        }
+        @if (Model.ProductsVM.CurrentPoductGroupId == null)
+        {
+            ptitle = "تمــام محصولات";
+        }
+        <h2 class="l-text2 t-center">
+            @ptitle
+        </h2>
+        <h6 class="m-text13 t-center">
+            عالیان سبز
+        </h6>
+        <h6 class="m-text13 t-center">
+            صفحه @Model.PageId
+        </h6>
+    </section>
+
+    <section class="bgwhite p-t-55 p-b-65">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-md-4 col-lg-3 p-b-50">
+                    <div class="leftbar tl-box make-me-sticky">
+
+                        <h4 class="m-text14 p-b-7 text-center p-b-5 border-bottom">
+                            دسته بندی
+                        </h4>
+                        <ul>
+                            <li class="m-t-10 p-r-20 ">
+                                <a asp-page="Products" asp-route-gname="" class="@((Model.ProductsVM.CurrentPoductGroupId==null) ?"text-success p-1":"p-1")">هـــمه</a>
+
+                            </li>
+                            @foreach (var gr in Model.ProductsVM.ProductGroups.Where(w => w.Parent == null))
+                            {
+                                string gn = gr.ProductEnGroupTitle.Replace(" ", "-");
+                                int count = 0;
+                            <li class="m-t-10 p-r-20">
+                                @{
+                                        if(Model.ProductsVM.CurrentProductGroup!=null)
+                                        {
+                                            count = Model.ProductsVM.CurrentProductGroup.Products.Count();
+                                        }
+
+                                }
+                                <a asp-page="Products" asp-route-gname="@gn" class="@((Model.ProductsVM.CurrentProductGroup != null && Model.ProductsVM.CurrentPoductGroupId == gr.ProductGroupId)? "text-success p-1 " : "p-1")">@gr.ProductGroupTitle</a>
+
+                                <ul class="p-r-20">
+                                    @foreach (var sub in Model.ProductsVM.ProductGroups.Where(w => w.Parent == gr))
+                                        {
+                                            string gnsub = sub.ProductEnGroupTitle.Replace(" ", "-");
+                                            int prCount = sub.Products.Where(w =>w.IsActive).Count();
+                                    <li class="m-b-10 m-t-10">
+                                        <a asp-page="Products" asp-route-gname="@gnsub" class="@((Model.ProductsVM.CurrentProductGroup != null && Model.ProductsVM.CurrentPoductGroupId == sub.ProductGroupId)? "text-success p-1 " : "p-1")">@sub.ProductGroupTitle (@prCount)</a>
+                                    </li>
+                                        }
+                                </ul>
+                            </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-8 col-lg-9 p-b-50">
+                    <!-- Product -->
+                    <div class="row" id="productListrow">
+                        @if (Model.ProductsVM.Products != null)
+                        {
+                        @if (Model.ProductsVM.Products.Count != 0)
+                            {
+                        @foreach (var pr in Model.ProductsVM.Products)
+                                {
+
+                        @await Component.InvokeAsync("ShowProductAsColumnComponent", pr)
+                                }
+                            }
+                            else
+                            {
+                        <div class="container">
+                            <div class="col-xs-12">
+                                @if (Model.ExistPackage == false)
+                                        {
+                                <h3 class="alert alert-danger col-xs-12 text-xs-center">محصولی موجود نمی باشد !</h3>
+                                        }
+
+                            </div>
+                        </div>
+                            }
+                        }
+                        else
+                        {
+                        <div class="container">
+                            <div class="col-xs-12">
+                                <h3 class="alert alert-danger col-xs-12 text-xs-center">محصولی موجود نمی باشد !</h3>
+                            </div>
+                        </div>
+                        }
+
+                    </div>
+
+
+                    <div class="pages-counter pagination flex-m flex-w p-t-26">
+
+                        @for (int pg = 1; pg <= Model.ProductsVM.TotalPages; pg++)
+                        {
+                            if (pg == Model.ProductsVM.CurrentPage)
+                            {
+                        <a href="javascript:void(0)" class="item-pagination flex-c-m trans-0-4 cursor-not-allowed active-pagination">@pg</a>
+                            }
+                            else
+                            {
+                                string gn = null;
+                                string hf = "/Products?pageId=" + pg;
+                                if (Model.ProductsVM.CurrentProductGroup != null)
+                                {
+                                    gn = Model.ProductsVM.CurrentProductGroup.ProductEnGroupTitle.Replace(" ", "-");
+                                    hf = "/Products/" + gn + "/" + pg;
+                                }
+                        <a href="@hf" class="item-pagination cursor-pointer flex-c-m trans-0-4">@pg</a>
+
+
+                            }
+                        }
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <partial name="_Footer" />
+    <div class="btn-back-to-top bg0-hov" id="myBtn">
+        <span class="symbol-btn-back-to-top">
+            &uArr;
+        </span>
+    </div>
+    <script src="~/Layout/vendor/jquery/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="~/Layout/Vendor/animsition/js/animsition.min.js"></script>
+    <script type="text/javascript" src="~/Layout/Vendor/bootstrap/js/popper.js"></script>
+    <script type="text/javascript" src="~/Layout/Vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/Layout/js/aos.min.js"></script>
+
+    <script src="~/Layout/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+﻿@model IEnumerable<DataLayer.Entities.Supplementary.ContactMessage>
+@using Core.Convertors;
+@{
+    ViewData["Title"] = "پیامهای کاربران";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+<h1 class="text-xs-center alert alert-info">پیامهای کاربران از صفحه تماس</h1>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.Cellphone)
+            </th>
+            
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th class="text-xs-center align-middle">
+                عملیات
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OrderByDescending(x => x.CreatedDate))
+        {
+        <tr>
+            <td class="text-xs-center align-middle">
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td class="text-xs-center align-middle">
+                @Html.DisplayFor(modelItem => item.Cellphone)
+            </td>
+            
+            <td class="text-xs-center align-middle">
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            
+            <td class="text-xs-center align-middle">
+                @item.CreatedDate.ToShamsiWithTime()
+            </td>
+            <td class="text-xs-center align-middle">
+                <a asp-action="Details" asp-route-id="@item.Id">جزئیات</a>
+            </td>
+
+        </tr>
+        }
+    </tbody>
+</table>

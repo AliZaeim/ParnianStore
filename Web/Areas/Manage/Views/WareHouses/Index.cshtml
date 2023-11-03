@@ -1,0 +1,198 @@
+﻿@model IEnumerable<Core.DTOs.Admin.WareHouseVM>
+@using Core.Convertors;
+@using Core.Services.Interfaces;
+@inject IStoreService _storeService;
+@{
+    ViewData["Title"] = "دفتر انبار";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+    int PrCount = 0;
+    int PkCount = 0;
+    if (Model != null)
+    {
+        PrCount = Model.Where(w => w.Product != null).Count();
+        PkCount = Model.Where(w => w.Package != null).Count();
+    }
+}
+
+<h1 class="text-xs-center alert alert-info">
+    دفتر انبار
+</h1>
+<div class="row p-1">
+    <div class="col-md-4 col-xs-12 text-xs-center fs-16 border ">
+        &ensp;
+        محصولات : <span class="tag tag-square tag-success">@PrCount</span> | پکیج ها : <span class="tag tag-info tag-square">@PrCount</span> | کل صفحات : <span class="tag tag-success tag-square">@ViewData["zTotalPage"]</span>
+        &ensp;
+    </div>
+    <div class="col-md-8 col-xs-12 fs-16">
+        <form asp-action="Index" asp-controller="WareHouses" asp-area="Manage">
+            <span class="col-xs-1">صفحه</span>
+            <input placeholder="صفحه" value="@ViewData["zPage"]" class="col-xs-3 text-xs-center" name="page" type="number" />
+            <span class="col-xs-1">تعداد</span>
+            <input placeholder="تعداد" value="@ViewData["RecCount"]" class="col-xs-3 text-xs-center" name="recCount" type="number" />
+            <input type="submit" value="اعمال" class="offset-xs-1 col-xs-3" />
+        </form>
+    </div>
+    <div class=" col-xs-12 mb-2 mt-2">
+        <div class="col-md-4 col-xs-12 mb-1">
+            <a asp-action="Create" class="btn btn-primary col-xs-12">ثبت در دفتر</a>
+        </div>
+        <div class="col-md-8  col-xs-12">
+            <form asp-action="Index" asp-controller="WareHouses" asp-area="Manage">
+                <input placeholder="جستجوی محصول یا پکیج" required class="height-50 col-xs-6 text-xs-center" name="search" id="myWInput" type="text" />
+                <input type="submit" value="جستجو" class="btn btn-primary offset-xs-1 col-xs-5" />
+            </form>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="table-responsive">
+    <table class="table table-bordered">
+
+        <tbody id="w-body">
+            @foreach (var w in Model)
+            {
+
+                <tr>
+                    <td class="text-xs-center align-middle">
+                        @if (w.Product != null)
+                        {
+                            <a href="/manage/products/details/@w.Product.ProductId/">@w.Product.ProductName</a>
+                        }
+                        else
+                        {
+                            @if (w.Package != null)
+                            {
+                                <a href="/manage/packages/details/@w.Package.PkId/">@w.Package.PkTitle</a>
+                            }
+                        }
+                    </td>
+                    <td>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="text-xs-center align-middle">#</th>
+                                    <th class="text-xs-center align-middle">تاریخ</th>
+                                    <th class="text-xs-center align-middle">ورود</th>
+                                    <th class="text-xs-center align-middle">خروج</th>
+                                    <th class="text-xs-center align-middle">باقیمانده</th>
+                                    <th class="text-xs-center align-middle">حداقل هشدار</th>
+                                    <th class="text-xs-center align-middle">شماره اختصاصی سفارش</th>
+                                    <th class="text-xs-center align-middle">توضیحات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{int PSumImport = 0; int PSumExport = 0; int PRemain = 0; int PkSumImport = 0; int PkSumExport = 0; int PkRemain = 0; int rad2 = 1;string trClass = "bg-success"; }
+                                @foreach (var item in w.WHouses.OrderBy(x => x.Product).ThenBy(x => x.Package))
+                                {
+                                    DataLayer.Entities.Store.OrderDetail orderDetail = null;
+                                    if (item.OD_Id.HasValue)
+                                    {
+                                        orderDetail = await _storeService.GetOrderDetailByIdAsync((int)item.OD_Id);
+                                    }
+                                    if (item.Product != null)
+                                    {
+                                        PSumImport += item.Import;
+                                        PSumExport += item.Export;
+                                        PRemain = PSumImport - PSumExport;
+                                        trClass = "bg-success";
+                                    }
+                                    if (item.Package != null)
+                                    {
+                                        PkSumImport += item.Import;
+                                        PkSumExport += item.Export;
+                                        PkRemain = PkSumImport - PkSumExport;
+                                        trClass = "bg-info";
+                                    }
+
+                                <tr class="@trClass">
+                                    <td class="text-xs-center align-middle">@rad2</td>
+                                    <td class="text-xs-center align-middle">@item.WDate.ToShamsiWithTime()</td>
+                                    <td class="text-xs-center align-middle">@item.Import</td>
+                                    <td class="text-xs-center align-middle">@item.Export</td>
+                                    <td class="text-xs-center align-middle">
+                                        @if (item.Product != null)
+                                        {
+                                            @if (PRemain <= item.Product.ProductMinimumInventory)
+                                            {
+                                                <span class="bg-danger text-white rounded pr-1 pl-1">@PRemain</span>
+                                            }
+                                            else
+                                            {
+                                                <span>@PRemain</span>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            @if (item.Package != null)
+                                            {
+                                                @if (PkRemain <= item.Package.PkMin_Inventory_ForAlarm)
+                                                {
+                                                    <span class="bg-danger text-white round pr-1 pl-1">@PkRemain</span>
+                                                }
+                                                else
+                                                {
+                                                    <span>@PkRemain</span>
+                                                }
+                                            }
+                                        }
+
+
+                                    </td>
+                                    <td class="text-xs-center align-middle">
+                                        @if (item.Product != null)
+                                        {
+                                            @item.Product.ProductMinimumInventory
+                                        }
+                                        else
+                                        {
+                                            if (item.Package != null)
+                                            {
+                                                @item.Package.PkMin_Inventory_ForAlarm
+                                            }
+                                        }
+
+                                    </td>
+                                    <td class="text-xs-center align-middle">
+                                        @if (orderDetail != null)
+                                        {
+                                            <a href="/manage/adminorders/details/@orderDetail.Order_Id">@orderDetail?.Order.Order_DedicatedNumber</a>
+                                        }
+                                        else
+                                        {
+                                            <span>-</span>
+                                        }
+
+                                    </td>
+                                    <td class="text-xs-center align-middle">@item.Comment</td>
+                                </tr>
+                                    rad2++;
+                                }
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+
+            }
+        </tbody>
+    </table>
+</div>
+@section Scripts{
+
+    <script type="text/javascript">
+
+                                                                        //$(document).ready(function () {
+                                                                        //    $("#myWInput").on("propertychange change keyup paste input", function () {
+                                                                        //        var value = $(this).val().toLowerCase();
+                                                                        //        $("#w-body tr").filter(function () {
+                                                                        //            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                                                                        //        });
+
+
+                                                                        //    });
+
+                                                                        //});
+    </script>
+}

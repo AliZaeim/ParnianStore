@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-textdirection="rtl" class="loading">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="description" content="Alian Sabz Manage Temp">
+    <meta name="keywords" content="admin template, robust admin template, dashboard template, flat admin template, responsive admin template, web app">
+    <meta name="author" content="Ali Zaeim">
+    <title>@ViewData["TItle"]</title>
+
+    <link rel="shortcut icon" href="/favicon.png" type="image/x-icon" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <partial name="_AdminCssRef" />
+</head>
+<body data-open="click" data-menu="vertical-menu" data-col="2-columns" class="vertical-layout vertical-menu 2-columns  fixed-navbar">
+    <!-- navbar-fixed-top-->
+    <partial name="_AdminNavbarFixedtop" />
+    <!-- ////////////////////////////////////////////////////////////////////////////-->
+    <!-- main menu-->
+    <partial name="_AdminMenu" />
+    <!-- / main menu-->
+    <div class="app-content content container-fluid">
+        <div class="content-wrapper">
+            <div class="content-header row">
+            </div>
+            <div class="content-body" id="content-body" style="min-height:78vh">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    <!-- ////////////////////////////////////////////////////////////////////////////-->
+
+    <footer class="footer footer-static footer-light navbar-border">
+        <p class="clearfix text-muted text-sm-center mb-0 px-2"><span class="float-md-left d-xs-block d-md-inline-block">تمامی حقوق برای عالیان سبز محفوظ است</span><span class="float-md-right d-xs-block d-md-inline-block"><i class="icon-heart5 pink"></i> توان ما کمک به حفظ سلامتی شماست </span></p>
+    </footer>
+    <!-- BEGIN VENDOR JS-->
+    <partial name="_AdminJSRef" />
+    @RenderSection("Scripts", false)
+</body>
+</html>

@@ -1,0 +1,71 @@
+﻿@model IEnumerable<DataLayer.Entities.Blogs.Blog>
+@using Core.Convertors;
+@if (Model != null)
+{
+    if (Model.Count() != 0)
+    {
+        <section class="blog bgwhite p-t-94 p-b-65">
+            <div class="container">
+                <div class="sec-title p-b-52">
+                    <h3 class="t-center">
+                        <a href="/blogs" class="m-text12">تازه های عالیان سبز</a>
+                    </h3>
+                </div>
+
+                <div class="row" dir="rtl">
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-sm-10 col-md-4 p-b-30 m-l-r-auto  p-2">
+                            <!-- Block3 -->
+                            <div class="block3 tl-box p-1">
+                                <a href="/blog/d/@item.BlogShortKey" class="block3-img dis-block hov-img-zoom">
+                                    <img src="/images/blogs/@item.BlogImageInBlog" loading="lazy" height="300" alt="@item.BlogTitle">
+                                </a>
+
+                                <div class="block3-txt p-t-14" dir="rtl">
+                                    <h4 class="m-b-15 t-center">
+                                        <a href="/blog/d/@item.BlogShortKey" class="fs-16 text-success text-bold-500">
+                                            @item.BlogTitle
+                                        </a>
+                                    </h4>
+                                    <div class="col-12">
+
+
+                                        <div class="row">
+                                            <div class="col-4 t-right">
+                                                <span class="fs-12 ri-group-2-fill"></span>
+                                                <span>
+                                                    <a asp-page="blogs" asp-route-gName="@item.BlogGroup.BlogGroupEnTitle" class="fs-12">@item.BlogGroup.BlogGroupTitle</a>
+                                                </span>
+                                            </div>
+                                            <div class="col p-0  t-left" >
+                                                <i class="fs-12 m-l-2 ri-eye-fill"></i>                                                
+                                            </div>
+                                            <div class="col p-0 t-right">                                                
+                                                <span class="fs-12">@item.BlogViewsCount</span>
+                                            </div>
+                                            <div class="col-4 t-left">
+                                                <span class="fs-12">
+                                                    <time datetime="@item.BlogDate">
+                                                        @item.BlogDate.ToShamsi()
+                                                    </time>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="s-text11 line-height-1 p-t-16 text-justify ">
+                                        <a href="/blog/d/@item.BlogShortKey">
+                                            @item.BlogSummary.Get_Nth_Character(200) <span>...</span>
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </section>
+    }
+}
+

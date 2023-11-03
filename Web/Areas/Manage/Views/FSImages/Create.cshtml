@@ -1,0 +1,157 @@
+﻿@model DataLayer.Entities.Supplementary.FSImage
+
+@{
+    ViewData["Title"] = "ثبت تصویر اسلایدر تکه ای";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">ثبت تصویر اسلایدر تکه ای</h1>
+<ol>
+    <li class="text-danger">منظور از رتبه ورود همان data-step موجود در ویوی اسلاید می باشد و می تواند تکراری باشد.</li>
+    <li class="text-danger">منظور از رتبه نمایش، اولویت نمایش عکس ها و متن های اسلایدر می باشد و حتما باید تکراری نباشد.</li>
+</ol>
+
+<div class="row">
+    <div class="offset-md-4 col-md-4 col-xs-12">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="ReturnUrl" type="hidden" />
+            <div class="form-group">
+                <label asp-for="FSId" class="control-label"></label>
+                <select asp-for="FSId" class="form-control" asp-items="ViewBag.FSId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Image" class="control-label"></label>
+                <input type="file" asp-for="Image" class="form-control" />
+                <span asp-validation-for="Image" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Width" class="control-label"></label>
+                <input asp-for="Width" class="form-control" />
+                <span asp-validation-for="Width" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Height" class="control-label"></label>
+                <input asp-for="Height" class="form-control" />
+                <span asp-validation-for="Height" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DataPosition" class="control-label"></label>&emsp;<span>y,x</span>
+                <input asp-for="DataPosition" class="form-control" />
+                <span asp-validation-for="DataPosition" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DataStep" class="control-label"></label>
+                <input asp-for="DataStep" class="form-control" />
+                <span asp-validation-for="DataStep" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ShowRating" class="control-label"></label>
+                <input asp-for="ShowRating" class="form-control" />
+                <span asp-validation-for="ShowRating" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DataIn" class="control-label"></label>
+                <select asp-for="DataIn" class="form-control">
+                    <option value="none">انتخاب کنید...</option>
+                    <option value="top">بالا</option>
+                    <option value="topRight">بالا راست</option>
+                    <option value="topLeft">بالا چپ</option>
+                    <option value="bottom">پایین</option>
+                    <option value="bottomRight">پایین راست</option>
+                    <option value="bottomLeft">پایین چپ</option>
+                    <option value="right">راست</option>
+                    <option value="left">چپ</option>
+                </select>
+                <span asp-validation-for="DataIn" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DataOut" class="control-label"></label>
+                <select asp-for="DataOut" class="form-control">
+                    <option value="none">انتخاب کنید...</option>
+                    <option value="top">بالا</option>
+                    <option value="topRight">بالا راست</option>
+                    <option value="topLeft">بالا چپ</option>
+                    <option value="bottom">پایین</option>
+                    <option value="bottomRight">پایین راست</option>
+                    <option value="bottomLeft">پایین چپ</option>
+                    <option value="right">راست</option>
+                    <option value="left">چپ</option>
+                </select>
+                <span asp-validation-for="DataOut" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DataDelay" class="control-label"></label>
+                <input asp-for="DataDelay" class="form-control" />
+                <span asp-validation-for="DataDelay" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DataEaseIn" class="control-label"></label>
+                <select asp-for="DataEaseIn" class="form-control">
+                    <option value="">انتخاب کنید ...</option>
+                    <option value="swing">swing</option>
+                    <option value="linear">linear</option>                    
+                    <option value="easeInQuad">easeInQuad</option>
+                    <option value="easeOutQuad">easeOutQuad</option>
+                    <option value="easeInOutQuad">easeInOutQuad</option>
+                    <option value="easeInCubic">easeInCubic</option>
+                    <option value="easeOutCubic">easeOutCubic</option>
+                    <option value="easeInOutCubic">easeInOutCubic</option>
+                    <option value="easeInQuart">easeInQuart</option>
+                    <option value="easeOutQuart">easeOutQuart</option>
+                    <option value="easeInOutQuart">easeInOutQuart</option>
+                    <option value="easeInQuint">easeInQuint</option>
+                    <option value="easeOutQuint">easeOutQuint</option>
+                    <option value="easeInOutQuint">easeInOutQuint</option>
+                    <option value="easeInSine">easeInSine</option>
+                    <option value="easeOutSine">easeOutSine</option>
+                    <option value="easeInOutSine">easeInOutSine</option>
+                    <option value="easeInExpo">easeInExpo</option>
+                    <option value="easeOutExpo">easeOutExpo</option>
+                    <option value="easeInOutExpo">easeInOutExpo</option>
+                    <option value="easeInCirc">easeInCirc</option>
+                    <option value="easeOutCirc">easeOutCirc</option>
+                    <option value="easeInOutCirc">easeInOutCirc</option>
+                    <option value="easeInElastic">easeInElastic</option>
+                    <option value="easeOutElastic">easeOutElastic</option>
+                    <option value="easeInOutElastic">easeInOutElastic</option>
+                    <option value="easeInBack">easeInBack</option>
+                    <option value="easeOutBack">easeOutBack</option>
+                    <option value="easeInOutBack">easeInOutBack</option>
+                    <option value="easeInBounce">easeInBounce</option>
+                    <option value="easeOutBounce">easeOutBounce</option>
+                    <option value="easeInOutBounce">easeInOutBounce</option>
+
+                </select>
+                <span asp-validation-for="DataEaseIn" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+                </label>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="ثــبت" class="btn btn-primary col-xs-12" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    @if (string.IsNullOrEmpty(Model.ReturnUrl))
+    {
+        <a asp-action="Index">بازگشت</a>
+    }
+    else
+    {
+        <a href="@Model.ReturnUrl.Replace("-","/")">بازگشت</a>
+    }
+</div>
+
+@section Scripts
+{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+}

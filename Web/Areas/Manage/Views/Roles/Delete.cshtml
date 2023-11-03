@@ -1,0 +1,51 @@
+﻿@model DataLayer.Entities.User.Role
+
+@{
+    ViewData["Title"] = "حــذف نقش";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-danger">حــذف نقش</h1>
+
+<h3 class="text-xs-center alert alert-warning">آیا مطمئن به حــذف نقش هستید؟</h3>
+<div>   
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RoleName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RoleName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RoleTitle)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RoleTitle)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RoleRate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RoleRate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.UseForRegister)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.UseForRegister)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IsDeleted)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IsDeleted)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="RoleId" />
+        <input type="submit" value="حــذف" class="btn btn-danger" /> |
+        <a asp-action="Index">بازگشــت</a>
+    </form>
+</div>

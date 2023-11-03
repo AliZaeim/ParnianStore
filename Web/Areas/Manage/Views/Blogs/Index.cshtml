@@ -1,0 +1,92 @@
+﻿@model IEnumerable<DataLayer.Entities.Blogs.Blog>
+@using Core.Convertors;
+@{
+    ViewData["Title"] = "اخبار";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">اخبار</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">ثبت خبر</a>
+</p>
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th class="text-xs-center align-middle p-0">
+                    @Html.DisplayNameFor(model => model.BlogTitle)
+                </th>
+                <th class="text-xs-center align-middle p-0">
+                    @Html.DisplayNameFor(model => model.BlogDate)
+                </th>
+                <th class="text-xs-center align-middle p-0">
+                    @Html.DisplayNameFor(model => model.BlogShortKey)
+                </th>
+
+                <th class="text-xs-center align-middle p-0">
+                    @Html.DisplayNameFor(model => model.BlogViewsCount)
+                </th>
+                <th class="text-xs-center align-middle p-0">
+                    @Html.DisplayNameFor(model => model.ProductCodes)
+                </th>
+                <th class="text-xs-center align-middle p-0">
+                    @Html.DisplayNameFor(model => model.PackageCodes)
+                </th>
+
+                <th class="text-xs-center align-middle p-0">
+                    @Html.DisplayNameFor(model => model.BlogGroup)
+                </th>
+                <th class="text-xs-center align-middle p0">
+                    نظرات
+                </th>
+                <th class="text-xs-center align-middle p-0">
+                    لینک دسترسی
+                </th>
+
+                <th class="text-xs-center align-middle p-0">عملیات</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.OrderByDescending(x => x.BlogDate))
+            {
+                <tr>
+                    <td class="text-xs-center align-middle">
+                        @Html.DisplayFor(modelItem => item.BlogTitle)
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        @item.BlogDate.ToShamsiWithTime()
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        <a href="/blog/d/@item.BlogShortKey">لینک</a>
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        @Html.DisplayFor(modelItem => item.BlogViewsCount)
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        @Html.DisplayFor(modelItem => item.ProductCodes)
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        @Html.DisplayFor(modelItem => item.PackageCodes)
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        @Html.DisplayFor(modelItem => item.BlogGroup.BlogGroupTitle)
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        <a href="/Manage/Blogs/ShowBlogComments?blogId=@item.BlogId">
+                            <span class="tag tag-info tag-pill">@item.BlogComments.Count()</span>
+                        </a>
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        <a target="_blank" href="/Blog/d/@item.BlogShortKey">لینک</a>
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        <a asp-action="Edit" asp-route-id="@item.BlogId">ویرایش</a> |
+                        <a asp-action="Details" asp-route-id="@item.BlogId">جزئیات</a> |
+                        <a asp-action="Delete" asp-route-id="@item.BlogId">حــذف</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

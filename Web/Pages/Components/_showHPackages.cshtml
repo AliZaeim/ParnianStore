@@ -1,0 +1,155 @@
+﻿@model Core.DTOs.General.HPackageComponentVM
+@using Core.Services.Interfaces;
+@using Core.DTOs.General;
+@inject IProductService _productService
+@{
+    string cur = "ریال";
+    var init = await _productService.GetInitialInfoAsync();
+    if (init != null)
+    {
+        cur = init.SiteCurrency;
+    }
+    string bgCls = "zlinear-gradient-blue-green-90";
+    if (!string.IsNullOrEmpty(Model.BgClass))
+    {
+        bgCls = Model.BgClass;
+    }
+   
+   
+}
+
+<section class="tl-product-carosuel  p-t-10 p-b-30">
+    <div class="container">
+        <div class="sec-title  tl-heading">
+            @if (!string.IsNullOrEmpty(Model.Link))
+            {
+                <a href="@Model.Link">
+                    <h3 class="m-text5 t-center">
+                        @Model.Title (@Model.Packages.Count())
+                    </h3>
+                </a>
+                <a href="@Model.Link">بیشتر...</a>
+            }
+            else
+            {
+                <h3 class="m-text5 t-center">
+                    @Model.Title
+                </h3>
+            }
+        </div>
+        <hr class=" m-b-50" />
+        <!-- Slide2 -->
+        <div class="wrap-slick2">
+            <div class="slick2">
+                @foreach (var item in Model.Packages)
+                {
+                    DiscountOptionVM discountOptionVM = await _productService.HasPackageDiscountAsync(item.PkId);
+                    int PCount = await _productService.GetPackage_Inventory_InStoreAsync(item.PkId);
+                    string gnme = item.PackageGroup.PgEnTitle.Replace(" ", "");
+                    string zaddId = "zpkadd" + item.PkId;
+                    <div class="item-slick2 p-l-15 p-r-15 p-b-15 m-b-10">
+                        <!-- Block2 -->
+                        <div class="block2 tl-box">
+                            <div class="block2-img wrap-pic-w of-hidden pos-relative ">
+                                @if (PCount <= 0)
+                                {
+                                    <span class="top-left-label bg-dark text-white fs-12 d-block w-100 text-center ">پایان موجودی</span>
+                                }
+                                else
+                                {
+                                    @if (!string.IsNullOrEmpty(item.PkLabel))
+                                    {
+                                        <span class="top-left-label bg-info text-white fs-12  text-xs-center ">@item.PkLabel</span>
+                                    }
+                                    @if (discountOptionVM.HasDiscount)
+                                    {
+                                        <label class="top-left-label bg-danger text-white fs-12 text-xs-center ">@discountOptionVM.DiscountPercent @discountOptionVM.DiscountUnit</label>
+                                    }
+                                }
+
+
+                                <picture class="tl-box" >
+                                        <source media="(min-width: 481px)" srcset="/images/packages/@item.PkImage">
+                                        <source media="(max-width: 480px)" srcset="/images/packages/@item.PkSliderImage">
+                                        <img src="/images/packages/@item.PkSliderImage" width="240" height="300" loading="lazy"  alt="@item.PkSliderImage_Alt">
+                                    </picture>
+                                
+                                <div class="block2-overlay trans-0-4">
+                                    <a href="javascript:void(0)" class="block2-btn-addwishlist hov-pointer trans-0-4" data-zaddId="@zaddId" data-pid="@item.PkId" data-kind="pk">
+                                        <i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
+                                        <i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
+                                    </a>
+                                    @if (PCount > 0)
+                                    {
+                                        <div class="block2-btn-addcart w-size1 trans-0-4" data-pid="@item.PkId" data-kind="pk" data-min-Inv="@item.PkMin_Inventory_ForAlarm" data-max-buy="@item.MaximumNumberofPurchases">
+                                            <!-- Button -->
+                                            <button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
+                                                افزودن به سبد
+                                            </button>
+                                        </div>
+                                    }
+
+                                </div>
+                            </div>
+                            <div class="tl-heart ">
+                                <div class="heart-counter  tl-box">
+                                    <i class="ri-heart-fill zaddwish cursor-pointer" data-zaddId="@zaddId" data-pid="@item.PkId" data-kind="pk"></i>
+                                    <span id="@zaddId">@item.Popularity</span>
+                                </div>
+                            </div>
+
+                            <div class="block2-txt p-t-20">
+                                <a href="/Package/d/@item.PkEnTitle.Replace(" " ,"-")" class="tl-product-heading block2-name dis-block s-text3 p-b-5">
+                                    @item.PkTitle
+                                </a>
+                                <a asp-page="Packages" asp-route-gname="@gnme" class="text-center  block2-name dis-block p-b-5">@item.PackageGroup.PgTitle</a>
+                                <div class="tl-price-cart">
+                                    @{
+                                        string btnClass = "block-btn-bottom-addcart btn tl-add-to-cart-btn";
+                                    }
+                                    @if (PCount <= 0)
+                                    {
+                                        btnClass = "btn tl-add-to-cart-btn-disabled disabled zcursor-not-allowed";
+                                    }
+                                    <div>
+                                        <button class="@btnClass" data-pid="@item.PkId" data-kind="pk" data-min-Inv="@item.PkMin_Inventory_ForAlarm" data-max-buy="@item.MaximumNumberofPurchases">
+                                            <img src="/images/icons/add-to-cart.svg">
+                                        </button>
+                                    </div>
+                                    @if (PCount > 0)
+                                    {
+                                        <div class="price">
+                                            @if (discountOptionVM.HasDiscount)
+                                            {
+                                                <bdi class="offer-price">@item.PkPrice.GetValueOrDefault().ToString("N0")</bdi>
+                                                <span>@discountOptionVM.NetPrice.ToString("N0")</span>
+                                            }
+                                            else
+                                            {
+                                                <span>@item.PkPrice.GetValueOrDefault().ToString("N0")</span>
+                                            }
+                                            <span class="tl-price-t">@cur</span>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="price">
+                                            <span class="bg-danger tl-border-radius1 col-12 d-block text-white">پایان موجودی</span>
+                                        </div>
+                                    }
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+

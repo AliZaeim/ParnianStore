@@ -1,0 +1,51 @@
+﻿@model DataLayer.Entities.Supplementary.ContactMessage
+
+@{
+    ViewData["Title"] = "ویرایش پیام مشتری";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">ویرایش پیام مشتری از تماس با ما</h1>
+
+
+<div class="row">
+    <div class="offset-md-4 col-md-4 col-xs-12">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="FullName" class="control-label"></label>
+                <input asp-for="FullName" class="form-control" />
+                <span asp-validation-for="FullName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cellphone" class="control-label"></label>
+                <input asp-for="Cellphone" class="form-control" />
+                <span asp-validation-for="Cellphone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Message" class="control-label"></label>
+                <input asp-for="Message" class="form-control" />
+                <span asp-validation-for="Message" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="ویرایش" class="btn btn-primary col-xs-12" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">بازگشت</a>
+</div>
+

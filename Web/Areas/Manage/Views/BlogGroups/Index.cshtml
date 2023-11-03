@@ -1,0 +1,66 @@
+﻿@model IEnumerable<DataLayer.Entities.Blogs.BlogGroup>
+@using Core.Services.Interfaces;
+@{
+    ViewData["Title"] = "گروه های خبر";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">گروه های خبر</h1>
+
+<p>
+    <a asp-action="Create">ثبت گروه</a>
+</p>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.BlogGroupTitle)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.BlogGroupEnTitle)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.ShowinMenu)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.TitleinMenu)
+            </th>
+
+            <th class="text-xs-center align-middle">عملیات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.BlogGroupTitle)
+                </td>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.BlogGroupEnTitle)
+                </td>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.IsActive)
+                </td>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.ShowinMenu)
+                </td>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.TitleinMenu)
+                </td>
+
+                <td class="text-xs-center align-middle">
+                    <a asp-action="Edit" asp-route-id="@item.BlogGroupId">ویرایش</a> |
+                    @if (item.Blogs == null)
+                    {
+                        <a asp-action="Delete" asp-route-id="@item.BlogGroupId">حذف</a>
+                    }
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

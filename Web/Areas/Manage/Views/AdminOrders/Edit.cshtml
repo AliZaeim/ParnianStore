@@ -1,0 +1,224 @@
+﻿@model DataLayer.Entities.Store.Order
+@using Core.Convertors;
+@{
+    ViewData["Title"] = "ویرایش سفارش";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+    List<DataLayer.Entities.Supplementary.State> states = ViewData["States"] as List<DataLayer.Entities.Supplementary.State>;
+    List<DataLayer.Entities.Supplementary.County> counties = ViewData["Counties"] as List<DataLayer.Entities.Supplementary.County>;
+}
+
+<h1 class="text-xs-center alert alert-info">ویرایش سفارش</h1>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="CartId" />
+            <input type="hidden" asp-for="Order_Date" />
+            <input type="hidden" asp-for="Order_DiscountCode" />
+            <input type="hidden" asp-for="Order_DedicatedNumber" />
+
+            <div class="form-group col-md-4 col-xs-12">
+
+                <div class="form-group">
+                    <label asp-for="Order_StateName" class="control-label"></label>
+                    @*<input asp-for="Order_StateName" class="form-control" />*@
+                    <select asp-for="Order_StateName" id="st" class="form-control">
+                        @foreach (var st in states)
+                        {
+                            @if (Model.Order_StateName.Trim() == st.StateName)
+                            {
+                                <option selected value="@st.StateName">@st.StateName</option>
+                            }
+                            else
+                            {
+                                <option value="@st.StateName">@st.StateName</option>
+                            }
+
+                        }
+                    </select>
+                    <span asp-validation-for="Order_StateName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Order_CountyName" class="control-label"></label>
+                    @*<input asp-for="Order_CountyName" class="form-control" />*@
+                    <select asp-for="Order_CountyName"  class="form-control">
+                        @foreach (var co in counties)
+                        {
+                            @if (Model.Order_CountyName.Trim() == co.CountyName)
+                            {
+                                <option selected value="@co.CountyName">@co.CountyName</option>
+                            }
+                            else
+                            {
+                                <option value="@co.CountyName">@co.CountyName</option>
+                            }
+                        }
+                    </select>
+                    <span asp-validation-for="Order_CountyName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Order_Address" class="control-label"></label>
+                    <input asp-for="Order_Address" class="form-control" />
+                    <span asp-validation-for="Order_Address" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Order_BuyerName" class="control-label"></label>
+                    <input asp-for="Order_BuyerName" class="form-control" />
+                    <span asp-validation-for="Order_BuyerName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Order_BuyerFamily" class="control-label"></label>
+                    <input asp-for="Order_BuyerFamily" class="form-control" />
+                    <span asp-validation-for="Order_BuyerFamily" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Order_BuyerCellphone" class="control-label"></label>
+                    <input asp-for="Order_BuyerCellphone" class="form-control" />
+                    <span asp-validation-for="Order_BuyerCellphone" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Order_PostalCode" class="control-label"></label>
+                    <input asp-for="Order_PostalCode" class="form-control" />
+                    <span asp-validation-for="Order_PostalCode" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="RecipientName" class="control-label"></label>
+                    <input asp-for="RecipientName" class="form-control" />
+                    <span asp-validation-for="RecipientName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group col-md-4 col-xs-12">
+
+                <div class="form-group">
+                    <label asp-for="Order_DiscountValue" class="control-label"></label>
+                    <input asp-for="Order_DiscountValue" class="form-control" />
+                    <span asp-validation-for="Order_DiscountValue" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Order_DeliveryCost" class="control-label"></label>
+                    <input asp-for="Order_DeliveryCost" class="form-control" />
+                    <span asp-validation-for="Order_DeliveryCost" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Order_DeliveryCostDiscount" class="control-label"></label>
+                    <input asp-for="Order_DeliveryCostDiscount" class="form-control" />
+                    <span asp-validation-for="Order_DeliveryCostDiscount" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Order_Sum" class="control-label"></label>
+                    <input asp-for="Order_Sum" class="form-control" />
+                    <span asp-validation-for="Order_Sum" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="Order_IsFinished" /> @Html.DisplayNameFor(model => model.Order_IsFinished)
+                    </label>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="Order_IsDeleted" /> @Html.DisplayNameFor(model => model.Order_IsDeleted)
+                    </label>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="Order_IsCanceled" /> @Html.DisplayNameFor(model => model.Order_IsCanceled)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CancellationComment" class="control-label"></label>
+                    <input asp-for="CancellationComment" class="form-control" />
+                    <span asp-validation-for="CancellationComment" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="DeliveredToPost" /> @Html.DisplayNameFor(model => model.DeliveredToPost)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label asp-for="RecipientFamily" class="control-label"></label>
+                    <input asp-for="RecipientFamily" class="form-control" />
+                    <span asp-validation-for="RecipientFamily" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group col-md-4 col-xs-12">
+
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="IsDeliveredCutomer" /> @Html.DisplayNameFor(model => model.IsDeliveredCutomer)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Comment" class="control-label"></label>
+                    <textarea maxlength="500" rows="4" asp-for="Comment" class="form-control"></textarea>
+                    <span asp-validation-for="Comment" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="UserBusinessName" class="control-label"></label>
+                    <input asp-for="UserBusinessName" class="form-control" />
+                    <span asp-validation-for="UserBusinessName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="UserBusinessPercent" class="control-label"></label>
+                    <input asp-for="UserBusinessPercent" class="form-control" />
+                    <span asp-validation-for="UserBusinessPercent" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="DeliveryType" class="control-label"></label>
+                    <input asp-for="DeliveryType" class="form-control" />
+                    <span asp-validation-for="DeliveryType" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Currency" class="control-label"></label>
+                    <input asp-for="Currency" class="form-control" />
+                    <span asp-validation-for="Currency" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="URId" class="control-label"></label>
+                    <select asp-for="URId" class="form-control" asp-items="ViewBag.URId"></select>
+                    <span asp-validation-for="URId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="RecipientPhone" class="control-label"></label>
+                    <input asp-for="RecipientPhone" class="form-control" />
+                    <span asp-validation-for="RecipientPhone" class="text-danger"></span>
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <input type="submit" value="ویرایش" class="btn btn-primary offset-md-4 col-md-4 col-xs-12 " />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">بازگشت</a>
+</div>
+@section Scripts{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#st").change(function () {
+                var stt = $(this).val();
+                $.ajax({
+                    url: "/Manage/AdminOrders/GetCounties",
+                    data: { stN: stt },
+                    type: "GET",
+                    async: true,
+                    success: function (result) {
+                        $("#Order_CountyName").html(result);
+                    }
+                })
+            });
+        })
+    </script>
+}

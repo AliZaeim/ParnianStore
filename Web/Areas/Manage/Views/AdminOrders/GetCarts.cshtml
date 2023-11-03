@@ -1,0 +1,123 @@
+﻿@model IEnumerable<DataLayer.Entities.Store.Cart>
+@using Core.Convertors;
+@using Core.Services.Interfaces;
+@inject IStoreService _storeService
+@{
+    ViewData["Title"] = ViewData["CTitle"];
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">@ViewData["CTitle"]</h1>
+<div class="offset-md-4 col-md-4 col-xs-12 mb-2">
+    <input placeholder="جستجو" class="form-control " id="myCInput" type="text" />
+</div>
+<div class="col-sm-12 mb-1">
+    <a asp-action="GetCarts" asp-area="Manage" asp-controller="AdminOrders" asp-route-filter="today" class="btn btn-success">امروز</a>
+    <a asp-action="GetCarts" asp-area="Manage" asp-controller="AdminOrders" asp-route-filter="week" class="btn btn-info">هفته</a>
+    <a asp-action="GetCarts" asp-area="Manage" asp-controller="AdminOrders" asp-route-filter="mounth" class="btn btn-success">مــاه</a>
+    <a asp-action="GetCarts" asp-area="Manage" asp-controller="AdminOrders" asp-route-filter="year" class="btn btn-info">سال</a>
+    <a asp-action="GetCarts" asp-area="Manage" asp-controller="AdminOrders" class="btn btn-primary">تمام سبدها </a>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th class="p-0 text-xs-center align-middle">#</th>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.DateCreated)
+                </th>
+                <th class="text-xs-center align-middle">
+                   نام خریدار
+                </th>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.CheckOut)
+                </th>
+                <th class="text-xs-center align-middle">
+                    شماره سفارش
+                </th>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.DiscountCoupen)
+                </th>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.IsActive)
+                </th>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.User)
+                </th>
+                <th class="text-xs-center align-middle">
+                    عملیات
+                </th>
+            </tr>
+        </thead>
+        <tbody id="cart-body">
+            @{ int rad = 1;}
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td class="text-xs-center p-0 align-middle">
+                    @rad
+                </td>
+                <td class="text-xs-center align-middle">
+                    @item.DateCreated.ToShamsiWithTime()
+                </td>
+                <td class="text-xs-center align-middle">
+                    @item.BuyerName @item.BuyerFamily
+                </td>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.CheckOut)
+                </td>
+                <td class="text-xs-center align-middle">
+                    @{
+                        var or = await _storeService.GetOrderByCartIdAsync(item.Id);
+                    }
+                    @if (or != null)
+                    {
+                        <span>
+                            <a asp-action="Details" asp-area="Manage" asp-route-id="@or.Id">@or.Order_DedicatedNumber</a>
+                        </span>
+                    }
+                    else
+                    {
+                        <span>-</span>
+                    }
+                </td>
+
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.DiscountCoupen)
+                </td>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.IsActive)
+                </td>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.User.FullName)
+                </td>
+                <td class="text-xs-center align-middle">
+                    <a asp-action="CartDetails" asp-area="Manage" asp-controller="AdminOrders" asp-route-id="@item.Id">جزئیات</a>
+                </td>
+
+            </tr>
+                rad++;
+            }
+        </tbody>
+    </table>
+</div>
+@section Scripts{
+    
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#myCInput").on("propertychange change keyup paste input", function () {
+                var value = $(this).val().toLowerCase();
+                $("#cart-body tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+                //$("#cart-body").mark($(this).value(), {
+                //    "className": "bg-warning",
+                //});
+
+            });
+            
+        });
+    </script>
+}

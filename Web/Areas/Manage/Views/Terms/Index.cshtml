@@ -1,0 +1,48 @@
+﻿@model IEnumerable<DataLayer.Entities.Supplementary.Terms>
+@using Core.Convertors;
+@{
+    ViewData["Title"] = "قواعد و ضوابط سایت";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-cnter alert alert-info">قواعد و ضوابط سایت</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">ثــبت</a>
+</p>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.ShowRating)
+            </th>
+            <th class="text-xs-center align-middle">عملیات</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @item.CreatedDate.ToShamsiN_WithTime()
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShowRating)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">ویرایش</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">جزئیات</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">حذف</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

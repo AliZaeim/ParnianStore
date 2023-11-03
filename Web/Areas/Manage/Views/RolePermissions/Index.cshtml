@@ -1,0 +1,89 @@
+﻿@model Core.DTOs.Admin.RolePermissionVM
+@using Core.Services.Interfaces;
+@inject IUserService _userService;
+@{
+    if (ViewData["roleTitle"] == null)
+    {
+        ViewData["Title"] = "دسترسی ها";
+    }
+    else
+    {
+        ViewData["Title"] = "دسترسی های نقش " + ViewData["roleTitle"].ToString();
+    }
+
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+    bool ExistAll = false;
+    if (Model.SelectedPermissions.Intersect(Model.Permissions.Select(x => x.PermissionId)).Any())
+    {
+        ExistAll = true;
+    }
+}
+
+<h1 class="text-xs-center alert alert-info">@Model.Title <span class="tag tag-square tag-warning">@Model.SelectedPermissions.Count()</span></h1>
+
+<div id="wrapper">
+    <ul class="list-unstyled p-r-5">
+        <li class="mr-2">
+            <input type="checkbox" checked="@ExistAll" name="all" id="all" />
+            <label for="all">همه</label>
+            <form method="post">
+                <ul class="list-unstyled">
+
+                    @foreach (var per1 in Model.Permissions.Where(w => w.ParentId == null).ToList())
+                    {
+                        string inpId1 = "title1_" + per1.PermissionId.ToString();
+
+                        <li class="mr-1">
+                            <input type="checkbox" name="SelectedPermission" value="@per1.PermissionId" class="title" id="@inpId1" @((Model.SelectedPermissions.Any(a => a == per1.PermissionId) ? "checked" : "")) />
+                            <label for="@inpId1">@per1.PermissionTitle</label>
+                            <ul class="list-unstyled">
+
+                                @foreach (var per2 in per1.Permissions)
+                                {
+                                    string inpId2 = "title2_" + per2.PermissionId.ToString();
+                                    <li class="mr-1">
+                                        <input type="checkbox" name="SelectedPermission" value="@per2.PermissionId" class="title" id="@inpId2" @((Model.SelectedPermissions.Any(a => a == per2.PermissionId) ? "checked" : "")) />
+                                        <label for="@inpId2">@per2.PermissionTitle</label>
+                                        <ul class="list-unstyled">
+                                            @foreach (var per3 in per2.Permissions)
+                                            {
+                                                string inpId3 = "title3_" + per3.PermissionId.ToString();
+                                                <li class="mr-1">
+                                                    <input type="checkbox" name="SelectedPermission" value="@per3.PermissionId" class="title" id="@inpId3" @((Model.SelectedPermissions.Any(a => a == per3.PermissionId) ? "checked" : "")) />
+                                                    <label for="@inpId3">@per3.PermissionTitle</label>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                </ul>
+                @if (_userService.CheckPermissionByName("rolepermissions", User.Identity.Name))
+                {
+                    <div class="form-group">
+                        <input type="hidden" asp-for="RoleId" />
+                        <input type="submit" value="ثــبت" class="btn btn-success" />
+                    </div>
+                }
+
+
+            </form>
+            
+        </li>       
+    </ul>
+</div>
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('input[name="all"],input[class="title"]').bind('click', function () {
+                var status = $(this).is(':checked');
+                $('input[type="checkbox"]', $(this).parent('li')).attr('checked', status);
+            });
+        });
+    </script>
+
+}
+

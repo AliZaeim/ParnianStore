@@ -1,0 +1,48 @@
+﻿@model DataLayer.Entities.Supplementary.County
+
+@{
+    ViewData["Title"] = "ویرایش شهرستان";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">ویرایش شهرستان</h1>
+
+
+<div class="row">
+    <div class="offset-md-4 col-md-4 col-xs-12">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="CountyId" />
+            <div class="form-group">
+                <label asp-for="CountyName" class="control-label"></label>
+                <input asp-for="CountyName" class="form-control" />
+                <span asp-validation-for="CountyName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StateId" class="control-label"></label>
+                <select asp-for="StateId" class="form-control" asp-items="ViewBag.StateId"></select>
+                <span asp-validation-for="StateId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Freight" class="control-label"></label>
+                <input asp-for="Freight" class="form-control" />
+                <span asp-validation-for="Freight" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="ویرایش" class="btn btn-primary col-xs-12" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">بازگشت</a>
+</div>
+
+@section Scripts
+{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+}

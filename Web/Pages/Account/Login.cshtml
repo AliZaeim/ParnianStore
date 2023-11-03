@@ -1,0 +1,192 @@
+﻿@page "/Login/{ReturnUrl?}"
+@model Web.Pages.Account.LoginModel
+@using Core.Services.Interfaces;
+@inject IUserService _userService
+@{
+
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BYLT1K82JQ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-BYLT1K82JQ');
+    </script>
+    <title>ورود به سایت عالیان سبز</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:site_name" value="عالیان سبز">
+    <meta property="og:title" content="ورود به ناحیه کاربری عالیان سبز">
+    <meta property="og:url" content="https://aliansabz.com/Login">
+    <meta property="og:image" content="https://aliansabz.com/images/">
+    <meta property="og:image:url" content="alian-sabz-shop-100.png">
+    <meta property="og:image:type" content=image/png>
+    <meta property="og:image:type" content=image/jpg>
+    <meta property="og:image:alt" content="عالیان سبز" />
+    <meta property="og:price:currency" content="IRR">
+    <meta property="og:locale" content="ir_FA">
+    <meta name="description" content="ورود کاربران ثبت نام کرده به ناحیه کاربری در فروشگاه اینترنتی عالیان سبز" />
+    <link rel="canonical" href="https://aliansabz.com/Login" />
+    <link rel="stylesheet" type="text/css" href="~/Layout/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="~/lib/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="~/lib/fonts/themify/themify-icons.css">
+    <link rel="stylesheet" type="text/css" href="~/lib/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Layout/vendor/animate/animate.css">
+    <link rel="stylesheet" type="text/css" href="~/Layout/vendor/animsition/css/animsition.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Layout/css/util.css">
+    <link rel="stylesheet" type="text/css" href="~/Layout/css/main.css">
+    <link href="~/Layout/css/tricklandstyle.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    @{
+        var initial =await _userService.GetInitialInfoAsync();
+        string fav = "favicon.png";
+        if (initial != null)
+        {
+            if(!string.IsNullOrEmpty(initial.FavIcon))
+            {
+                fav = initial.FavIcon;
+            }
+            
+        }
+
+    }
+    <link rel="shortcut icon" href="/@fav" type="image/x-icon" />
+    <script type="application/ld+json">
+        {
+          "context": "https://aliansabz.com/Login",
+          "type": "FAQ",
+          "name": "Login",
+          "author": {
+            "type": "Company",
+            "name": "Alian Sabz"
+          },
+          "datePublished": "2021-07-06",
+          "description": "ورود به ناحیه کاربری در عالیان سبز",
+          "prepTime": "PT20M"
+        }
+    </script>
+</head>
+<body class="animsition">
+
+    <!-- Header -->
+    <partial name="_Header" />
+
+    <nav class="breadcrumb-nav rtl" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">خانه</a></li>
+            <li class="breadcrumb-item active" aria-current="page">ورود به سایت</li>
+        </ol>
+    </nav>
+
+    <!-- Title Page -->
+    <section class="bg-title-page p-t-100 p-b-150 flex-col-c-m general-page-bg02">
+        <h2 class="l-text2 t-center">
+            ورود به سایت
+        </h2>
+        <h6 class="m-text13 t-center">
+            برای ورود به حساب کاربری خود میتوانید از این بخش اقدام کنید
+        </h6>
+    </section>
+
+
+    <section class="about-us p-b-65 rtl" id="particles-js">
+
+        <div data-aos="flip-up" data-aos-delay="400">
+            <div class="container p-b-65">
+                <div class="row flex-column align-items-center justify-content-center">
+                    <div class="col-12 col-lg-6 tl-box n-padding">
+                        <form method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input asp-for="LoginVM.Returl" type="hidden" />
+                            <div class="form-group">
+                                <label asp-for="LoginVM.UserName" class="control-label"></label>
+                                <input asp-for="LoginVM.UserName" autofocus class="form-control border" />
+                                <span asp-validation-for="LoginVM.UserName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="LoginVM.Password" class="control-label"></label>
+                                <input asp-for="LoginVM.Password" class="form-control border" />
+                                <span asp-validation-for="LoginVM.Password" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+
+                                <input type="checkbox" asp-for="LoginVM.Remember" id="remember">
+                                <label asp-for="LoginVM.Remember" class="control-label"></label>
+
+                            </div>
+
+                            <div class="form-group">
+                                <input type="submit" value="ورود" class="btn btn-primary btn-lg  cursor-pointer w-100" />
+                            </div>
+
+                            <div class="form-group d-flex flex-column align-items-center justify-content-center m-t-45"><a href="/Register" class="col-xs-12">می خواهم در سایت ثبت نام کنم</a></div>
+                            <div class="form-group d-flex flex-column align-items-center justify-content-center"><a href="/ForgotPassword" class="col-xs-12">رمز ورود به سایت را فراموش کرده ام !</a></div>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- Footer -->
+    <partial name="_Footer" />
+
+
+
+    <!-- Back to top -->
+    <div class="btn-back-to-top bg0-hov" id="myBtn">
+        <span class="symbol-btn-back-to-top">
+            <i class="fa fa-angle-double-up" aria-hidden="true"></i>
+        </span>
+    </div>
+
+    
+
+    <script type="text/javascript" src="~/Layout/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script type="text/javascript" src="~/Layout/vendor/animsition/js/animsition.min.js"></script>
+    <script src="~/Layout/vendor/bootstrap/js/popper.min.js"></script>
+    <script type="text/javascript" src="~/Layout/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script type="text/javascript">
+        AOS.init();
+        /*[ No ui ]
+        ===========================================================*/
+        var filterBar = document.getElementById('filter-bar');
+
+        noUiSlider.create(filterBar, {
+            start: [50, 200],
+            connect: true,
+            range: {
+                'min': 50,
+                'max': 200
+            }
+        });
+
+        var skipValues = [
+            document.getElementById('value-lower'),
+            document.getElementById('value-upper')
+        ];
+
+        filterBar.noUiSlider.on('update', function (values, handle) {
+            skipValues[handle].innerHTML = Math.round(values[handle]);
+        });
+    </script>
+    <script src="~/Layout/js/main.js"></script>
+    <script src="~/Layout/js/particl.min.js"></script>
+    <script src="~/Layout/js/particlejs.js"></script>
+</body>
+</html>

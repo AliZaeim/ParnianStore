@@ -1,0 +1,200 @@
+﻿@page "/Products/tag/{Tag}"
+@model Web.Pages.ProductTagModel
+@using Core.Services.Interfaces;
+@inject IProductService _productService
+@inject IUserService _userService
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BYLT1K82JQ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-BYLT1K82JQ');
+    </script>
+    @*https://aliansabz.com/*@
+    <title>محصولات عالیان سبز مرتبط با برچسب @Model.Tag</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:site_name" value="عالیان سبز">
+
+    <meta property="og:url" content="https://aliansabz.com/Products/tag/@Model.Tag">
+    @if (Model.Tag != "all")
+    {
+        <meta property="og:title" content="@Model.Tag | عالیان سبز">
+        <meta property="og:image" content="https://aliansabz.com/images/alian-sabz-shop-100.png">
+        <meta property="og:image:url" content="https://aliansabz.com/images/productTags/">
+        <meta property="og:image:alt" content="برچسب " + @Model.Tag />
+    }
+    else
+    {
+        <meta property="og:title" content="عالیان سبز | تمام برچسب ها">
+        <meta property="og:image" content="https://aliansabz.com/images/alian-sabz-shop-100.png">
+        <meta property="og:image:url" content="https://aliansabz.com/images/">
+        <meta property="og:image:alt" content="تمام برچسب ها" />
+    }
+
+
+    <meta property="og:image:type" content=image/png>
+    <meta property="og:image:type" content=image/jpg>
+
+    <meta property="og:price:currency" content="IRR">
+    <meta property="og:locale" content="ir_FA">
+    <meta name="description" content="لیست محصولات عالیان سبز مرتبط با برچسب " + @Model.Tag />
+
+    <link rel="canonical" href="https://aliansabz.com/Products/tag/@Model.Tag" />
+    <link rel="stylesheet" type="text/css" href="~/Layout/vendor/bootstrap/css/bootstrap.min.css">
+    <link href="~/lib/fonts/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/lib/fonts/themify/themify-icons.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/lib/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/lib/fonts/elegant-font/html-css/style.css">
+    <link rel="stylesheet" type="text/css" href="~/Layout/Vendor/animate/animate.css">
+    <link rel="stylesheet" type="text/css" href="~/Layout/vendor/css-hamburgers/hamburgers.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Layout/Vendor/animsition/css/animsition.min.css">
+    <link href="~/Layout/css/util.css" rel="stylesheet" type="text/css" />
+    <link href="~/Layout/css/main.css" rel="stylesheet" type="text/css" />
+    <link href="~/Layout/css/tricklandstyle.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css">
+    <link href="~/Layout/css/aos.min.css" rel="stylesheet">
+
+
+
+
+    @{
+        var initial = await _userService.GetInitialInfoAsync();
+        string fav = "favicon.png";
+        if (initial != null)
+        {
+            fav = initial.FavIcon;
+        }
+
+    }
+    <link rel="shortcut icon" href="/@fav" type="image/x-icon" />
+
+</head>
+<body class="animsition">
+
+    <!-- Header -->
+    <partial name="_Header" />
+    <nav class="breadcrumb-nav rtl" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">خانه</a></li>
+            <li class="breadcrumb-item"><a href="/Products">محصولات عالیان</a></li>
+            <li class="breadcrumb-item active" aria-current="page">برچسب @Model.Tag</li>
+        </ol>
+    </nav>
+
+    <!-- Title Page -->
+    <section class="bg-title-page p-t-100 p-b-150 flex-col-c-m general-page-bg02">
+        <h2 class="l-text2 t-center">
+            محصولات عالیان سبز
+        </h2>
+        <p class="m-text13 t-center">
+            @{
+                string tag = Model.Tag;
+                if (Model.Tag == "all")
+                {
+                    tag = "همه برچسب ها";
+                }
+                else
+                {
+                    tag = "مناسب برای برچسب" + " " + Model.Tag;
+                }
+            }
+            @tag
+        </p>
+    </section>
+
+    <section class="bgwhite p-t-55 p-b-65">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-md-4 col-lg-3 p-b-50">
+                    <div class="leftbar tl-box make-me-sticky">
+                        <h4 class="m-text14 p-b-7 text-center p-b-5 border-bottom">
+                            برچسب ها
+                        </h4>
+                        <ul>
+                            <li class="m-t-10 p-r-20 w-100 p-1 text-center  zbg-lightgrey1">
+                                <a href="/Products/tag/all" class="@((Model.Tag=="all") ? "bg-success text-white d-block text-center w-100":"")">هـــمه</a>
+                            </li>
+                            @foreach (var tg in Model.ProductTags.Where(w => w != string.Empty).OrderBy(x => x.Trim()).ToList())
+                            {
+                                <li class="m-t-10 p-r-20 w-100 p-1 text-center  zbg-lightgrey1 ">
+                                    @{
+
+                                        string cls = string.Empty;
+                                        if (!string.IsNullOrEmpty(Model.Tag))
+                                        {
+                                            if (Model.Tag == tg.Trim())
+                                            {
+
+                                                cls = "bg-success text-white d-block text-center w-100";
+                                            }
+                                        }
+                                       
+                                    }
+                                    <a asp-page="ProductsTag" asp-route-tag="@tg.Trim().Replace(" ", "-")" class="@cls">@tg.Trim()</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+
+                </div>
+                <div class="col-sm-6 col-md-8 col-lg-9 p-b-50">
+                    <div class="row">
+                        @if (Model.Products != null)
+                        {
+                            @if (Model.Products.Count != 0)
+                            {
+                                @foreach (var pr in Model.Products)
+                                {
+
+                                    @await Component.InvokeAsync("ShowProductAsColumnComponent", pr)
+                                }
+                            }
+                            else
+                            {
+                                <div class="container">
+                                    <div class="col-xs-12">
+                                        <h3 class="alert alert-danger col-xs-12 text-xs-center">محصولی موجود نمی باشد !</h3>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="col-xs-12">
+                                <h3 class="alert alert-danger col-xs-12 text-xs-center">محصولی موجود نمی باشد !</h3>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <!-- Footer -->
+    <partial name="_Footer" />
+    <!-- Back to top -->
+    <div class="btn-back-to-top bg0-hov" id="myBtn">
+        <span class="symbol-btn-back-to-top">
+            &uArr;
+        </span>
+    </div>
+    <script src="~/Layout/vendor/jquery/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="~/Layout/Vendor/animsition/js/animsition.min.js"></script>
+    <script type="text/javascript" src="~/Layout/Vendor/bootstrap/js/popper.js"></script>
+    <script type="text/javascript" src="~/Layout/Vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/Layout/js/aos.min.js"></script>
+    <script src="~/Layout/js/main.js"></script>
+</body>
+</html>

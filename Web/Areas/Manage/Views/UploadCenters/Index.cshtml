@@ -1,0 +1,73 @@
+﻿@model IEnumerable<DataLayer.Entities.Supplementary.UploadCenter>
+
+@{
+    ViewData["Title"] = "آپلود سنتر";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">آپلود سنتر</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">آپلود فایل</a>
+</p>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.File)
+            </th>
+
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.Comment)
+            </th>
+            <th class="text-xs-center align-middle p-0">
+                آدرس
+            </th>
+            <th class="text-xs-center align-middle p-0">عملیات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OrderByDescending(r => r.Id))
+        {
+            <tr>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td class="text-xs-center align-middle">
+                    @if (Core.Utility.Applications.IsImage(item.File))
+                    {
+
+                        <img src="~/uploadcenter/@item.File" width="50" height="50" />
+                    }
+                </td>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.Comment)
+                </td>
+                <td class="text-xs-center align-middle p-0">
+                    @{
+                        var imageVirtualPath = System.IO.Path.Combine("uploadcenter", item.File);
+                        var request = Context.Request;
+                        var uriBuilder = new UriBuilder
+                        {
+                            Host = request.Host.Host,
+                            Scheme = request.Scheme,
+                            Path = imageVirtualPath
+                        };
+                        if (request.Host.Port.HasValue)
+                            uriBuilder.Port = request.Host.Port.Value;
+                        var url = uriBuilder.ToString();
+                    }
+                    <span dir="ltr" class="font-tahoma font-small-1">@url</span>
+                </td>
+                <td class="text-xs-center align-middle p-0">
+                    <a asp-action="Edit" asp-route-id="@item.Id">ویرایش</a> |
+
+                    <a asp-action="Delete" asp-route-id="@item.Id">حذف</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

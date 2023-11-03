@@ -1,0 +1,164 @@
+﻿@model IEnumerable<DataLayer.Entities.Store.Product>
+@using Core.Services.Interfaces;
+@inject IProductService _productService;
+@{
+    ViewData["Title"] = "محصولات";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+    string cur = "ریال";
+    var init = await _productService.GetInitialInfoAsync();
+    if (init != null)
+    {
+        cur = init.SiteCurrency;
+    }
+}
+
+<h1 class="text-xs-center alert alert-info">محصولات</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">محصول جدید</a>
+</p>
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th class="text-xs-center align-middle p-0">
+                    @Html.DisplayNameFor(model => model.ProductCode)
+                </th>
+                <th class="text-xs-center align-middle p-0">
+                    @Html.DisplayNameFor(model => model.ProductName)
+                </th>
+                <th class="text-xs-center align-middle p-0">
+                    @Html.DisplayNameFor(model => model.ProductEnName)
+                </th>
+                <th class="text-xs-center align-middle p-0">
+                    @Html.DisplayNameFor(model => model.ProductPrice)
+                </th>
+                <th class="text-xs-center align-middle p-0">
+                    @Html.DisplayNameFor(model => model.ProductUnit)
+                </th>
+                <th class="text-xs-center align-middle p-0">
+                    @Html.DisplayNameFor(model => model.ProductGroup)
+                </th>
+                <th class="text-xs-center align-middle p-0">
+                    اجزا
+                </th>
+                <th class="text-xs-center align-middle p-0">
+                    @Html.DisplayNameFor(model => model.IsActive)
+                </th>
+                <th class="text-xs-center align-middle p-0">
+                    نظرات
+                </th>
+                <th class="text-xs-center align-middle p-0">
+                    موجودی
+                </th>
+                <th class="text-xs-center align-middle p-0">
+                    @Html.DisplayNameFor(model => model.Views)
+                </th>
+                <th class="text-xs-center align-middle p-0">عملیات</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.OrderBy(g => g.ProductName).ToList())
+            {
+                <tr>
+                    <td class="text-xs-center align-middle p-0">
+                        @Html.DisplayFor(modelItem => item.ProductCode)
+                    </td>
+                    <td class="text-xs-center align-middle p-0">
+                        @Html.DisplayFor(modelItem => item.ProductName)
+                    </td>
+                    <td class="text-xs-center align-middle p-0">
+                        @Html.DisplayFor(modelItem => item.ProductEnName)
+                    </td>
+                    <td class="text-xs-center align-middle p-0">
+                        @item.ProductPrice.ToString("N0") @cur
+                    </td>
+
+                    <td class="text-xs-center align-middle p-0">
+                        @Html.DisplayFor(modelItem => item.ProductUnit)
+                    </td>
+
+                    <td class="text-xs-center align-middle p-0">
+                        @Html.DisplayFor(modelItem => item.ProductGroup.ProductGroupTitle)
+                    </td>
+                    <td class="text-xs-center align-middle p-0">
+                        <a asp-action="Index" asp-controller="ProductIngredients" asp-route-pId="@item.ProductId">اجزا</a>
+                    </td>
+                    <td class="text-xs-center align-middle p-0">
+                        @if (item.IsActive)
+                        {
+                            <span class="fa fa-check-square cursor-pointer chk" data-id="@item.ProductId" data-status="0"></span>
+                        }
+                        else
+                        {
+                            <span class="fa fa-square-o cursor-pointer chk" data-id="@item.ProductId" data-status="1"></span>
+                        }
+                    </td>
+                    <td class="text-xs-center align-middle p-0">
+                        <a href="/Manage/Products/ShowProductComments?productId=@item.ProductId">
+                            <span class="tag tag-info tag-pill">@item.ProductComments?.ToList().Count()</span>
+                        </a>
+                    </td>
+                    <td class="text-xs-center align-middle p-0">
+                        @{
+                            int inv = await _productService.GetProduct_Inventory_InStoreAsync(item.ProductCode);
+                            string invCls = "tag tag-pill tag-success";
+                            if (inv < (int)item.ProductMinimumInventory)
+                            {
+                                invCls = "tag tag-pill tag-danger";
+                            }
+                        }
+
+                        <span class="@invCls">@inv</span>
+                    </td>
+                    <td class="text-xs-center align-middle p-0">
+                        <span>@item.Views</span>
+                    </td>
+                    <td class="text-xs-center align-middle p-0">
+
+                        <a asp-action="Edit" asp-route-id="@item.ProductId">ویرایش</a> |
+                        <a asp-action="Details" asp-route-id="@item.ProductId">جزئیات</a> |
+                        <a asp-action="Delete" asp-route-id="@item.ProductId">حذف</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".chk").click(function () {
+                if (confirm("آیا مطمئن به تغییر وضعیت محصول هستید؟")) {
+                    var idd = $(this).attr("data-id");
+                    var st = $(this).attr("data-status");
+                    var th = $(this);
+                    $.ajax({
+                        url: "/Manage/ProductS/ChangeProductStatus",
+                        data: { id: idd, status: st },
+                        type: "GET",
+                        async: true,
+                        success: function (result) {
+
+                            if (result === true) {
+
+                                th.removeClass("fa-square-o").addClass("fa-check-square");
+                                th.attr("data-status", 0);
+                            }
+                            else {
+
+                                th.removeClass("fa-check-square").addClass("fa-square-o");
+                                th.attr("data-status", 1);
+                            }
+                        },
+                        error: function () {
+                            alert("error");
+                        }
+                    })
+                }
+
+            });
+        });
+    </script>
+}

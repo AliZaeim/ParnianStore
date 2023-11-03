@@ -1,0 +1,182 @@
+﻿@model Core.DTOs.General.PaymentResultVM;
+@using Core.Convertors;
+@using Core.Services.Interfaces;
+@inject IProductService _productService
+<html>
+<head>
+    <link href="~/Layout/Vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <title>نتیجه پرداخت در عالیان سبز</title>
+</head>
+
+<body dir="rtl" lang="fa">
+    <div class="container border mt-1 p-1">
+        <h1 class="text-center alert alert-info mt-2">نتیجه فرآیند پرداخت</h1>
+
+        <table class="table table-bordered">
+            <tr>
+                <td>درگاه پرداخت:</td>
+                <td class="text-danger pr-1">
+                    @Model.BankName
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-2">وضعیت پرداخت:</td>
+                @if (Model.PaymentStatus)
+                {
+                    <td>
+                        <span class="text-success pr-1">@Html.Raw(Model.PaymentMessage)</span>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <span class="text-danger pr-1">@Html.Raw(Model.PaymentMessage)</span>
+                    </td>
+                }
+
+            </tr>
+            <tr>
+                <td class="col-md-2">کد رهگیری:</td>
+                @if (!string.IsNullOrEmpty(Model.SaleReferenceId))
+                {
+                    <td>
+                        <span class="pr-1">
+                            @Model.SaleReferenceId
+                        </span>
+
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        -
+                    </td>
+                }
+
+            </tr>
+            <tr>
+                <td colspan="2" class="text-xs-center">
+                    <a href="/" class="btn btn-primary float-left">بازگشت</a>
+                </td>
+            </tr>
+
+        </table>
+        @if (Model.Order != null)
+        {
+            <div class="container mt-3 mb-3">
+                <div class="row border-green rounded5px m-1">
+                    <h4 class="offset-md-3 col-md-6 col-xs-12 text-center alert alert-success ">سفارش شما با موفقیت در عالیان سبز ثبت شد</h4>
+                    <div class="col-12 col-sm-12 border-bottom-grey p-1">
+                        <div class="col-12 col-sm-4 col-xs-12 text-center text-sm-right">
+                            <p class="fs-18 black">شماره سفارش : <span>@Model.Order.Order_DedicatedNumber</span></p>
+                        </div>
+                        <div class="col-12 col-sm-4 col-xs-12 text-center text-sm-right">
+                            <p class="fs-18 black">تاریخ ثبت : <span>@Model.Order.Order_Date.ToShamsiWithTime()</span></p>
+                        </div>
+                        <div class="col-12 col-sm-4 col-xs-12 text-center text-sm-right">
+                            <p class="fs-18 black">خریدار : <span>@Model.Order.Order_BuyerName @Model.Order.Order_BuyerFamily</span></p>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-12 mt-1 border-bottom-grey p-1">
+                        <div class="col-12 col-sm-4 col-xs-12 text-center text-sm-right">
+                            <p class="fs-18 black">تلفن خریدار : <span>@Model.Order.Order_BuyerCellphone</span></p>
+                        </div>
+                        <div class="col-12 col-sm-4 col-xs-12 text-center text-sm-right">
+                            <p class="fs-18 black">استان : <span>@Model.Order.Order_StateName</span></p>
+                        </div>
+                        <div class="col-12 col-sm-4 col-xs-12 text-center text-sm-right">
+                            <p class="fs-18 black">شهرستان : <span class="info">@Model.Order.Order_CountyName</span></p>
+                        </div>
+                        <div class="col-12 col-xs-12 text-xs-center text-sm-right">
+                            <p class="fs-18 black">
+                                آدرس : <span>@Model.Order.Order_Address</span>
+                                <span> | </span><span>کد پستی : @Model.Order.Order_PostalCode</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-12 mt-1 border-bottom-grey table-responsive p-1">
+                        <table class="table table-bordered border-black col-md-12">
+                            <tr>
+                                <td colspan="6" class="col-12 text-center fs-22 green">جزئیات</td>
+                            </tr>
+
+                            <thead>
+                                <tr>
+                                    <th class="text-center align-middle">ردیف</th>
+                                    <th class="text-center align-middle">نام کالا</th>
+                                    <th class="text-center align-middle">تعداد</th>
+                                    <th class="text-center align-middle">قیمت</th>
+                                    <th class="text-center align-middle">قیمت با تخفیف</th>
+                                    <th class="text-center align-middle">جمع</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{ int totalRowSum = 0; int rad = 1; int totalSum = 0; string pName = string.Empty;}
+                                @foreach (var item in Model.Order.OrderDetails)
+                                {
+                                    DataLayer.Entities.Store.Product product = null;
+                                    DataLayer.Entities.Store.Package package = null;
+                                    if (item.ProductKind == "pr")
+                                    {
+                                        product = await _productService.GetProductByIdAsync(item.ProductId);
+                                    }
+                                    if (item.ProductKind == "pk")
+                                    {
+                                        package = await _productService.GetPackageByIdAsync(item.ProductId);
+                                    }
+                                    int rowSum = item.OrderDetailCount * item.OrderDetailNetPrice;
+                                    totalRowSum += rowSum;
+                                    if (product != null)
+                                    {
+                                        pName = product.ProductName;
+                                    }
+                                    if (package != null)
+                                    {
+                                        pName = package.PkTitle;
+                                    }
+
+                                    <tr>
+                                        <td class="text-center align-middle">@rad</td>
+                                        <td class="text-center align-middle">@pName</td>
+                                        <td class="text-center align-middle">@item.OrderDetailCount</td>
+                                        <td class="text-center align-middle">@item.OrderDetailPrice.ToString("N0")</td>
+                                        <td class="text-center align-middle">@item.OrderDetailNetPrice.ToString("N0")</td>
+                                        <td class="text-center align-middle">@rowSum.ToString("N0")</td>
+                                    </tr>
+                                    rad++;
+                                }
+                                <tr>
+                                    <td colspan="4" class="text-center align-middle"></td>
+                                    <td class="text-center align-middle">جمع فاکتور</td>
+                                    <td class="text-center align-middle"><span class="fs-20">@totalRowSum.ToString("N0")</span> @Model.Order.Currency</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" class="text-center align-middle"></td>
+                                    <td class="text-center align-middle">تخفیف</td>
+                                    <td class="text-center align-middle"><span class="fs-20">@Model.Order.Order_DiscountValue.ToString("N0")</span> @Model.Order.Currency</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" class="text-center align-middle"></td>
+                                    <td class="text-center align-middle">هزینه ارسال</td>
+                                    <td class="text-center align-middle"><span class="fs-20">@Model.Order.Order_DeliveryCost.ToString("N0")</span> @Model.Order.Currency</td>
+                                </tr>
+                                <tr>
+                                    @{ totalSum = totalRowSum - Model.Order.Order_DiscountValue + Model.Order.Order_DeliveryCost;}
+                                    <td colspan="4" class="text-center align-middle red">@totalSum.NumberToText(Language.Persian) </td>
+                                    <td class="text-center align-middle">جمع کل</td>
+                                    <td class="text-center align-middle"><span class="fs-20">@totalSum.ToString("N0") @Model.Order.Currency</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</body>
+</html>
+
+

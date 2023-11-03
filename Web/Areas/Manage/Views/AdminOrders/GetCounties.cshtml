@@ -1,0 +1,5 @@
+﻿@model IEnumerable<DataLayer.Entities.Supplementary.County>
+@foreach (var co in Model)
+{
+    <option value="@co.CountyName">@co.CountyName</option>
+}

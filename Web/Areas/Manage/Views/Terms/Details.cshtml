@@ -1,0 +1,42 @@
+﻿@model DataLayer.Entities.Supplementary.Terms
+@using Core.Convertors;
+@{
+    ViewData["Title"] = "جزئیات قواعد و ضوابط";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">جزئیات قواعد و ضوابط</h1>
+
+<div>
+    
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Model.CreatedDate.ToShamsiN_WithTime()
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ShowRating)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ShowRating)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Text)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.Raw(Model.Text)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">ویرایش</a> |
+    <a asp-action="Index">بازگشت</a>
+</div>

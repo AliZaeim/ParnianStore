@@ -1,0 +1,175 @@
+﻿@model DataLayer.Entities.Supplementary.FractionSlider
+@using Core.Convertors;
+@{
+    ViewData["Title"] = "جزئیات اسلایدر تکه ای";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">
+    جزئیات اسلایدر تکه ای @Model.Title
+</h1>
+
+<div>
+
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ShowRating)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ShowRating)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Link)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Link)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LinkClass)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LinkClass)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LinkText)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LinkText)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LinkPostition)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LinkPostition)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LinkDataIn)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LinkDataIn)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LinkDataEaseIn)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LinkDataEaseIn)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LinkDataOut)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LinkDataOut)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LinkDataDelay)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LinkDataDelay)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Model.CreatedDate.ToShamsiN_WithTime()
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.IsActive)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IsActive)
+        </dd>
+    </dl>
+</div>
+<div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.FSImages.FirstOrDefault().Image)
+                </th>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.FSImages.FirstOrDefault().Width)
+                </th>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.FSImages.FirstOrDefault().Height)
+                </th>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.FSImages.FirstOrDefault().DataPosition)
+                </th>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.FSImages.FirstOrDefault().DataStep)
+                </th>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.FSImages.FirstOrDefault().DataIn)
+                </th>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.FSImages.FirstOrDefault().DataOut)
+                </th>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.FSImages.FirstOrDefault().DataDelay)
+                </th>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.FSImages.FirstOrDefault().DataEaseIn)
+                </th>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.FSImages.FirstOrDefault().IsActive)
+                </th>
+
+                <th class="text-xs-center align-middle">عملیات</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.FSImages)
+            {
+                <tr>
+                    <td class="text-xs-center align-middle">
+                        @Html.DisplayFor(modelItem => item.Image)
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        @Html.DisplayFor(modelItem => item.Width)
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        @Html.DisplayFor(modelItem => item.Height)
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        @Html.DisplayFor(modelItem => item.DataPosition)
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        @Html.DisplayFor(modelItem => item.DataStep)
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        @Html.DisplayFor(modelItem => item.DataIn)
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        @Html.DisplayFor(modelItem => item.DataOut)
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        @Html.DisplayFor(modelItem => item.DataDelay)
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        @Html.DisplayFor(modelItem => item.DataEaseIn)
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        @Html.DisplayFor(modelItem => item.IsActive)
+                    </td>
+
+                    <td class="text-xs-center align-middle">
+                        <a asp-action="Edit" asp-route-id="@item.Id">ویرایش</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">جزئیات</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">حذف</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">ویرایش</a> |
+    <a asp-action="Index">بازگشت</a>
+</div>

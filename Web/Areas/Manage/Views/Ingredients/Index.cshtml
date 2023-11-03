@@ -1,0 +1,84 @@
+﻿@model IEnumerable<DataLayer.Entities.Store.Ingredient>
+@using Core.Services.Interfaces;
+@inject IProductService _productService;
+@{
+    ViewData["Title"] = "اجزای تشکیل دهنده محصولات";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">اجزای تشکیل دهنده محصولات</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">ثبــت</a>
+</p>
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th class="text-xs-center align-middle">
+                    ردیف
+                </th>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.Image)
+                </th>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.Nature)
+                </th>
+                <th class="text-xs-center align-middle">
+                    محصولات
+                </th>
+                <th class="text-xs-center align-middle">عملیات</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ int rad = 1;}
+            @foreach (var item in Model.OrderBy(x => x.Name))
+            {
+                <tr>
+                    <td class="text-xs-center align-middle">
+                        @rad
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        <img src="/images/productIngredients/@item.Image" width="50" height="50" />
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        @Html.DisplayFor(modelItem => item.Nature)
+                    </td>
+
+                    <td class="text-xs-center align-middle">
+                        <span class="tag tag-pill tag-success">@item.ProductIngredients.Count()</span> &emsp;
+                        @{
+                            List<DataLayer.Entities.Store.Product> products = await _productService.GetProductsofInderendientAsync(item.IngredientId);
+                            
+                        }
+
+                        @foreach (var pr in products)
+                        {
+                            if (pr == products.LastOrDefault())
+                            {
+                                <span>@pr.ProductName</span>
+                            }
+                            else
+                            {
+                                <span>@pr.ProductName</span><span>-</span>
+                            }
+                            
+                        }
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        <a asp-action="Edit" asp-route-id="@item.IngredientId">ویرایش</a> |
+                        <a asp-action="Details" asp-route-id="@item.IngredientId">جزئیات</a> |
+                        <a asp-action="Delete" asp-route-id="@item.IngredientId">حــذف</a>
+                    </td>
+                </tr>
+                rad++;
+            }
+        </tbody>
+    </table>
+</div>

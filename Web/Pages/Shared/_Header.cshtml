@@ -1,0 +1,293 @@
+﻿
+@using Core.Services.Interfaces;
+@inject IUserService _userService
+@inject IProductService _productService;
+@{
+    DataLayer.Entities.Supplementary.ContactInfo lastContactInfo = null;
+    lastContactInfo = _userService.GetLastContactInfo();
+    var initial = await _userService.GetInitialInfoAsync();
+    string logoalt = "لوگوی عالیان سبز";
+
+}
+<!-- Header -->
+<header class="header1 mb-0 pb-0">
+    <!-- Header desktop -->
+    <div class="container-menu-header">
+        <div class="topbar">
+            <div class="topbar-social">
+
+                @if (lastContactInfo != null)
+                {
+
+                    if (!string.IsNullOrEmpty(lastContactInfo.Whatsapp))
+                    {
+                        <div class="social">
+                            <a href="@lastContactInfo.Whatsapp" title="واتزآپ عالیان سبز"><i class="ri-whatsapp-line text-success"></i> </a>
+                        </div>
+
+                    }
+                    if (!string.IsNullOrEmpty(lastContactInfo.InstagramLink))
+                    {
+                        <div class="social">
+                            <a href="@lastContactInfo.InstagramLink" title="اینستاگرام عالیان سبز"><i class="ri-instagram-line text-danger"></i></a>
+                        </div>
+
+                    }
+                    if (!string.IsNullOrEmpty(lastContactInfo.FacebookLink))
+                    {
+                        <div class="social">
+                            <a href="@lastContactInfo.FacebookLink" title="فیس بوک عالیان سبز"><i class="ri-facebook-line text-primary"></i></a>
+                        </div>
+
+                    }
+                    if (!string.IsNullOrEmpty(lastContactInfo.TelegramLink))
+                    {
+                        <div class="social">
+                            <a href="@lastContactInfo.TelegramLink" title="تلگرام عالیان سبز"><i class="ri-telegram-line text-info"></i></a>
+                        </div>
+
+                    }
+                    if (lastContactInfo.CellPhoneList.FirstOrDefault() != null)
+                    {
+                        <div class="social">
+                            <a href="tel:@lastContactInfo.CellPhoneList.FirstOrDefault()" title="شماره تلفن پشتیبانی">@lastContactInfo.CellPhoneList.FirstOrDefault() <i class="ri-phone-fill"></i></a>
+                        </div>
+                    }
+                }
+
+            </div>
+            <div class="topbar-child2">
+                <ul class="tl-top-menu">
+                    <li class="tl-top-menu-li"><a href="/Blogs"> <i class="ri-newspaper-line zpl-1mm"></i>مجله عالیان</a></li>
+                    <li class="tl-top-menu-li"><a href="/About-alian-sabz"> <i class="ri-map-pin-user-line zpl-1mm"></i>درباره عالیان</a></li>
+                    <li class="tl-top-menu-li"><a href="/Contact"> <i class="ri-contacts-book-line zpl-1mm"></i>تماس با عالیان</a></li>
+                    <li class="tl-top-menu-li"><a href="/How-To-Use"> <i class="ri-syringe-line zpl-1mm"></i>طریقه مصرف محصولات</a></li>
+                    <li class="tl-top-menu-li"><a href="/Alian-Sabz-FAQ"> <i class="ri-newspaper-line zpl-1mm"></i>پرسش و پاسخ</a></li>
+                    <li class="tl-top-menu-li"><a href="javascript:void(0)" rel="nofollow" id="HbtnBuyHelping"> <i class="ri-information-line zpl-1mm"></i>راهنمای خرید</a></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="wrap_header">
+
+            <div class="left-side">
+
+                <div class="logo-alian">
+                    @if (initial != null)
+                    {
+                        @if (string.IsNullOrEmpty(initial.SiteLogo))
+                        {
+                            <a href="/"><img src="/images/alian-sabz-shop-100.png" alt="عالیان سبز" class="logo-alian-img"></a>
+                        }
+                        else
+                        {
+                            <a href="/"><img src="/images/@initial.SiteLogo" alt="@logoalt" class="logo-alian-img"></a>
+                        }
+                    }
+                    else
+                    {
+                        <a href="/"><img src="/images/alian-sabz-shop-100.png" alt="عالیان سبز" class="logo-alian-img"></a>
+                    }
+                </div>
+
+                <div class="search">
+                    <partial name="_SearchPartial" />
+                </div>
+
+            </div>
+
+            <div class="right-side">
+                @await Component.InvokeAsync("ShowLoginStateComponent", new { type = "desktop" })
+            </div>
+
+        </div>
+
+
+        <div class="bottom-menu">
+
+            <ul class="menu-list">
+                @if (await _productService.ExistActiveProductAsync())
+                {
+                    <li class="items m-l-15 m-r-5">
+                        <a href="/Products">محصولات</a>
+                    </li>
+                }
+                @*@await Component.InvokeAsync("ShowProductGroupsComponent")*@
+                @if (await _productService.ExisActivePackageAsync())
+                {
+                    <li class="items m-l-15 m-r-5">
+                        <a href="/Packages"><span class="d-inline-block">پکهای سلامتی</span></a>
+                    </li>
+                }
+                @await Component.InvokeAsync("ShowPackageGroupsComponent", new { parent = false })
+
+
+                <li class="items m-r-15">
+                    <a href="/Alian-Sabz-Tracking-Order">پیگیری سفارش</a>
+                </li>
+
+            </ul>
+
+            <div class="header-wrapicon2">
+                <i class="ri-shopping-cart-line js-show-header-dropdown header-icon1  cart"></i>
+                <span class="header-icons-noti">0</span>
+
+                <!-- Header cart noti -->
+                <div id="cartmd">
+                    @await Component.InvokeAsync("ShowCartComponent")
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Header Mobile -->
+    <div class="wrap_header_mobile">
+        <div class="m-top-header">
+            <div class="right-side-m">
+                <!-- Button show menu -->
+                <div class="btn-show-menu">
+                    <!-- Header Icon mobile -->
+                    <div class="btn-show-menu-mobile hamburger hamburger--squeeze">
+                        <span class="hamburger-box">
+                            <span class="hamburger-inner"></span>
+                        </span>
+                    </div>
+                </div>
+                <div class="logo-alian">
+                    @if (initial != null)
+                    {
+                        @if (string.IsNullOrEmpty(initial.SiteLogo))
+                        {
+                            <a href="/"><img src="/images/alian-sabz-shop-100.png" alt="عالیان سبز" class="logo-alian-img"></a>
+                        }
+                        else
+                        {
+                            <a href="/"><img src="/images/@initial.SiteLogo" alt="@logoalt" class="logo-alian-img"></a>
+                        }
+                    }
+                    else
+                    {
+                        <a href="/"><img src="/images/alian-sabz-shop-100.png" alt="عالیان سبز" class="logo-alian-img"></a>
+                    }
+                </div>
+            </div>
+            <div class="left-side-m">
+                @await Component.InvokeAsync("ShowLoginStateComponent", new { type = "mobile" })
+                <div class="header-wrapicon2">
+                    <i class="ri-shopping-cart-line header-icon1 js-show-header-dropdown cart"></i>
+                    <span class="header-icons-noti cursor-pointer">0</span>
+                    <div id="cartxd">
+                        @await Component.InvokeAsync("ShowCartComponent")
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="m-search tl-overflow">
+            <partial name="_SearchPartial" />
+        </div>
+
+    </div>
+
+    <!-- Menu Mobile -->
+    <div class="wrap-side-menu">
+        <nav class="side-menu">
+            <ul class="main-menu">
+                <li class="item-topbar-mobile p-l-20 p-t-8 p-b-8 tl-social-m">
+                    <div class="tl-contact-menu">
+
+                        @if (lastContactInfo != null)
+                        {
+                            if (lastContactInfo.CellPhoneList.FirstOrDefault() != null)
+                            {
+                                <div class="social">
+                                    <a href="tel:@lastContactInfo.CellPhoneList.FirstOrDefault()" title="شماره تلفن همراه پشتیبانی">@lastContactInfo.CellPhoneList.FirstOrDefault() <i class="ri-phone-fill"></i></a>
+                                </div>
+                            }
+                            if (lastContactInfo.PhoneList.FirstOrDefault() != null)
+                            {
+                                <div class="social">
+                                    <a href="tel:@lastContactInfo.PhoneList.FirstOrDefault()" title="شماره تلفن پشتیبانی">@lastContactInfo.PhoneList.FirstOrDefault() <i class="ri-cellphone-fill"></i></a>
+                                </div>
+                            }
+                        }
+                    </div>
+                </li>
+
+                <li class="item-topbar-mobile p-l-20 p-t-8 p-b-8 tl-social-m">
+                    <div class="tl-social-menu">
+                        @if (lastContactInfo != null)
+                        {
+                            if (!string.IsNullOrEmpty(lastContactInfo.Whatsapp))
+                            {
+                                <div class="social">
+                                    <a href="@lastContactInfo.Whatsapp" title="واتزآپ عالیان سبز"><i class="ri-whatsapp-line text-success"></i> </a>
+                                </div>
+                            }
+                            if (!string.IsNullOrEmpty(lastContactInfo.InstagramLink))
+                            {
+                                <div class="social">
+                                    <a href="@lastContactInfo.InstagramLink" title="اینستاگرام عالیان سبز"><i class="ri-instagram-line text-danger"></i></a>
+                                </div>
+                            }
+                            if (!string.IsNullOrEmpty(lastContactInfo.FacebookLink))
+                            {
+                                <div class="social">
+                                    <a href="@lastContactInfo.FacebookLink" title="فیس بوک عالیان سبز"><i class="ri-facebook-line text-primary"></i></a>
+                                </div>
+                            }
+                            if (!string.IsNullOrEmpty(lastContactInfo.TelegramLink))
+                            {
+                                <div class="social">
+                                    <a href="@lastContactInfo.TelegramLink" title="تلگرام عالیان سبز"><i class="ri-telegram-line text-info"></i></a>
+                                </div>
+                            }
+
+                        }
+
+                    </div>
+                </li>
+
+                <li class="item-menu-mobile tl-speed-menu">
+                    <a href="javascript:void(0)" class="dropdown" data-toggle="#speed-menu">دسترسی سریع</a>
+                    <ul class="sub-menu dropdown-list" id="speed-menu">
+                        <li><a href="/">صفحه نخست</a></li>
+                        <li><a href="/Blogs">مجله عالیان</a></li>
+                        <li><a href="/About-alian-sabz">درباره عالیان</a></li>
+                        <li><a href="/How-To-Use">طریقه مصرف محصولات</a></li>
+                        <li><a href="/Alian-Sabz-FAQ">پرسش و پاسخ</a></li>
+                        <li class="tl-top-menu-li"><a href="javascript:void(0)" rel="nofollow" id="HbtnBuyHelping"> <i class="ri-information-line"></i>راهنمای خرید</a></li>
+                    </ul>
+                    <span class="arrow-main-menu  text-white" aria-hidden="true">&lt;</span>
+                </li>
+
+                @*@await Component.InvokeAsync("ShowProductGroupsComponent", new { type = "mobile" })*@
+                @if (await _productService.ExisActivePackageAsync())
+                {
+                    <li class="item-menu-mobile">
+                        <a href="/Packages"><span class="d-inline-block">پکهای سلامتی</span></a>
+                    </li>
+                }
+                @await Component.InvokeAsync("ShowPackageGroupsComponent", new { type = "mobile", parent = false })
+                @if (await _productService.ExistActiveProductAsync())
+                {
+                    <li class="item-menu-mobile">
+                        <a href="/Products"><span class="d-inline-block">محصولات</span></a>
+                    </li>
+                }
+
+
+                <li class="item-menu-mobile">
+                    <a href="/Alian-Sabz-Tracking-Order">پیگیری سفارش</a>
+                </li>
+
+
+            </ul>
+        </nav>
+    </div>
+</header>

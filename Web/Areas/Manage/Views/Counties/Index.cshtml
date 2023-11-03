@@ -1,0 +1,58 @@
+﻿@model IEnumerable<DataLayer.Entities.Supplementary.County>
+
+@{
+    ViewData["Title"] = "لیست شهرستانها";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">لیست شهرستانها</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">ثبت شهرستان</a>
+</p>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th class="text-xs-center align-middle">
+                ردیف
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.CountyName)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.Freight)
+            </th>
+
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.State.StateName)
+            </th>
+            <th class="text-xs-center align-middle"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ int rad = 1;}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="text-xs-center align-middle">
+                    @rad
+                </td>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.CountyName)
+                </td>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.Freight)
+                </td>
+
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.State.StateName)
+                </td>
+                <td class="text-xs-center align-middle">
+                    <a asp-action="Edit" asp-route-id="@item.CountyId">ویرایش</a>
+
+                </td>
+            </tr>
+            rad++;
+        }
+    </tbody>
+</table>

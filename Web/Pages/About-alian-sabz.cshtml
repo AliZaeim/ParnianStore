@@ -1,0 +1,395 @@
+﻿@page
+@model Web.Pages.About_alian_sabzModel
+@using Core.Services.Interfaces;
+@inject IUserService _userService
+@{
+    Layout = null;
+    string title = "درباره فروشگاه اینترنتی عالیان سبز";
+    string description = "شرکت داروسازی پرنیان (درمانگر سبز) با نام تجاری عالیان سبز، مجهزترین و بزرگترین شرکت تولید کننده عرقیات در انواع دارویی و کامل ترین و اولین تولید کننده عصاره های غلیظ شده گیاهی با برند عالیان در استان البرز و در منطقه پر گل و گیاه کرج با استفاده از مرغوبترین گیاهان دارویی می باشد،";
+    if (Model.SitePage != null)
+    {
+        title = Model.SitePage.Title;
+        description = Model.SitePage.Description;
+    }
+}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BYLT1K82JQ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-BYLT1K82JQ');
+    </script>
+    <title>@title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="canonical" href="https:/aliansabz.com/About-alian-sabz" />
+    <meta name="description" content="@description" />
+    <link rel="stylesheet" type="text/css" href="/Layout/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/lib/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/Layout/vendor/css-hamburgers/hamburgers.min.css">
+    <link rel="stylesheet" type="text/css" href="/Layout/vendor/animsition/css/animsition.min.css">
+    <link rel="stylesheet" type="text/css" href="/Layout/vendor/lightbox2/css/lightbox.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Layout/css/util.css">
+    <link rel="stylesheet" type="text/css" href="~/Layout/css/main.css">
+    <link href="~/Layout/css/tricklandstyle.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css">
+    <link href="/Layout/css/aos.min.css" rel="stylesheet">
+
+
+    
+    <link rel="shortcut icon" href="/@Model.FavIcon" type="image/x-icon" />
+
+</head>
+<body class="animsition">
+
+    <!-- Header -->
+    <partial name="_Header" />
+    <nav class="breadcrumb-nav rtl" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">خانه</a></li>
+            <li class="breadcrumb-item active" aria-current="page">درباره عالیان سبز</li>
+        </ol>
+    </nav>
+    <!-- Title Page -->
+    <section class="bg-title-page p-t-100 p-b-150 flex-col-c-m general-page-bg02" >
+        <h2 class="l-text2 t-center">
+            درباره عالیان سبز
+        </h2>
+        <p class="m-text13 t-center">
+            بیشتر بدانید...
+        </p>
+    </section>
+    <section class="about-us m-b-65">
+        <div data-aos="flip-up" data-aos-delay="400">
+            <div class="container m-b-65">
+                <div class="row">
+                    <div class="col-12 col-lg-12 tl-box n-padding">
+
+                        <h2 class="text-center pb-2 ">تاریخچه شروع به کار عالیان سبز</h2>
+                        <h6 class="text-justify line-height-1 text-direction-rtl p-t-25 p-b-25 border-red">
+                            شرکت داروسازی پرنیان از سال 1391 فعالیت خود را در قالب تولید فرآورده های گیاهی دارویی شروع کرده است و بعد از تحقیقات و بررسی فراوان در حوزه گیاهان دارویی توسط متخصصین طب سنتی و تیم تحقیقاتی منسجم و کارا در سال 1393 به طور رسمی
+                            کارخانه تولیدی خود را افتتاح نمود. و جز اولین شرکت هایی بود ک عرقیات را بصورت ترکیبی و مخلوط (با برند عالیان سبز) به بازار ارائه داد. این مجموعه داروسازی تولید خود را در فراوردهای گیاهی دارویی، دمنوش ها طبی و نوشیدنی، شربت های طبی و
+                            نوشیدنی، عرقیات طبی، عصاره و اسانس گسترش داده است. و در نه سال فعالیت مستمرخود، اکنون با 50 نماینده فعال در کلیه استانهای کشور به طور مستقیم با 40 نفر نیرو و به صورت غیر مستقیم با 400 نفر نیروی فعال در سطح کشور فعالیت می کند
+                        </h6>
+
+                        <h3 class="text-center pb-2">شرکت داروسازی پرنیان - درمانگر سبز</h3>
+                        <h6 class="text-justify line-height-1 p-t-25 text-direction-rtl">
+                            مجهزترین و بزرگترین شرکت تولید کننده عرقیات در 38 نوع دارویی و کامل ترین و اولین تولید کننده بیش از 44 نوع از عصاره های غلیظ شده گیاهی با برند عالیان در استان البرز و در منطقه پر گل و گیاه کرج با استفاده از مرغوبترین گیاهان دارویی می
+                            باشد، که با استفاده از امکانات ویژه و دستگاه های تمام اتوماتیک و پرسنل مجرب و آشنا به طب سنتی و دارای مجوزهای ویژه اقدام به تولید عرقیات گیاهی نموده است. موسسه درمانگر سبز زیر نظر بهترین متخصصان علم دارویی و گیاه شناسی و آشنا به علم
+                            طبایع و اخلاط و مزاج درمانی یکی از علمی ترین موسسات تولید کننده عرقیات گیاهی است که بر پایه علم بزرگ مردان طب سنتی همچون ابوعلی سینا و حکیم مومن فعالیت می نماید. در این راستا با استفاده از نسخه های نتیجه گرفته شده از اساتید بزرگ طب سنتی
+                            ایران، چین، ارمنستان و تحقیقات و بررسی های ارزشمند موسسه در خصوص تک تک گیاهان دارویی و بررسی جامع از تاثیر داروهای تولیدی در اقلیم های متفاوت در نظر دارد تا کلیه داروهای تولید شده را در جای جای ایران بزرگ به دست مردم عزیزمان برساند. از
+                            این رو موسسه درمانگر سبز در فروشگاه اینترنتی خود با نام عالیان سبز اقدام به معرفی انواع عرقیات گیاهی و عصاره های غلیظ شده گیاهی نموده و با برند عالیان مفتخر است که از این طریق خدمات ارزشمندی را به هموطنان عزیز و بازدیدکنندگان خود در
+                            فروشگاه اینترنتی موسسه ارائه دهد.
+                        </h6>
+
+                        <div class="tl-green-color tl-message w-100 m-t-25">امید است همراهی و همگامی شما باعث به اوج رسیدن محصولات ما و کمک به سلامتی هموطنان عزیزمان باشد</div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row centerd-flex">
+                <div class="col-12 col-lg-6">
+                    <div data-aos="zoom-in" class="p-3">
+                        <img src="/images/Alian-Sabz-Operating-License.jpg" class="tl-green-border tl-box" alt="" >
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 n-padding rtl">
+                    <div data-aos="zoom-in">
+                        <div class="l_title">
+
+                            <h3 class="normal-titr text-direction-rtl text-justify mb-3">
+                                پروانه بهره برداری عالیان سبز
+                            </h3>
+
+                            <h6 class="text-direction-rtl text-justify line-height-1">
+                                هدف عالیان سبز، کمک به حفظ سلامتی شماست
+                            </h6>
+
+                            <h6 class="text-justify text-direction-rtl line-height-1">
+                                نعمت سلامتی با ارزش ترین سرمایه برای هر انسان است و با افزایش آگاهی و مراقبت از آن می تواند آینده خود را تضمین کرد .
+                            </h6>
+
+                        </div>
+
+                        <h6 class="text-justify text-direction-rtl line-height-1">
+                            فروشگاه اینترنتی “عالیان سبز” وابسته به موسسه داروسازی پرنیان (درمانگر سبز) با محصولاتی با نام تجاری (عالیان) و (نیل تاک) در سال 1391 تاسیس شد، و مفتخر است که از این طریق خدمات ارزشمندی را به هموطنان عزیز و بازدید کنندگان خود در فروشگاه اینترنتی عالیان سبز ارائه دهد.
+                        </h6>
+
+                        <div alt=""><a href="https://aparat.com/v/EgbUV" class="btn btn-green m-t-15"> نگاهی به روش تولید محصولات عالیان سبز </a></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="container m-t-65 tl-overflow">
+            <div class="row centerd-flex tl-overflow">
+                <div class="col-12 col-lg-6 n-padding rtl">
+                    <div data-aos="flip-left">
+                        <div class="l_title">
+
+                            <h3 class="normal-titr text-direction-rtl text-justify mb-3">
+                                <img src="/images/IRIFDO.jpg" class="w-10" alt="">
+                                پروانه بهداشتی ساخت عالیان سبز
+                            </h3>
+
+                            <h6 class="text-direction-rtl text-justify line-height-1">
+                                به استناد مواد 7 و 8 و 9 قانون مواد خوراکی، آشامیدنی، آرایشی و بهداشتی مصوب تیرماه 1347 به پروانه و مجوزی که جهت تولید محصول از سوی نهاد بهداشت (سازمان غذا و دارو) صادر می‌گردد، پروانه ساخت بهداشت گویند و در واقع پروانه ساخت بهداشت مجوزی جهت تائید و تولید محصول می‌باشد. در ایران دو نوع مجوز بهداشتی داریم. مجوز محصولات ایرانی توسط معاونت‌های غذا و داروی کل کشور صادر می‌شود که در هر استان و بعضاً شهرستان‌ها مستقل هستند. مجوزهای بهداشتی که به محصولات تولید داخل داده می‌شود دو نوع هستند: 1- پروانه ساخت ۲- شناسه نظارت کارگاهی یا پروانه ساخت کارگاهی پروانه ساخت به واحدهای بزرگ مانند؛ کارخانه‌ها داده می‌شود و شناسه نظارت کارگاهی مختص واحدهای تولیدی کوچک مانند؛ کارگاه‌های لبنی و بسته‌بندی سبزی است. این دو از نظر نوع مجوز، اعتبار و درجه بهداشتی بودن هیچ تفاوتی ندارند. نحوه‌ی شناسایی این مجوزها، نشان یک سیب است. این سیب، لوگوی پروانه ساخت وزارت بهداشت است.
+                            </h6>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 n-padding">
+                    <div data-aos="zoom-in">
+                            <img src="/images/Health-Making-License.jpg" class="tl-green-border tl-box" alt="">
+                        </div>
+                </div>
+                <hr>
+
+            </div>
+
+        </div>
+        @if (Model.AboutFaqs != null)
+        {
+            if (Model.AboutFaqs.Count() != 0)
+            {
+                <div class="container m-t-65">
+                    <div class="row centerd-flex">
+                        <div class="col-12 col-lg-12 n-padding">
+                            <div class="headeing-faq m-b-20 m-t-20">
+                                <h2 class="normal-titr m-b-15">سوالات مفید و پرتکرار</h2>
+                                <h5 class="text-center line-height-1">با مطالعه سئوالات زیر با عملکرد سایت عالیان سبز بیشتر آشنا خواهید شد</h5>
+                            </div>
+                            <div data-aos="zoom-in-up" data-aos-duration="1500">
+                                @foreach (var item in Model.AboutFaqs)
+                                {
+                                    <div class="wrap-dropdown-content bo6 p-t-15 p-b-14 active-dropdown-content">
+                                        <h3 class="js-toggle-dropdown-content flex-sb-m cs-pointer m-text19 color0-hov trans-0-4 show-dropdown-content">
+                                            @item.Question
+                                            <i class="down-mark fs-12 color1 fa fa-minus dis-none" aria-hidden="true"></i>
+                                            <i class="up-mark fs-12 color1 fa fa-plus" aria-hidden="true"></i>
+                                        </h3>
+
+                                        <div class="dropdown-content dis-none p-t-15 p-b-23" style="display:block">
+                                            @foreach (var ans in item.AnswerLines)
+                                            {
+                                                <p class=" text-justify fs-16">
+                                                    @ans
+                                                </p>
+                                            }
+
+                                        </div>
+
+                                    </div>
+                                }
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+                </div>
+            }
+        }
+
+
+        <div class="container m-t-35">
+            <div class="row">
+
+                <div class="col-12 col-lg-6">
+                    <div class="our_skill_inner">
+                        <div class="single_skill">
+                            <h3>رشد و توسعه</h3>
+                            <div class="progress" data-value="70">
+                                <div class="progress-bar" style="width: 70%;">
+                                    <div class="progress_parcent"><span class="counter">70</span>%</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="single_skill">
+                            <h3>طراحی محصول</h3>
+                            <div class="progress" data-value="90">
+                                <div class="progress-bar" style="width: 90%;">
+                                    <div class="progress_parcent"><span class="counter">90</span>%</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="single_skill">
+                            <h3>مشتری مداری</h3>
+                            <div class="progress" data-value="85">
+                                <div class="progress-bar" style="width: 85%;">
+                                    <div class="progress_parcent"><span class="counter">85</span>%</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="single_skill">
+                            <h3>تضمین کیفیت محصولات</h3>
+                            <div class="progress" data-value="99">
+                                <div class="progress-bar" style="width: 99%;">
+                                    <div class="progress_parcent"><span class="counter">99</span>%</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="single_skill">
+                            <h3>تحویل به موقع</h3>
+                            <div class="progress" data-value="85">
+                                <div class="progress-bar" style="width: 85%;">
+                                    <div class="progress_parcent"><span class="counter">85</span>%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-12 col-lg-6 text-right progress-text m-sm-t-65 make-me-sticky">
+                    <div class="progress-text-box make-me-sticky">
+                        
+                        <h3 class="normal-titr m-t-15 m-b-15 line-height-1 text-justify">عالیان سبز همیشه در جهت نظرات و انتقادات مشتریان خود قدم بر می دارد</h3>
+                        <h6 class="text-justify line-height-1">تیم پشتیبانی عالیان سبز، به نمایندگی از مدیریت شرکت داروسازی پرنیان همیشه از نظرات و دیدگاه های مصرف کنندگان محصولات، کارشناسان فنی حوزه محصولات گیاهی در جهت رشد و افزایش کارآیی محصولات خود و در نهایت بهبود سلامتی و رضایت مشتریان استقبال می کند.</h6>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="container m-t-50">
+            <div class="row">
+                <div class="col-12 col-lg-6 m-b-20">
+                    <div class="soical-links-box make-me-sticky">
+                        <h2 class="normal-titr m-b-25">شبکه های اجتماعی عالیان سبز</h2>
+                        <span class="instagram-des m-b-35">
+                            برای آگاهی از جدیدترین اخبار و تخفیف های عالیان سبز و جشنواره های عالیان سبز شبکه های اجتماعی ما را دنبال کنید.
+                        </span>
+                        <div class="instagram">
+                            @if (Model.ContactInfo != null)
+                            {
+                                @if (!string.IsNullOrWhiteSpace(Model.ContactInfo.InstagramLink))
+                                {
+                                    <a href="@Model.ContactInfo.InstagramLink">
+                                        <div class="social-box s-instagram">
+                                            <i class="ri-instagram-line"></i>
+                                        </div>
+                                    </a>
+                                }
+                                @if (!string.IsNullOrEmpty(Model.ContactInfo.Whatsapp))
+                                {
+                                    <a href="@Model.ContactInfo.Whatsapp">
+                                        <div class="social-box s-whatsapp">
+                                            <i class="ri-whatsapp-line"></i>
+                                        </div>
+                                    </a>
+                                }
+                                @if (!string.IsNullOrEmpty(Model.ContactInfo.TelegramLink))
+                                {
+                                    <a href="@Model.ContactInfo.TelegramLink">
+                                        <div class="social-box s-telegram">
+                                            <i class="ri-telegram-line"></i>
+                                        </div>
+                                    </a>
+                                }
+                                @if (!string.IsNullOrEmpty(Model.ContactInfo.FacebookLink))
+                                {
+                                    <a href="@Model.ContactInfo.FacebookLink">
+                                        <div class="social-box s-facebook">
+                                            <i class="ri-facebook-line"></i>
+                                        </div>
+                                    </a>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-6 m-b-20">
+                    <h2 class="normal-titr m-b-25">
+                        اینستاگرام عالیان سبز
+                    </h2>
+                    <p class="div m-b-15 text-center m-b-35"><a class="btn btn-success" href="https://www.instagram.com/aliansabz/" title="اینستاگرام عالیان سبز">کلیک کنید</a></p>
+
+                    <div class="instagram">
+                        @foreach (var item in Model.Instagrams)
+                        {
+                            <a href="@item.Link" target="_blank"><img src="/images/instagrams/@item.Image" alt="@item.Title" class="image-instagram tl-box"></a>
+                        }
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+
+    </section>
+
+
+    <!-- Footer -->
+    <partial name="_Footer" />
+
+
+
+    <!-- Back to top -->
+    <div class="btn-back-to-top bg0-hov" id="myBtn">
+        <span class="symbol-btn-back-to-top">
+            &uArr;
+        </span>
+    </div>
+
+   
+
+    <!--===============================================================================================-->
+    <script type="text/javascript" src="/Layout/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <!--===============================================================================================-->
+    <script type="text/javascript" src="/Layout/vendor/animsition/js/animsition.min.js"></script>
+    <!--===============================================================================================-->
+    <script type="text/javascript" src="/Layout/vendor/bootstrap/js/popper.js"></script>
+    <script type="text/javascript" src="/Layout/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!--===============================================================================================-->
+    <script type="text/javascript" src="/Layout/vendor/daterangepicker/moment.min.js"></script>
+    <script type="text/javascript" src="/Layout/vendor/daterangepicker/daterangepicker.js"></script>
+
+   
+    <script src="/Layout/js/aos.min.js"></script>
+    <script type="text/javascript">
+        AOS.init();
+        /*[ No ui ]
+        ===========================================================*/
+        var filterBar = document.getElementById('filter-bar');
+
+        noUiSlider.create(filterBar, {
+            start: [50, 200],
+            connect: true,
+            range: {
+                'min': 50,
+                'max': 200
+            }
+        });
+
+        var skipValues = [
+            document.getElementById('value-lower'),
+            document.getElementById('value-upper')
+        ];
+
+        filterBar.noUiSlider.on('update', function (values, handle) {
+            skipValues[handle].innerHTML = Math.round(values[handle]);
+        });
+    </script>
+    <!--===============================================================================================-->
+    <script src="/Layout/js/main.js"></script>
+
+</body>
+</html>

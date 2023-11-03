@@ -1,0 +1,114 @@
+﻿@model DataLayer.Entities.Supplementary.Slider
+
+@{
+    ViewData["Title"] = "جزئیات اسلایدر";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">جزئیات اسلایدر</h1>
+
+<div>
+   
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SliderTitle)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SliderTitle)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SliderTitleClass)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SliderTitleClass)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SliderTitle_DataAppear)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SliderTitle_DataAppear)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SliderComment)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SliderComment)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SliderCommentClass)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SliderCommentClass)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SliderComment_DataAppear)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SliderComment_DataAppear)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SliderImage)
+        </dt>
+        <dd class="col-sm-10">
+            <img src="~/images/sliders/@Model.SliderImage" width="50" height="50" />
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SliderLink)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SliderLink)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SliderLinkText)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SliderLinkText)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SliderLinkClass)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SliderLinkClass)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SliderLink_DataAppear)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SliderLink_DataAppear)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Views)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Views)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SliderRegisterDateTime)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SliderRegisterDateTime)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SliderIsActive)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SliderIsActive)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SliderStartActiveDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SliderStartActiveDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SliderEndActiveDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SliderEndActiveDate)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.SliderId">ویرایش</a> |
+    <a asp-action="Index">بازگشت</a>
+</div>

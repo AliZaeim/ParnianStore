@@ -1,0 +1,100 @@
+﻿@model IEnumerable<DataLayer.Entities.Store.Order>
+@using Core.Convertors;
+@{
+    ViewData["Title"] = ViewData["OTitle"];
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">@ViewData["OTitle"] <span class="tag tag-pill tag-primary">@Model.Count()</span></h1>
+<div class="col-sm-12 mb-1">
+    <a asp-action="Index" asp-area="Manage" asp-controller="AdminOrders" asp-route-filter="today" class="btn btn-success">امروز</a>
+    <a asp-action="Index" asp-area="Manage" asp-controller="AdminOrders" asp-route-filter="week" class="btn btn-info">هفته</a>
+    <a asp-action="Index" asp-area="Manage" asp-controller="AdminOrders" asp-route-filter="mounth" class="btn btn-success">مــاه</a>
+    <a asp-action="Index" asp-area="Manage" asp-controller="AdminOrders" asp-route-filter="year" class="btn btn-info">سال</a>
+    <a asp-action="Index" asp-area="Manage" asp-controller="AdminOrders" asp-route-filter="cancled" class="btn btn-danger">لغو شده ها</a>
+    <a asp-action="Index" asp-area="Manage" asp-controller="AdminOrders" class="btn btn-primary">تمام سفارشات</a>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th class="text-xs-center align-middle p-0">
+                    #
+                </th>
+                <th class="text-xs-center align-middle p-0">
+                    @Html.DisplayNameFor(model => model.Order_Date)
+                </th>
+
+                <th class="text-xs-center align-middle p-0">
+                    @Html.DisplayNameFor(model => model.Order_BuyerName)
+                </th>
+                <th class="text-xs-center align-middle p-0">
+                    @Html.DisplayNameFor(model => model.Order_BuyerFamily)
+                </th>
+                <th class="text-xs-center align-middle p-0">
+                    @Html.DisplayNameFor(model => model.Order_DedicatedNumber)
+                </th>
+                <th class="text-xs-center align-middle p-0">
+                    @Html.DisplayNameFor(model => model.Order_BuyerCellphone)
+                </th>
+                <th class="text-xs-center align-middle p-0">
+                    @Html.DisplayNameFor(model => model.Order_Sum)
+                </th>
+                <th class="text-xs-center align-middle p-0">
+                    @Html.DisplayNameFor(model => model.Order_IsFinished)
+                </th>
+                <th class="text-xs-center align-middle p-0">عملیات</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ int rad = 1;}
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="text-xs-center align-middle p-0">
+                        @rad
+                    </td>
+                    <td class="text-xs-center align-middle p-0">
+                        @item.Order_Date.ToShamsiWithTime()
+                    </td>
+                    <td class="text-xs-center align-middle p-0">
+                        @Html.DisplayFor(modelItem => item.Order_BuyerName)
+                    </td>
+                    <td class="text-xs-center align-middle p-0">
+                        @Html.DisplayFor(modelItem => item.Order_BuyerFamily)
+                    </td>
+                    <td class="text-xs-center align-middle p-0">
+                        @Html.DisplayFor(modelItem => item.Order_DedicatedNumber)
+                    </td>
+                    <td class="text-xs-center align-middle p-0">
+                        @Html.DisplayFor(modelItem => item.Order_BuyerCellphone)
+                    </td>
+                    <td class="text-xs-center align-middle p-0">
+                        @item.Order_Sum.ToString("N0") @item.Currency
+                    </td>
+                    <td class="text-xs-center align-middle p-0">
+                        @if (item.Order_IsFinished)
+                        {
+                            <span class="text-success fa fa-check"></span>
+                        }
+                        else
+                        {
+                            if (item.Order_IsCanceled)
+                            {
+                                <span class="text-danger">انصراف</span>
+                            }
+                        }
+                    </td>
+                    <td class="text-xs-center align-middle p-0">
+                        @{TempData["retUrl"] = "/manage/AdminOrders/Index"; }
+                        <a asp-action="Edit" asp-route-id="@item.Id">ویرایش</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">جزئیات</a>
+
+                    </td>
+                </tr>
+                rad++;
+            }
+        </tbody>
+    </table>
+</div>

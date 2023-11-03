@@ -1,0 +1,58 @@
+﻿@model DataLayer.Entities.Supplementary.FAQ
+@using Core.Convertors;
+@{
+    ViewData["Title"] = "حذف پرسش و پاسخ";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-danger">حذف پرسش و پاسخ</h1>
+
+<h3 class="text-xs-center alert alert-warning">آیا مطمئن به حــذف هستید؟</h3>
+<div>
+    <h4>FAQ</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CreateDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Model.CreateDate.ToShamsiWithTime()
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FullName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FullName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Cellphone)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Cellphone)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Question)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Question)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Reply)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Reply)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="حــذف" class="btn btn-danger" /> |
+        <a asp-action="Index">بازگشت</a>
+    </form>
+</div>

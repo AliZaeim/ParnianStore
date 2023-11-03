@@ -1,0 +1,137 @@
+﻿@model DataLayer.Entities.Supplementary.FractionSlider
+
+@{
+    ViewData["Title"] = "ویرایش اسلایدر تکه ای";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>ویرایش اسلایدر تکه ای</h1>
+
+
+<div class="row">
+    <div class="offset-md-4 col-md-4 col-xs-12">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="CreatedDate" />
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ShowRating" class="control-label"></label>
+                <input asp-for="ShowRating" class="form-control" />
+                <span asp-validation-for="ShowRating" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Link" class="control-label"></label>
+                <input asp-for="Link" class="form-control" />
+                <span asp-validation-for="Link" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LinkClass" class="control-label"></label>
+                <input asp-for="LinkClass" class="form-control" />
+                <span asp-validation-for="LinkClass" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LinkText" class="control-label"></label>
+                <input asp-for="LinkText" class="form-control" />
+                <span asp-validation-for="LinkText" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LinkDataIn" class="control-label"></label>
+                <select asp-for="LinkDataIn" class="form-control">
+                    <option value="none">انتخاب کنید...</option>
+                    <option value="top">بالا</option>
+                    <option value="topRight">بالا راست</option>
+                    <option value="topLeft">بالا چپ</option>
+                    <option value="bottom">پایین</option>
+                    <option value="bottomRight">پایین راست</option>
+                    <option value="bottomLeft">پایین چپ</option>
+                    <option value="right">راست</option>
+                    <option value="left">چپ</option>
+                </select>
+                <span asp-validation-for="LinkDataIn" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LinkDataEaseIn" class="control-label"></label>
+                <select asp-for="LinkDataEaseIn" class="form-control">
+                    <option value="">انتخاب کنید ...</option>
+                    <option value="swing">swing</option>
+                    <option value="linear">linear</option>
+                    <option value="easeInQuad">easeInQuad</option>
+                    <option value="easeOutQuad">easeOutQuad</option>
+                    <option value="easeInOutQuad">easeInOutQuad</option>
+                    <option value="easeInCubic">easeInCubic</option>
+                    <option value="easeOutCubic">easeOutCubic</option>
+                    <option value="easeInOutCubic">easeInOutCubic</option>
+                    <option value="easeInQuart">easeInQuart</option>
+                    <option value="easeOutQuart">easeOutQuart</option>
+                    <option value="easeInOutQuart">easeInOutQuart</option>
+                    <option value="easeInQuint">easeInQuint</option>
+                    <option value="easeOutQuint">easeOutQuint</option>
+                    <option value="easeInOutQuint">easeInOutQuint</option>
+                    <option value="easeInSine">easeInSine</option>
+                    <option value="easeOutSine">easeOutSine</option>
+                    <option value="easeInOutSine">easeInOutSine</option>
+                    <option value="easeInExpo">easeInExpo</option>
+                    <option value="easeOutExpo">easeOutExpo</option>
+                    <option value="easeInOutExpo">easeInOutExpo</option>
+                    <option value="easeInCirc">easeInCirc</option>
+                    <option value="easeOutCirc">easeOutCirc</option>
+                    <option value="easeInOutCirc">easeInOutCirc</option>
+                    <option value="easeInElastic">easeInElastic</option>
+                    <option value="easeOutElastic">easeOutElastic</option>
+                    <option value="easeInOutElastic">easeInOutElastic</option>
+                    <option value="easeInBack">easeInBack</option>
+                    <option value="easeOutBack">easeOutBack</option>
+                    <option value="easeInOutBack">easeInOutBack</option>
+                    <option value="easeInBounce">easeInBounce</option>
+                    <option value="easeOutBounce">easeOutBounce</option>
+                    <option value="easeInOutBounce">easeInOutBounce</option>
+
+                </select>
+                <span asp-validation-for="LinkDataEaseIn" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LinkDataOut" class="control-label"></label>
+                <select asp-for="LinkDataOut" class="form-control">
+                    <option value="none">انتخاب کنید...</option>
+                    <option value="top">بالا</option>
+                    <option value="topRight">بالا راست</option>
+                    <option value="topLeft">بالا چپ</option>
+                    <option value="bottom">پایین</option>
+                    <option value="bottomRight">پایین راست</option>
+                    <option value="bottomLeft">پایین چپ</option>
+                    <option value="right">راست</option>
+                    <option value="left">چپ</option>
+                </select>
+                <span asp-validation-for="LinkDataOut" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LinkPostition" class="control-label"></label>&emsp;<span>y,x</span>
+                <input asp-for="LinkPostition" class="form-control" />
+                <span asp-validation-for="LinkPostition" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LinkDataDelay" class="control-label"></label>&emsp;<span>به میلی ثانیه</span>
+                <input asp-for="LinkDataDelay" class="form-control" />
+                <span asp-validation-for="LinkDataDelay" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="ویرایش" class="btn btn-primary col-xs-12" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">بازگشت</a>
+</div>
+

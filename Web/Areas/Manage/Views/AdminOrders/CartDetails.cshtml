@@ -1,0 +1,102 @@
+﻿@model DataLayer.Entities.Store.Cart
+@using Core.Convertors;
+@using Core.Services.Interfaces;
+@inject IProductService _productService;
+@{
+    ViewData["Title"] = "جزئیات کارت";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">جزئیات کارت</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 border m-2 p-1">
+            <p class="col-md-4 col-xs-12">خریدار : @Model.BuyerName @Model.BuyerFamily </p>
+            <p class="col-md-4 col-xs-12">تلفن : @Model.BuyerCellphone</p>
+            <p class="col-md-4 col-xs-12">تاریخ : @Model.DateCreated.ToShamsiWithTime()</p>
+            <p class="col-md-4 col-xs-12">
+                تسویه :
+                @if (Model.CheckOut)
+                {
+                    <span class="text-success">بله</span>
+                }
+                else
+                {
+                    <span class="text-danger">خیر</span>
+                }
+            </p>
+            <p class="col-md-4 col-xs-12">کوپن تخفیف : @Model.DiscountCoupen</p>
+            <p class="col-md-4 col-xs-12">
+                فعال :
+                @if (Model.IsActive)
+                {
+                    <span class="text-success">بله</span>
+                }
+                else
+                {
+                    <span class="text-danger">خیر</span>
+                }
+            </p>
+            <p>
+                آدرس : @Model.StateName - @Model.CountyName - @Model.Address - کدپستی : @Model.PostalCode
+            </p>
+        </div>
+        
+        <div class="col-xs-12 table-responsive">
+            <h3 class="text-xs-center text-info">جزئیات</h3>
+            <table class="table table-bordered w-100">
+                <thead>
+                    <tr>
+                        <th class="text-xs-center align-middle">نام کالا</th>
+                        <th class="text-xs-center align-middle">قیمت</th>
+                        <th class="text-xs-center align-middle">تعداد</th>
+                        <th class="text-xs-center align-middle">جمع</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.CartItems)
+                    {
+                        string pName = string.Empty;
+                        if (item.Kind == "pr")
+                        {
+                            var product = await _productService.GetProductByIdAsync(item.ProductId);
+                            if (product != null)
+                            {
+                                pName = product.ProductName;
+                            }
+                        }
+                        else
+                        {
+                            var package = await _productService.GetPackageByIdAsync(item.ProductId);
+                            if (package != null)
+                            {
+                                pName = package.PkTitle;
+                            }
+                        }
+
+                        <tr>
+                            <td class="text-xs-center align-middle">@pName</td>
+                            <td class="text-xs-center align-middle">@item.Price.ToString("N0") @item.Cart.Currency</td>
+                            <td class="text-xs-center align-middle">@item.Quantity</td>
+                            <td class="text-xs-center align-middle">
+                                @{
+                                    int rowSum = item.Quantity * item.Price;
+                                }
+                                @rowSum.ToString("N0") @item.Cart.Currency
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+</div>
+<div>
+
+    <a asp-action="GetCarts">بازگشت</a>
+</div>

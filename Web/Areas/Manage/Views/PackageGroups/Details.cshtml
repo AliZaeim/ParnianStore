@@ -1,0 +1,60 @@
+﻿@model DataLayer.Entities.Store.PackageGroup
+
+@{
+    ViewData["Title"] = "جزئیات پکیج سلامتی";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>جزئیات پکیج @Model.PgTitle</h1>
+
+<div>
+    
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PgTitle)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PgTitle)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PgEnTitle)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PgEnTitle)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PgDiscountValue)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PgDiscountValue)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PgDiscountPercent)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PgDiscountPercent)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PgMark)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PgMark)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Parent)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Parent.PgEnTitle)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Banner)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Banner.Comment)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.PgId">ویرایش</a> |
+    <a asp-action="Index">بازگشت</a>
+</div>

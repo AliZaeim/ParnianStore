@@ -1,0 +1,414 @@
+﻿@model Core.DTOs.Admin.SearchOrdersVM;
+@using Core.Convertors;
+@{
+    ViewData["Title"] = "جستجوی سفارشات";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+    TempData["retUrl"] = "/Manage/AdminOrders/SearchOrders";
+}
+
+<h1 class="text-xs-center alert alert-info">جستجوی سفارشات</h1>
+<div class="row">
+    <form method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="col-md-4 col-xs-12">
+            <div class="form-group">
+                <label asp-for="StartDate" class="control-label"></label>
+                <input asp-for="StartDate" class="form-control" placeholder="yyyy/mm/dd" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndDate" class="control-label"></label>
+                <input asp-for="EndDate" class="form-control" placeholder="yyyy/mm/dd" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BuyerName" class="control-label"></label>
+                <input asp-for="BuyerName" class="form-control" />
+                <span asp-validation-for="BuyerName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BuyerFamily" class="control-label"></label>
+                <input asp-for="BuyerFamily" class="form-control" />
+                <span asp-validation-for="BuyerFamily" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RecPerPage" class="control-label"></label>
+                <input asp-for="RecPerPage" class="form-control" />
+                <span asp-validation-for="RecPerPage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DisCoupen" class="control-label"></label>
+                <input asp-for="DisCoupen" class="form-control" />
+                <span asp-validation-for="DisCoupen" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4 col-xs-12">
+
+            <div class="form-group">
+                <label asp-for="BuyerCellphone" class="control-label"></label>
+                <input asp-for="BuyerCellphone" class="form-control" />
+                <span asp-validation-for="BuyerCellphone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PostalCode" class="control-label"></label>
+                <input asp-for="PostalCode" class="form-control" />
+                <span asp-validation-for="PostalCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IsFinished" class="control-label"></label>
+                <select asp-for="IsFinished" class="form-control">
+                    <option value="">انتخاب کنید</option>
+                    <option value="true">پرداخت شده</option>
+                    <option value="false">پرداخت نشده</option>
+                </select>
+                <span asp-validation-for="IsFinished" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IsCancled" class="control-label"></label>
+                <select asp-for="IsCancled" class="form-control">
+                    <option value="">انتخاب کنید</option>
+                    <option value="true">لغو شده</option>
+                    <option value="false">لغو نشده</option>
+                </select>
+                <span asp-validation-for="IsCancled" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PageN" class="control-label"></label>
+                <input asp-for="PageN" class="form-control" />
+                <span asp-validation-for="PageN" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4 col-xs-12">
+            <div class="form-group">
+                <label asp-for="DeliverdToPost" class="control-label"></label>
+                <select asp-for="DeliverdToPost" class="form-control">
+                    <option value="">انتخاب کنید</option>
+                    <option value="true">داده شده</option>
+                    <option value="false">داده نشده</option>
+                </select>
+                <span asp-validation-for="DeliverdToPost" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DeliveredToCustomer" class="control-label"></label>
+                <select asp-for="DeliveredToCustomer" class="form-control">
+                    <option value="">انتخاب کنید</option>
+                    <option value="true">داده شده</option>
+                    <option value="false">داده نشده</option>
+                </select>
+                <span asp-validation-for="DeliveredToCustomer" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DedicatedNumber" class="control-label"></label>
+                <input asp-for="DedicatedNumber" class="form-control" />
+                <span asp-validation-for="DedicatedNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HasDicCoupen" class="control-label"></label>
+                <select asp-for="HasDicCoupen" class="form-control">
+                    <option value="">انتخاب کنید</option>
+                    <option value="true">باشد</option>
+                    <option value="false">نباشد</option>
+                </select>
+                <span asp-validation-for="HasDicCoupen" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="URId" class="control-label"></label>
+                <select asp-for="URId" class="form-control">
+                    <option value="">انتخاب کنید...</option>
+                    @foreach (var item in Model.UserRoles)
+                    {
+                        <option value="@item.URId">@item.FullName</option>
+                    }
+                </select>
+                <span asp-validation-for="URId" class="text-danger"></span>
+            </div>
+
+        </div>
+        <div class="form-group col-xs-12">
+            <input type="submit" value="جستجو" class="btn btn-primary offset-md-4 col-md-4 col-xs-12" />
+        </div>
+    </form>
+
+</div>
+@if (Model.Orders != null)
+{
+<div class="row mt-1">
+    <div class="col-xs-12">
+        <div class="col-md-1">
+
+        </div>
+        <div class="col-md-10 mb-2">
+            <h2 class="text-xs-center border-top">آمار کل سفارشات</h2>
+        </div>
+        <div class="col-md-1">
+
+        </div>
+    </div>
+    <div class="col-md-12 mb-2">
+        <div class="col-md-4 col-xs-12">
+            <h6 class="text-xs-center border-bottom">آمار کل</h6>
+            <div class="col-md-6 col-xs-12 text-xs-center">
+                تعداد : <span class="tag tag-info tag-square"> @Model.TotalRecCount</span>
+            </div>
+            <div class="col-md-6 col-xs-12 text-xs-center">
+                جمع : <span class="tag tag-info tag-square">@Model.TotalOrdersSum.ToString("N0")</span>
+            </div>
+        </div>
+        <div class="col-md-4 col-xs-12">
+            <h6 class="text-xs-center border-bottom text-danger">آمار کل پرداخت نشده</h6>
+            <div class="col-md-6 col-xs-12 text-xs-center">
+                تعداد :  <span class="tag tag-warning tag-square">@Model.UnPaidCount</span>
+            </div>
+            <div class="col-md-6 col-xs-12 text-xs-center">
+                جمع : <span class="tag tag-warning tag-square">@Model.UnPaidSum.ToString("N0")</span>
+            </div>
+        </div>
+        <div class="col-md-4 col-xs-12">
+            <h6 class="text-xs-center border-bottom text-success">آمار کل پرداخت شده</h6>
+            <div class="col-md-6 col-xs-12 text-xs-center">
+                تعداد :  <span class="tag tag-success tag-square">@Model.PaidCount</span>
+            </div>
+            <div class="col-md-6 col-xs-12 text-xs-center">
+                جمع : <span class="tag tag-success tag-square">@Model.PaidSum.ToString("N0")</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 border-top pt-2">
+        <div class="col-md-1">
+
+        </div>
+        <div class="col-md-10 mb-2">
+            <h2 class="text-xs-center ">آمار گزارش درخواستی</h2>
+        </div>
+        <div class="col-md-1">
+            <form asp-action="ExportOrdersAsExcel" method="post">
+
+                @foreach (var ord in Model.Orders)
+                {
+                    <input type="hidden" name="ordersid" value="@ord.Id" />
+                }
+                <input type="hidden" name="rtitle" value="@Model.ReportTitle" />
+                <button type="submit"><span class="fa fa-file-excel-o text-success fa-2x cursor-pointer" title="ثبت فایل اکسل"></span></button>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-12 mb-1">
+        <div class="col-md-4 col-xs-12">
+            <h6 class="text-xs-center border-bottom">آمار کل گزارش</h6>
+            <div class="col-md-6 col-xs-12 text-xs-center">
+                تعداد : <span class="tag tag-info tag-square"> @Model.Orders.Count()</span>
+            </div>
+            <div class="col-md-6 col-xs-12 text-xs-center">
+                جمع : <span class="tag tag-info tag-square">@Model.TotalOrdersSum.ToString("N0")</span>
+            </div>
+        </div>
+        <div class="col-md-4 col-xs-12">
+            <h6 class="text-xs-center border-bottom text-danger">آمار کل پرداخت نشده</h6>
+            @{ 
+                long RepUnPaidSum = 0;int RepUnPaidCount = 0; long RepPaidSum = 0;int RepPaidCount = 0;
+                RepUnPaidSum = Model.Orders.Where(w => !w.Order_IsFinished).Sum(x => x.Order_Sum);
+                RepUnPaidCount = Model.Orders.Where(w => !w.Order_IsFinished).Count();
+                RepPaidSum = Model.Orders.Where(w => w.Order_IsFinished).Sum(x => x.Order_Sum);
+                RepPaidCount = Model.Orders.Where(w => w.Order_IsFinished).Count();
+            }
+            <div class="col-md-6 col-xs-12 text-xs-center">
+                تعداد :  <span class="tag tag-warning tag-square">@RepUnPaidCount</span>
+            </div>
+            <div class="col-md-6 col-xs-12 text-xs-center">
+                جمع : <span class="tag tag-warning tag-square">@RepUnPaidSum.ToString("N0")</span>
+            </div>
+        </div>
+        <div class="col-md-4 col-xs-12">
+            <h6 class="text-xs-center border-bottom text-success">آمار کل پرداخت شده</h6>
+            <div class="col-md-6 col-xs-12 text-xs-center">
+                تعداد :  <span class="tag tag-success tag-square">@RepPaidCount</span>
+            </div>
+            <div class="col-md-6 col-xs-12 text-xs-center">
+                جمع : <span class="tag tag-success tag-square">@RepPaidSum.ToString("N0")</span>
+            </div>
+        </div>
+    </div>
+    @foreach (var item in Model.Orders)
+    {
+        <div class="col-xs-12 border pr-0 pl-0">
+            <h4 class="col-xs-12 text-xs-center bg-success">سفارش شماره : @item.Order_DedicatedNumber <span class="float-md-left "><a class="text-white" asp-action="Edit" asp-route-id="@item.Id">ویرایش</a></span></h4>
+            <div class="col-md-4 col-xs-12">
+                <p>تاریخ : @item.Order_Date.ToShamsiWithTime()</p>
+                <p>شماره سفارش : @item.Order_DedicatedNumber</p>
+                <p>واحد پول : @item.Currency</p>
+            </div>
+            <div class="col-md-4 col-xs-12">
+                <p>
+                    وضعیت پرداخت :
+                    @if (item.Order_IsFinished)
+                    {
+                        <span class="text-success">پرداخت شده</span>
+                    }
+                    else
+                    {
+                        <span class="text-danger">پرداخت نشده</span>
+                    }
+                </p>
+                <p>
+                    وضعیت لغو :
+                    @if (item.Order_IsCanceled)
+                    {
+                        <span class="text-danger">لغو شده</span>
+                    }
+                    else
+                    {
+                        <span class="text-success">لغو نشده</span>
+                    }
+                </p>
+                <p>
+                    علت لغو :
+                    @if (!string.IsNullOrEmpty(item.CancellationComment))
+                    {
+                        <span class="text-danger">@item.CancellationComment</span>
+                    }
+                    else
+                    {
+                        <span class="text-success">-</span>
+                    }
+                </p>
+            </div>
+            <div class="col-md-4 col-xs-12">
+                <p>
+                    به پست تحویل :
+                    @if (item.DeliveredToPost)
+                    {
+                        <span class="text-success">داده شده</span>
+                    }
+                    else
+                    {
+                        <span class="text-danger">داده نشده</span>
+                    }
+                </p>
+
+                <p>
+                    @foreach (var cm in item.CommentList)
+                    {
+                        <span class="col-xs-12">@cm</span>
+                    }
+                </p>
+            </div>
+        </div>
+        <div class="col-xs-12 border pr-0 pl-0">
+            <div class="col-md-4 col-xs-12 border-right">
+                <h4 class="text-xs-center  col-xs-12 pr-0 pl-0 border-bottom">مشخصات خریدار</h4>
+                <p>نـام : @item.Order_BuyerName</p>
+                <p>نام خانوادگی : @item.Order_BuyerFamily</p>
+                <p>تلفن همراه : @item.Order_BuyerCellphone</p>
+            </div>
+            <div class="col-md-8 col-xs-12">
+                <h4 class="text-xs-center col-xs-12 pr-0 pl-0 border-bottom">مشخصات تحویل کالا</h4>
+                <div class="col-md-4 col-xs-12">
+                    <p>نام تحویل گیرنده : @item.RecipientName</p>
+                    <p>نام خانوادگی : @item.RecipientFamily</p>
+                    <p>تلفن : @item.RecipientPhone</p>
+                </div>
+                <div class="col-md-4 col-xs-12">
+                    <p>استان : @item.Order_StateName</p>
+                    <p>شهرستان : @item.Order_CountyName</p>
+                    <p>کد پستی : @item.Order_PostalCode</p>
+                </div>
+                <div class="col-md-4 col-xs-12">
+                    <p>آدرس : @item.Order_Address</p>
+                    <p>
+                        @if (item.IsDeliveredCutomer)
+                        {
+                            <span class="bg-success text-white w-100 pl-1 pr-1">به مشتری تحویل داده شده</span>
+                        }
+                        else
+                        {
+                            <span class="bg-danger text-white w-100 pl-1 pr-1">به مشتری تحویل داده نشده</span>
+                        }
+                    </p>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="col-12 border table-responsive">
+            <h4 class="text-xs-center text-info pr-0 pl-0">جزئیات سفارش</h4>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th class="text-center align-middle p-0">#</th>
+                        <th class="text-center align-middle">محصول</th>
+                        <th class="text-center align-middle">قیمت</th>
+                        <th class="text-center align-middle">قیمت خالص</th>
+                        <th class="text-center align-middle">کد تخفیف</th>
+                        <th class="text-center align-middle">مبلغ تخفیف</th>
+                        <th class="text-center align-middle">تعداد</th>
+                        <th class="text--center align-middle">جمع</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ int rad = 1;}
+                    @foreach (var det in item.OrderDetails)
+                    {
+                        int rowSum = det.OrderDetailCount * det.OrderDetailNetPrice;
+                        <tr>
+                            <td class="text-xs-center align-middle p-0">@rad</td>
+                            <td class="text-xs-center align-middle">@det.OrderDatailProductName</td>
+                            <td class="text-xs-center align-middle">@det.OrderDetailPrice.ToString("N0")</td>
+                            <td class="text-xs-center align-middle">@det.OrderDetailNetPrice.ToString("N0")</td>
+                            <td class="text-xs-center align-middle">@det.OrderDetailDiscountCode</td>
+                            <td class="text-xs-center align-middle">@det.OrderDetailDiscountValue</td>
+                            <td class="text-xs-center align-middle">@det.OrderDetailCount</td>
+                            <td class="text-xs-center align-middle">@rowSum.ToString("N0")</td>
+
+                        </tr>
+                    }
+                    <tr>
+                        <td colspan="7" class="text-xs-left">هزینه ارسال</td>
+                        <td class="text-xs-center align-middle">@item.Order_DeliveryCost.ToString("N0")</td>
+                    </tr>
+                    <tr>
+                        <td colspan="7" class="text-xs-left">تخفیف هزینه ارسال</td>
+                        <td class="text-xs-center align-middle">@item.Order_DeliveryCostDiscount.ToString("N0")</td>
+                    </tr>
+                    <tr>
+                        <td colspan="7" class="text-xs-left">کوپن تخفیف</td>
+                        <td class="text-xs-center align-middle font-family-arial">@item.Order_DiscountCode</td>
+                    </tr>
+                    <tr>
+                        <td colspan="7" class="text-xs-left">مبلغ کوپن تخفیف</td>
+                        <td class="text-xs-center align-middle font-family-arial">@item.Order_DiscountValue.ToString("N0")</td>
+                    </tr>
+                    <tr>
+                        <td colspan="7" class="text-xs-left">جمع کل </td>
+                        <td class="text-xs-center align-middle">@item.Order_Sum.ToString("N0")</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+}
+@section Scripts
+{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("#StateId").change(function () {
+                var sId = $(this).val();
+                $.ajax({
+                    url: "/Generic/GetCountiesofState",
+                    data: { stId: sId },
+                    Type: "GET",
+                    success: function (result) {
+                        $("#CountyId").html(result);
+                    },
+                    error: function () {
+                        alert("Error");
+                    }
+                });
+            });
+
+        });
+    </script>
+}

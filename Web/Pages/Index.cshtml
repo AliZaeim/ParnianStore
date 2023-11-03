@@ -1,0 +1,141 @@
+﻿@page
+@model IndexModel
+@using Core.DTOs.General;
+@{
+    Layout = null;
+    string title = "فروشگاه اینترنتی عالیان سبز";
+    string description = "فروشگاه عالیان سبز، فروشگاه اینترنتی رسمی شرکت داروسازی پرنیان (درمانگر سبز) تولید کننده انواع مکمل ها، دمنوش ها، عرقیات گیاهی، پک های سلامتی";
+    if (Model.SitePage != null)
+    {
+        title = Model.SitePage.Title;
+        description = Model.SitePage.Description;
+    }
+}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BYLT1K82JQ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-BYLT1K82JQ');
+    </script>
+    <title>@title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta property="og:site_name" content="فروشگاه اینترنتی عالیان سبز" value="عالیان سبز">
+    <meta property="og:description" content="@description" />
+    <meta property=og:title content="@title">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content=https://aliansabz.com />
+    <meta property="og:image" content=https://aliansabz.com/images />
+    <meta property=og:image:url content="https://aliansabz.com/images/alian-sabz-shop-100.png/">
+    <meta property="og:image:type" content=image/png>
+    <meta property="og:image:type" content=image/jpg>
+    <meta property=og:image:alt content="لوگوی عالیان سبز">
+    <meta property=og:price:currency content=IRR>
+    <meta property="og:locale" content=ir_FA>
+    <meta name="description" content="@description" />
+    <link rel="canonical" href="https://aliansabz.com" />
+
+    <link href="~/Layout/css/bundle/Index/site.style1.min.css" rel="stylesheet" />    
+    <link href="~/Layout/css/bundle/Index/newInd/slick.css" rel="stylesheet" />   
+    <link href="~/Layout/css/bundle/Index/newInd/tricklandstyle.min.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="/@Model.FavIcon" type="image/x-icon" />
+
+</head>
+<body class="animsition">
+    <partial name="_Header" />
+    @if (string.IsNullOrEmpty(Model.Search))
+    {
+        @if (Model.ExistFractionSlider && !Model.ExistSlider)
+        {
+            @await Component.InvokeAsync("ShowFractionSlidersComponent")
+        }
+        if (Model.ExistSlider && !Model.ExistFractionSlider)
+        {
+            @await Component.InvokeAsync("ShowSlidersComponent")
+        }
+
+        @foreach (var gr in Model.PackageGroups.Where(w => w.IsActive).OrderByDescending(x => x.Packages.Count))
+        {
+            List<DataLayer.Entities.Store.Package> grpackages = gr.Packages.ToList();
+            grpackages = grpackages.Where(w => w.IsActive).ToList();
+
+            string lnk = "/Packages/" + gr.PgEnTitle.Replace(" ", "-");
+            @if (grpackages.Count != 0)
+            {
+                var gBanner = gr.Banner;
+                if (gBanner != null)
+                {
+                    @await Component.InvokeAsync("ShowBannerComponent", new { banner = gBanner })
+                }
+                string gtitle = gr.PgTitle;
+
+                <div>
+                    @await Component.InvokeAsync("ShowHPackagesComponent", new { packages = grpackages, returnUrl = "Index", title = gtitle, link = lnk })
+                </div>
+            }
+        }
+        
+        @await Component.InvokeAsync("ShowBlogsComponent", new { Count = 6 })
+    }
+    else
+    {
+        <section class="bg-title-page p-t-50 p-b-40 flex-col-c-m general-page-bg02">
+            <h2 class="l-text2 t-center">
+                @{ int Rcount = 0;
+                    Rcount = Model.SearchProducts.Count() + Model.SearchPackages.Count();
+                }
+                @Rcount نتیجه برای جستجوی شما
+            </h2>
+            <p class="l-text1 t-center">
+                @Model.Search
+            </p>
+        </section>
+        @if (Model.SearchProducts.Count() != 0 || Model.SearchPackages.Count() != 0)
+        {
+            SearchVM searchVM = new() { Products = Model.SearchProducts, Packages = Model.SearchPackages, Search = Model.Search, Currency = Model.Cur };
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            @await Component.InvokeAsync("ShowSearchResultComponent", searchVM)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <h4 class="text-xs-center alert alert-danger m-t-30 m-b-10 ">موردی بر اساس جستجوی @Model.Search پیدا نشد !</h4>
+        }
+    }
+    <partial name="_Subscription" />
+    <partial name="_ThreeColumns" />
+    <partial name="_Footer" />
+    <!-- Back to top -->
+    <div class="btn-back-to-top bg0-hov" id="myBtn">
+        <span class="symbol-btn-back-to-top">
+            &uArr;
+        </span>
+    </div>
+    @if (TempData["email"] != null)
+    {
+        <input type="hidden" id="eml" value="@TempData["email"].ToString()" />
+    }
+
+    <!-- Container Selection1 -->
+
+    <input type="hidden" value="@TempData["SendPassword"]" id="sendpass" />
+    <script type="text/javascript" src="/Layout/vendor/jquery/jquery-3.3.1.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/Layout/css/bundle/Index/site.Tjs.min.js"></script>
+
+
+
+</body>
+</html>

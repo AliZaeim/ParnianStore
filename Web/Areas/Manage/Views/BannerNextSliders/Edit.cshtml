@@ -1,0 +1,74 @@
+﻿@model DataLayer.Entities.Supplementary.BannerNextSlider
+
+@{
+    ViewData["Title"] = "ویرایش بنرهای کنار اسلایدر";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">ویرایش بنرهای کنار اسلایدر</h1>
+<h3 class="text-xs-center alert alert-warning">
+    ابعاد بنر تکی : ارتفاع : 350 پیکسل و عرض : 477 پیکسل<br />
+    ابعاد بنر دوتایی : ارتفاع : 167 پیکسل و عرض : 477 پیکسل<br />
+    حداکثر حجم هر فایل : 15 کیلوبایت
+</h3>
+
+<div class="row">
+    <div class="offset-md-4  col-md-4 col-xs-12">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="CreatedDate" />
+            <input type="hidden" asp-for="Banner1" />
+            <input type="hidden" asp-for="Banner2" />
+            <div class="form-group">
+                <label asp-for="Banner1" class="control-label"></label><img class="float-xs-left m-b-1" src="/images/banners/@Model.Banner1" width="25" height="25" />
+                <input asp-for="Banner1" type="file" class="form-control" />
+                <span asp-validation-for="Banner1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Banner1Link" class="control-label"></label>
+                <input asp-for="Banner1Link" class="form-control" />
+                <span asp-validation-for="Banner1Link" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Comment1" class="control-label"></label>
+                <input asp-for="Comment1" placeholder="Alt تصویر" class="form-control" />
+                <span asp-validation-for="Comment1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Banner2" class="control-label"></label><img class="float-xs-left m-b-1" src="/images/banners/@Model.Banner2" width="25" height="25" />
+                <input asp-for="Banner2" type="file" class="form-control" />
+                <span asp-validation-for="Banner2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Banner2Link" class="control-label"></label>
+                <input asp-for="Banner2Link" class="form-control" />
+                <span asp-validation-for="Banner2Link" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Comment2" class="control-label"></label>
+                <input asp-for="Comment2" placeholder="Alt تصویر" class="form-control" />
+                <span asp-validation-for="Comment2" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+                </label>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="ویرایش" class="btn btn-primary col-xl-12" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">بازگشت</a>
+</div>
+@section Scripts
+{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+

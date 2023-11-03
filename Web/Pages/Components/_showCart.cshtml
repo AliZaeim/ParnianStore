@@ -1,0 +1,171 @@
+﻿@model DataLayer.Entities.Store.Cart;
+@using Core.Services.Interfaces;
+@using DataLayer.Entities.Store;
+@inject IProductService _productService
+@{
+    string cur = "ریال";
+    var init =await _productService.GetInitialInfoAsync();
+    if (init != null)
+    {
+        cur = init.SiteCurrency;
+    }
+}
+
+
+    @if (Model != null)
+    {
+        @if (!Model.CheckOut)
+        {
+            @if (Model.CartItems.Count() != 0)
+            {
+                Core.DTOs.General.ValidateDiscountCoupenVM validateDiscountCoupenVM = null;
+                @if (!string.IsNullOrEmpty(Model.DiscountCoupen))
+                {
+                    validateDiscountCoupenVM = await _productService.ValidateDiscountCoupenAsync(Model.DiscountCoupen);
+                }
+                int TCount = Model.CartItems.Sum(x => x.Quantity);
+                <span id="ali" class="header-icons-noti js-show-header-dropdown fs-18">@TCount</span>
+                <div class="header-cart header-dropdown ">
+
+                    <ul class="header-cart-wrapitem">
+                        @{ int total = 0; int totalWithDis = 0;}
+
+                        @foreach (var item in Model.CartItems)
+                        {
+                            Product product = null;
+                            Package package = null;
+                            int Item_Netprice = 0;
+                            int Netsum = 0;
+                            int itemDis = 0;
+                            int ItemtotalDis = 0;
+                            string image = string.Empty;
+                            string pName = string.Empty;
+                            if (item.Kind == "pr")
+                            {
+                                product = await _productService.GetProductByIdAsync(item.ProductId);
+                                Item_Netprice = await _productService.GetProductNetpriceAsync(product.ProductCode);
+                                Netsum = Item_Netprice * item.Quantity;
+                                itemDis = (item.Price - Item_Netprice);
+                                ItemtotalDis = itemDis * item.Quantity;
+                                image = "/images/products/" + product.ProductImage;
+                                pName = product.ProductName;
+                            }
+                            if (item.Kind == "pk")
+                            {
+                                package = await _productService.GetPackageByIdAsync(item.ProductId);
+                                Item_Netprice = await _productService.GetPackageNetPriceAsync(item.ProductId);
+                                Netsum = Item_Netprice * item.Quantity;
+                                itemDis = (item.Price - Item_Netprice);
+                                ItemtotalDis = itemDis * item.Quantity;
+                                image = "/images/packages/" + package.PkImage;
+                                pName = package.PkTitle;
+                            }
+                            totalWithDis += ItemtotalDis;
+                            total += (Item_Netprice * item.Quantity);
+                            string claass = "header-cart-item";
+                            claass = ((item != Model.CartItems.LastOrDefault()) ? "header-cart-item border-bottom" : "header-cart-item");
+                            <li class="@claass">
+                                <div class="header-cart-item-img">
+                                    <img src="@image">
+                                </div>
+                                <div class="header-cart-item-txt">
+                                    <span class="header-cart-item-name">
+                                        @pName | <span class="fs-12">@Item_Netprice.ToString("N0") @cur</span>
+                                        @*<i class="fa fa-remove header-cart-item-remove cursor-pointer" title="حذف محصول"  data-product-name="@item.Product.ProductName"  data-productId="@item.ProductId" data-cart-item-id="@item.Id"></i>*@
+                                    </span>
+                                    <span class="header-cart-item-info text-xs-left">
+                                        @Netsum.ToString("N0") =
+                                        <span class="cart-item-price" data-productId="@item.ProductId" data-cart-item-id="@item.Id">@Item_Netprice.ToString("N0")</span>
+                                        &times;
+                                        <span class="cart-item-quantity" data-productId="@item.ProductId" data-cart-item-id="@item.Id">@item.Quantity</span>
+                                    </span>
+                                    <span class="header-cart-item-info text-xs-left">
+                                        <span>تخفیف : @ItemtotalDis.ToString("N0") @cur</span>
+                                    </span>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                    <div class="header-cart-total">
+                        <div class="header-cart-wrapbtn text-center">
+                            <span class="fs-11">تخفیف کل :</span>  <span id="cart-totalDis" class=" text-warning">@totalWithDis.ToString("N0") @cur</span>
+                        </div>
+                        <div class="header-cart-wrapbtn   rounded text-success text-center">
+                            <span class="fs-11">جمع کل :</span> <span id="cart-total">@total.ToString("N0") @cur</span>
+                        </div>
+
+                    </div>
+                    @if (!string.IsNullOrEmpty(Model.DiscountCoupen))
+                    {
+                        @if (validateDiscountCoupenVM.Validity)
+                        {
+
+                            int allTotalwithDis = 0;
+                            int coupenDis = (int)((total * validateDiscountCoupenVM.DiscountCoupen.Percent) / 100);
+                            allTotalwithDis = total - coupenDis;
+
+                            <div class="header-cart-total">
+                                <div class="header-cart-wrapbtn text-center">
+
+                                    <span class="fs-11">کوپن تخفیف :</span>  <span class=" text-warning">@coupenDis.ToString("N0")</span>
+                                </div>
+                                <div class="header-cart-wrapbtn  rounded text-primary text-center">
+
+                                    <span class="fs-13">جمع نهایی :</span> <span id="cart-total">@allTotalwithDis.ToString("N0")</span>
+                                </div>
+
+                            </div>
+                        }
+                    }
+
+
+
+                    <div class="header-cart-buttons">
+
+
+                        <div class="header-cart-wrapbtn">
+
+                            <a href="/Cart" class="flex-c-m size1 bggreen bo-rad-20 hov1 s-text1 trans-0-4">
+                                مشاهده سبد و خرید
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <span class="header-icons-noti">0</span>
+                <div class="header-cart header-dropdown">
+                    <ul class="header-cart-wrapitem">
+                        <li class="header-cart-item text-xs-center col-xs-12">
+                            <span class="text-danger w-100">سبد خالی می باشد !</span>
+                        </li>
+                    </ul>
+                </div>
+            }
+        }
+        else
+        {
+            <span class="header-icons-noti">0</span>
+            <div class="header-cart header-dropdown">
+                <ul class="header-cart-wrapitem">
+                    <li class="header-cart-item text-xs-center col-xs-12">
+                        <span class="text-danger w-100">سبد خالی می باشد !</span>
+                    </li>
+                </ul>
+            </div>
+        }
+
+
+    }
+    else
+    {
+        <span class="header-icons-noti">0</span>
+        <div class="header-cart header-dropdown">
+            <ul class="header-cart-wrapitem">
+                <li class="header-cart-item text-xs-center col-xs-12">
+                    <span class="text-danger w-100">سبد خالی می باشد !</span>
+                </li>
+            </ul>
+        </div>
+    }

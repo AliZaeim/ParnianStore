@@ -1,0 +1,33 @@
+﻿@using Core.Services.Interfaces;
+@using DataLayer.Entities.Supplementary;
+@inject IGenericService<BannerNextSlider> _bannersService;
+@{
+    List<BannerNextSlider> bannerNextSliders = (List<BannerNextSlider>)await _bannersService.GetAllAsync();
+    bannerNextSliders = bannerNextSliders.OrderByDescending(r => r.CreatedDate).ToList();
+
+}
+@if (bannerNextSliders != null)
+{
+    @if (bannerNextSliders.Count() != 0)
+    {
+        var banners = bannerNextSliders.FirstOrDefault();
+        if (banners.Banner1 != null && banners.Banner2 != null)
+        {
+            <div class="col-xs-12 height-48-per rounded-5px m-b-15">
+                <img src="/images/banners/@banners.Banner1" loading="lazy" height="167" class="w-100 rounded-5px" />
+            </div>
+            <div class="col-xs-12 height-48-per rounded-5px ">
+                <img src="/images/banners/@banners.Banner2" loading="lazy" height="167" class="w-100 rounded-5px" />
+            </div>
+        }
+        else
+        {
+            if (banners.Banner1 != null)
+            {
+                <img src="/images/banners/@banners.Banner1" loading="lazy" height="350" class="w-100 rounded-5px" />
+            }
+        }
+    }
+}
+
+

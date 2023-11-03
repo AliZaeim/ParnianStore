@@ -1,0 +1,53 @@
+﻿<html>
+<head>
+    <meta charset="utf-8" />
+    <title>وضعیت پرداخت</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    
+    <meta name="description" content="درگاه پرداخت" />
+    @*<link href="~/css/style.css" rel="stylesheet" />*@
+</head>
+<body>
+    <div class="main">
+        <img class="banner" src="~/Images/logo.png" />
+        <br />
+
+        <div class="title">فروشگاه اینترنتی عالیان سبز</div>
+
+        <div class="specification">
+            <table>
+                <tr>
+                    <td class="lbl">درگاه پرداخت:</td>
+                    <td class="value">
+                        <p style="color:#F00">@ViewData["BankName"]</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lbl">وضعیت پرداخت:</td>
+                    <td class="value">
+                        <p style="color:#F00">@ViewData["Message"]</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lbl">کد رهگیری:</td>
+                    <td class="value">
+                        @ViewBag.SaleReferenceId
+                        <img src="@Url.Content(ViewBag.Image)" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        <a href="/" class="btn-return">بازگشت</a>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+    <div class="footer">
+        <p> تمامي كالاها و خدمات اين فروشگاه، حسب مورد داراي مجوزهاي لازم از مراجع مربوطه مي‌باشند و فعاليت‌هاي اين سايت تابع قوانين و مقررات جمهوري اسلامي ايران است.</p>
+        
+    </div>
+</body>
+</html>

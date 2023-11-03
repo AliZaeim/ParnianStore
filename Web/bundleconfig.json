@@ -1,0 +1,33 @@
+[
+  {
+    "outputFileName": "wwwroot/Layout/css/bundle/Index/site.style1.css",
+    "inputFiles": [
+      "wwwroot/Layout/css/Minify/Index/bootstrap.min.css",
+      //"wwwroot/Layout/css/Minify/Index/font.awesome.min.css",
+      "wwwroot/Layout/css/Minify/Index/html-css-style.min.css",
+      "wwwroot/Layout/css/Minify/Index/animate.min.css",
+      "wwwroot/Layout/css/Minify/Index/hamburgers.min.css",
+      //"wwwroot/Layout/css/Minify/Index/animsition.min.css",
+      //"wwwroot/Layout/css/Minify/Index/slick.min.css",
+      "wwwroot/Layout/css/Minify/Index/slick-theme.min.css",
+      "wwwroot/Layout/css/Minify/Index/lightbox.min.css",
+      "wwwroot/Layout/css/Minify/Index/util.min.css",
+      "wwwroot/Layout/css/Minify/Index/main.min.css",
+      "wwwroot/Layout/css/remixicon/remixicon.min.css"
+      //"wwwroot/Layout/css/Minify/Index/trstyle.min.css"
+    ]
+  },
+  
+  {
+    "outputFileName": "wwwroot/Layout/css/bundle/Index/site.Tjs.js",
+    "inputFiles": [
+      "wwwroot/Layout/vendor/animsition/js/animsition.min.js",
+      "wwwroot/Layout/vendor/bootstrap/js/popper.js",
+      "wwwroot/Layout/vendor/bootstrap/js/bootstrap.min.js",
+      "wwwroot/Layout/vendor/slick/slick.js",
+      "wwwroot/Layout/js/slick-custom.js",
+      "wwwroot/Layout/vendor/lightbox2/js/lightbox.min.js",
+      "wwwroot/Layout/js/main.js"
+    ]
+  }
+]

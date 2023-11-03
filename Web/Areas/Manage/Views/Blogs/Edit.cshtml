@@ -1,0 +1,310 @@
+﻿@model DataLayer.Entities.Blogs.Blog
+@using DataLayer.Entities.Store;
+@{
+    ViewData["Title"] = "ویرایش خبر";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+    <script src="~/lib/ckeditor/ckeditor.js"></script>
+}
+@{
+    List<Product> products = ViewData["Products"] as List<Product>;
+    List<string> SelectedProducts = ViewData["SelectedProducts"] as List<string>;
+    List<Package> packages = ViewData["Packages"] as List<Package>;
+    List<string> SelectedPackages = ViewData["SelectedPackages"] as List<string>;
+
+}
+<h1 class="text-xs-center alert alert-info">ویرایش خبر</h1>
+<h3 class="text-xs-center alert alert-warning">
+    بهتر است عرض عکس صفحه بلاگ حداکثر 360 پیکسل و ارتفاع عکس حداکثر 300 پیکسل و حداکثر 50 کیلوبایت باشد.
+    ابعاد بزرگتر با این ابعاد نمایش داده می شوند.
+</h3>
+<h5 class="text-xs-center alert alert-info">
+    ابعاد عکس مربوط به جزئیات آزاد و حداکثر 100 کیلوبایت
+</h5>
+<div class="row">
+    <div class="offset-md-3 col-md-6 col-xs-12">
+        <form asp-action="Edit" asp-controller="Blogs" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="BlogId" />
+
+            <input type="hidden" asp-for="BlogDate" />
+            <input type="hidden" asp-for="BlogImageInBlog" />
+            <input type="hidden" asp-for="BlogImageInBlogDetails" />
+            <div class="form-group pb-2">
+                <label class="control-label">محصولات</label>
+                <div class="button-group col-md-12 col-xs-12">
+                    @{
+                        int pcount = 0;
+                        @if (SelectedProducts != null)
+                        {
+                            pcount = SelectedProducts.Where(w => !string.IsNullOrEmpty(w)).Count();
+                        }
+
+                    }
+                    <button type="button" class="btn btn-default dropdown-toggle col-md-12  text-center border" data-toggle="dropdown">محصولات انتخاب شده <span id="selP" class="tag tag-pill tag-warning text-bold-400 black">@pcount</span></button>
+                    <ul class="dropdown-menu w-100 pr-1" id="pMainul">
+                        @if (products.Count() != 0)
+                        {
+                            @if (pcount == products.Count)
+                            {
+                                <li><p tabIndex="-1"><input type="checkbox" id="Pall" checked />&nbsp;همه</p></li>
+                            }
+                            else
+                            {
+                                <li><p tabIndex="-1"><input type="checkbox" id="Pall" />&nbsp;همه</p></li>
+                            }
+                        }
+                        else
+                        {
+                            <li><p tabIndex="-1" class="red">محصولی موجود نمی باشد !</li>
+                        }
+
+
+                        @foreach (var pr in products)
+                        {
+                            <li class="font-weight-bold mb-1" tabindex="-1">
+                                <p class="font-size-small text-black" tabIndex="-1">
+                                    @if (!string.IsNullOrEmpty(Model.ProductCodes))
+                                    {
+                                        if (SelectedProducts.Any(a => a == pr.ProductCode))
+                                        {
+                                            <input type="checkbox" class="products " checked name="SelectedProducts" value="@pr.ProductCode" /><span class="success pr-1 pl-1">نام : @pr.ProductName</span> <span class="info pr-1 pl-1">واحد : @pr.ProductUnit</span> <span class="primary pr-1 pl-1">کد : @pr.ProductCode</span><span class="primary pr-1 pl-1">ویژگی : @pr.ProductTopFeature</span>
+                                        }
+                                        else
+                                        {
+                                            <input type="checkbox" class="products " name="SelectedProducts" value="@pr.ProductCode" /><span class="success pr-1 pl-1">نام : @pr.ProductName</span> <span class="info pr-1 pl-1">واحد : @pr.ProductUnit</span> <span class="primary pr-1 pl-1">کد : @pr.ProductCode</span><span class="primary pr-1 pl-1">ویژگی : @pr.ProductTopFeature</span>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" class="products" name="SelectedProducts" value="@pr.ProductCode" /> <span class="success pr-1 pl-1">نام : @pr.ProductName</span> <span class="info pr-1 pl-1">واحد : @pr.ProductUnit</span> <span class="primary pr-1 pl-1">کد : @pr.ProductCode</span><span class="primary pr-1 pl-1">ویژگی : @pr.ProductTopFeature</span>
+                                    }
+
+                                </p>
+                            </li>
+                        }
+                    </ul>
+                </div>
+
+            </div>
+            <div class="form-group pb-2">
+                <label class="control-label">پکها</label>
+                <div class="button-group col-md-12 col-xs-12">
+                    @{ int pkcount = 0;
+
+                        if (SelectedPackages != null)
+                        {
+                            pkcount += SelectedPackages.Where(w => !string.IsNullOrEmpty(w)).Count();
+                        }
+
+                    }
+                    <button type="button" class="btn btn-default dropdown-toggle col-md-12  text-center border" data-toggle="dropdown">انتخاب پک <span id="selPk" class="tag tag-pill tag-warning">@pkcount</span></button>
+                    <ul class="dropdown-menu w-100 pr-1" id="pkMainul">
+                        @if (packages.Count() == 0)
+                        {
+                            <li><p tabIndex="-1" class="red">پکی موجود نمی باشد !</li>
+                        }
+                        else
+                        {
+                            if (packages.Count() == pkcount)
+                            {
+                                <li><p tabIndex="-1"><input type="checkbox" checked id="Pkall" />&nbsp;همه</p></li>
+                            }
+                            else
+                            {
+                                <li><p tabIndex="-1"><input type="checkbox" id="Pkall" />&nbsp;همه</p></li>
+                            }
+                        }
+
+
+                        @foreach (var pk in packages)
+                        {
+                            <li class="font-weight-bold mb-1" tabindex="-1">
+                                <p class="font-size-small text-black" tabIndex="-1">
+                                    @if (SelectedPackages != null)
+                                    {
+                                        if (SelectedPackages.Any(a => a == pk.PkCode))
+                                        {
+                                            <input type="checkbox" class="packages" checked name="SelectedPackages" value="@pk.PkCode" /><span class="success pr-1 pl-1">نام : @pk.PkTitle</span> <span class="info pr-1 pl-1">واحد : @pk.PkUnit</span> <span class="primary pr-1 pl-1">کد : @pk.PkCode</span><span class="primary pr-1 pl-1">ویژگی : @pk.PkFeature</span>
+                                        }
+                                        else
+                                        {
+                                            <input type="checkbox" class="packages" name="SelectedPackages" value="@pk.PkCode" /><span class="success pr-1 pl-1">نام : @pk.PkTitle</span> <span class="info pr-1 pl-1">واحد : @pk.PkUnit</span> <span class="primary pr-1 pl-1">کد : @pk.PkCode</span><span class="primary pr-1 pl-1">ویژگی : @pk.PkFeature</span>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" class="packages" name="SelectedPackages" value="@pk.PkCode" /> <span class="success pr-1 pl-1">نام : @pk.PkTitle</span> <span class="info pr-1 pl-1">واحد : @pk.PkUnit</span> <span class="primary pr-1 pl-1">کد : @pk.PkCode</span><span class="primary pr-1 pl-1">ویژگی : @pk.PkFeature</span>
+                                    }
+
+                                </p>
+                            </li>
+                        }
+                    </ul>
+                </div>
+
+            </div>
+            <div class="form-group">
+                <label asp-for="BlogTitle" class="control-label"></label>
+                <input asp-for="BlogTitle" class="form-control" />
+                <span asp-validation-for="BlogTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BlogShortKey" class="control-label"></label>
+                <input asp-for="BlogShortKey" class="form-control"  dir="ltr" placeholder="انگلیسی باشد" />
+                <span asp-validation-for="BlogShortKey" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BlogPageTitle" class="control-label"></label>
+                <input asp-for="BlogPageTitle" maxlength="50" placeholder="حداکثر 50 کاراکتر" class="form-control" />
+                <span asp-validation-for="BlogPageTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BlogPageDescription" class="control-label"></label><span class="float-xs-left">مانده : <span id="char-count" class="text-danger">300</span></span>
+                <textarea asp-for="BlogPageDescription" maxlength="300" class="form-control"></textarea>
+                <span asp-validation-for="BlogPageDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BlogGroupId" class="control-label"></label>
+                <select asp-for="BlogGroupId" class="form-control" asp-items="ViewBag.BlogGroupId"></select>
+                <span asp-validation-for="BlogGroupId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="BlogImageInBlog" class="control-label"></label><img width="50" height="50" class="img-thumbnail float-left" src="~/images/blogs/@Model.BlogImageInBlog" />
+                <input asp-for="BlogImageInBlog" type="file" class="form-control" />
+                <span asp-validation-for="BlogImageInBlog" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BlogImageInBlogDetails" class="control-label"></label><img width="50" height="50" class="img-thumbnail float-left" src="~/images/blogs/@Model.BlogImageInBlogDetails" />
+                <input asp-for="BlogImageInBlogDetails" type="file" class="form-control" />
+                <span asp-validation-for="BlogImageInBlogDetails" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BlogSummary" class="control-label"></label><span class="float-xs-left">مانده : <span id="charS-count" class="text-danger">500</span></span>
+                <textarea asp-for="BlogSummary" maxlength="500" class="form-control" rows="5"></textarea>
+                <span asp-validation-for="BlogSummary" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BlogText" class="control-label"></label>
+                <textarea asp-for="BlogText" class="form-control" rows="10"></textarea>
+                <span asp-validation-for="BlogText" class="text-danger"></span>
+            </div>
+            <script>
+                CKEDITOR.replace('BlogText');
+            </script>
+            <div class="form-group">
+                <label asp-for="BlogTags" class="control-label"></label>
+                <textarea asp-for="BlogTags" class="form-control" rows="2"></textarea>
+                <span asp-validation-for="BlogTags" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BlogRefferalLink" class="control-label"></label>
+                <input asp-for="BlogRefferalLink" class="form-control" />
+                <span asp-validation-for="BlogRefferalLink" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BlogLinkText" class="control-label"></label>
+                <input asp-for="BlogLinkText" class="form-control" />
+                <span asp-validation-for="BlogLinkText" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Author" class="control-label"></label>
+                <select asp-for="Author" class="form-control">
+                    <option value="روابط عمومی">روابط عمومی</option>
+                    <option value="تیم فنی و پشتیبانی">تیم فنی و پشتیبانی</option>
+                    <option value="مدیریت فروش">مدیریت فروش</option>
+                </select>
+                <span asp-validation-for="Author" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BlogViewsCount" class="control-label"></label>
+                <input asp-for="BlogViewsCount" class="form-control" />
+                <span asp-validation-for="BlogViewsCount" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="BlogIsActive" /> @Html.DisplayNameFor(model => model.BlogIsActive)
+                </label>
+            </div>
+            <div class="form-group ">
+                <label class="control-label">تاریخ امروز اعمال شود</label>
+                <select name="chdate" class="form-control">
+                    <option value="no">خیر</option>
+                    <option value="yes">بله</option>
+                </select>                
+            </div>
+
+
+            <div class="form-group">
+                <input type="submit" value="ویرایش" class="btn btn-primary col-xs-12" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+<div>
+    <a asp-action="Index">بازگشت</a>
+</div>
+
+@section Scripts
+{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            function countChar(inobj, maxl, outobj) {
+                var len = inobj.value.length;
+
+                if (len >= maxl) {
+                    inobj.value = inobj.value.substring(0, maxl);
+                    $(outobj).text(0);
+                } else {
+                    $(outobj).text(maxl - len);
+                }
+            }
+            $("#Pall").click(function () {
+                $("input:checkbox.products").prop('checked', $(this).prop("checked"));
+                var total = $("#pMainul").find('.products:checked').length;
+                $("#selP").text(total);
+            });
+            $("#Pkall").click(function () {
+                $("input:checkbox.packages").prop('checked', $(this).prop("checked"));
+                var total = $("#pkMainul").find('.packages:checked').length;
+                $("#selPk").text(total);
+            });
+            $(".products").click(function () {
+                var prv = $(this).prop('checked');
+
+                if (prv === false) {
+                    $("#Pall").prop('checked', false);
+                }
+                var total = $("#pMainul").find('.products:checked').length;
+                $("#selP").text(total);
+            });
+            $(".packages").click(function () {
+                var prv = $(this).prop('checked');
+
+                if (prv === false) {
+                    $("#Pkall").prop('checked', false);
+                }
+                var total = $("#pkMainul").find('.packages:checked').length;
+                $("#selPk").text(total);
+            });
+            var curChars = $('#BlogPageDescription').val().length;
+            var maxchars = 300 - curChars;
+            $('#char-count').text(maxchars);
+            $('#BlogPageDescription').keyup(function () {                
+                countChar(this, 300, '#char-count');
+            });
+
+            var BcurChars = $('#BlogSummary').val().length;
+            maxcharsS = 500 - BcurChars;
+            $('#charS-count').text(maxcharsS);
+            $('#BlogSummary').keyup(function () {                
+                countChar(this, 500, '#charS-count');
+            });
+        });
+    </script>
+}

@@ -1,0 +1,142 @@
+﻿@model IEnumerable<DataLayer.Entities.Store.Order>
+
+@{
+    ViewData["Title"] = "سفارش های من";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">سفارش های من</h1>
+@if (Model != null)
+{
+    @if (Model.Count() != 0)
+    {
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th class="text-xs-center align-middle">
+                    #
+                </th>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.Order_Date)
+                </th>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.Order_DedicatedNumber)
+                </th>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.Order_Sum)
+                </th>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.DeliveredToPost)
+                </th>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.IsDeliveredCutomer)
+                </th>
+                <th class="text-xs-center align-middle">وضعیت لغو</th>
+                <th class="text-xs-center align-middle">عملیات</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ int rad = 1;}
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="text-xs-center align-middle">
+                        @rad
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        @Html.DisplayFor(modelItem => item.Order_Date)
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        @Html.DisplayFor(modelItem => item.Order_DedicatedNumber)
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        @item.Order_Sum.ToString("N0") @item.Currency
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        @if (item.DeliveredToPost)
+                        {
+                            <span class="text-success">داده شده</span>
+                        }
+                        else
+                        {
+                            <span class="text-danger">داده نشده</span>
+                        }
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        @if (item.IsDeliveredCutomer)
+                        {
+                            <span class="text-success">داده شده</span>
+                        }
+                        else
+                        {
+                            <span class="text-danger">داده نشده</span>
+                        }
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        @if (item.Order_IsCanceled)
+                        {
+                            <span class="text-danger">لغــو شده</span>
+                        }
+                        else
+                        {
+                            <span class="cursor-pointer cancelchk text-success" data-id="@item.Id" data-status="1">لغو نشده</span>
+                        }
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        <a asp-action="OrderDetails" asp-route-id="@item.Id">جزئیات</a>
+                    </td>
+                </tr>
+                rad++;
+            }
+        </tbody>
+    </table>
+</div>
+    }
+    else
+    {
+        <h5 class="text-xl-center danger">سفارشی ثبت نشده است !</h5>
+    }
+
+}
+else
+{
+    <h5 class="text-xl-center danger">سفارشی ثبت نشده است !</h5>
+}
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".cancelchk").click(function () {
+                if (confirm("آیا مطمئن به لغو سفارش هستید؟")) {
+                    var idd = $(this).attr("data-id");
+                    var st = $(this).attr("data-status");
+                    var th = $(this);
+                    $.ajax({
+                        url: "/Manage/MyAccount/ChangeCancleStatus",
+                        data: { id: idd, status: st },
+                        type: "GET",
+                        async: true,
+                        contentType: "application/json",
+                        dataType: "json",
+                        success: function (result) {
+                            var res = JSON.stringify(result);
+                            //alert(res);
+                            if (result.cResult === true) {
+                                alert(result.cMessage);
+                            }
+                            else {
+                                alert(result.cMessage);                                
+                            }
+                        },
+                        error: function () {
+                            alert("error");
+                        }
+                    })
+                }
+
+            });
+        });
+    </script>
+}

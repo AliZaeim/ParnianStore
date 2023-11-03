@@ -1,0 +1,36 @@
+﻿@model DataLayer.Entities.Supplementary.QuestionAnswer
+@using Core.Convertors;
+@{
+    ViewData["Title"] = "جزئیات سوال متداول";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">جزئیات سوال متداول</h1>
+
+<div>
+    
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Model.CreatedDate.ToShamsiN_WithTime()
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Question)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Question)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Answer)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Answer)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">ویرایش</a> |
+    <a asp-action="Index">بازگشت</a>
+</div>

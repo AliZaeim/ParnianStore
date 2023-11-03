@@ -1,0 +1,39 @@
+﻿
+@model string
+@if (Model == "desktop")
+{
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="sign-in">
+            <a href="/Manage/Home/Index" class="btn btn-green" title="@User.FindFirst("fullname")?.Value">پنل کاربری</a>
+            <a href="/Logout"><span>خـروج</span></a>
+        </div>
+    }
+    else
+    {
+        <div class="sign-in">
+            <a href="/Login">ورود</a>
+
+            <a href="/Register" class="btn btn-green">عضویت</a>
+        </div>
+
+    }
+}
+@if (Model == "mobile")
+{
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="sign-in" style="width:75px;margin-top:-2mm!important">
+            <a href="/Manage/Home/Index" class="d-inline-block float-r" title="@User.FindFirst("fullname")?.Value"><i class="ri-user-line fs-24"></i></a>
+            <a href="/Logout" class="d-inline-block text-danger float-l" title="خروج از سایت"><span><i class="ri-logout-circle-line fs-24"></i></span></a>
+        </div>
+    }
+    else
+    {
+        <div class="sign-in text-center" >
+            <a href="/Register" class="d-inline-block ml-2" title="ثبت نام در سایت">ثبت نام</a>
+            <a href="/Login" class="d-inline-block  ml-2" title="ورود به سایت">ورود</a>
+        </div>
+
+    }
+}

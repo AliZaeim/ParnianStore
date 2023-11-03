@@ -1,0 +1,94 @@
+﻿@model IEnumerable<DataLayer.Entities.Store.ProductGroup>
+
+@{
+    ViewData["Title"] = "گروه های محصول";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">گروه های محصول</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">ایجاد گروه جدید</a>
+</p>
+<table class="table table-bordered">
+    <thead>
+        <tr class="fs-12">
+            <th class="text-xs-center align-middle p-0">
+                @Html.DisplayNameFor(model => model.ParentId)
+            </th>
+            <th class="text-xs-center align-middle p-0">
+                @Html.DisplayNameFor(model => model.ProductGroupTitle)
+            </th>
+            <th class="text-xs-center align-middle p-0">
+                @Html.DisplayNameFor(model => model.ProductEnGroupTitle)
+            </th>
+            <th class="text-xs-center align-middle p-0">
+                @Html.DisplayNameFor(model => model.ProductGroupComment)
+            </th>
+            <th class="text-xs-center align-middle p-0">
+                @Html.DisplayNameFor(model => model.ProductGroupDiscountPercent)
+            </th>
+            <th class="text-xs-center align-middle p-0">
+                @Html.DisplayNameFor(model => model.ProductGroupDiscountValue)
+            </th>
+            <th class="text-xs-center align-middle p-0">
+                @Html.DisplayNameFor(model => model.ProductGroupImage)
+            </th>
+            <th class="text-xs-center align-middle p-0">
+                @Html.DisplayNameFor(model => model.ProductGroupText)
+            </th>
+
+
+            <th class="text-xs-center align-middle">عملیات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td class="text-xs-center align-middle">
+                @if (item.Parent == null)
+                {
+                    <span>-</span>
+                }
+                else
+                {
+                    <span>@item.Parent.ProductGroupTitle</span>
+                }
+            </td>
+            <td class="text-xs-center align-middle">
+                @Html.DisplayFor(modelItem => item.ProductGroupTitle)
+            </td>
+            <td class="text-xs-center align-middle">
+                @Html.DisplayFor(modelItem => item.ProductEnGroupTitle)
+            </td>
+            <td class="text-xs-center align-middle">
+                @Html.DisplayFor(modelItem => item.ProductGroupComment)
+            </td>
+            <td class="text-xs-center align-middle">
+                @Html.DisplayFor(modelItem => item.ProductGroupDiscountPercent)
+            </td>
+            <td class="text-xs-center align-middle">
+                @Html.DisplayFor(modelItem => item.ProductGroupDiscountValue)
+            </td>
+            <td class="text-xs-center align-middle">
+                <img src="/images/productGroups/@item.ProductGroupImage" width="50" height="50" />
+            </td>
+            <td class="text-xs-center align-middle">
+                @Html.DisplayFor(modelItem => item.ProductGroupText)
+            </td>
+
+            <td class="text-xs-center align-middle">
+                @if (item.ParentId == null)
+                {
+                    <a asp-action="Create" asp-route-pId="@item.ProductGroupId">زیرگروه</a> <span>|</span>
+                }
+
+                <a asp-action="Edit" asp-route-id="@item.ProductGroupId">ویرایش</a> |
+                <a asp-action="Details" asp-route-id="@item.ProductGroupId">جزئیات</a> |
+                <a asp-action="Delete" asp-route-id="@item.ProductGroupId">حــذف</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

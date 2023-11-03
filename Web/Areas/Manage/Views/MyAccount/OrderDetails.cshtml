@@ -1,0 +1,143 @@
+﻿@model DataLayer.Entities.Store.Order
+@using Core.Convertors;
+@using Core.Services.Interfaces;
+@inject IProductService _productService
+@{
+    ViewData["Title"] = "جزئیات سفارش";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info"> سفارش شماره @Model.Order_DedicatedNumber</h1>
+<hr />
+<div class="row">
+
+    <div class="col-md-4 col-xs-12">
+        <p>تاریخ سفارش : @Model.Order_Date.ToShamsiWithTime()</p>    
+       
+    </div>
+    <div class="col-md-4 col-xs-12">
+        <p>خریدار : @Model.Order_BuyerName @Model.Order_BuyerFamily</p>
+        
+    </div>
+    <div class="col-md-4 col-xs-12">
+        <p>تلفن : @Model.Order_BuyerCellphone</p>
+    </div>
+    <div class="col-xs-12 mt-1">
+        آدرس : @Model.Order_StateName @Model.Order_CountyName @Model.Order_Address &emsp; | &emsp; کدپستی : @Model.Order_PostalCode
+    </div>
+    <div class="col-xs-12 mt-1 mb-1">
+        <div class="col-md-4 col-xs-12">
+            وضعیت لغو :
+            @if (Model.Order_IsCanceled)
+            {
+                <span class="text-danger">لغو شده</span>
+            }
+            else
+            {
+                <span class="text-success">لغو نشده</span>
+            }
+        </div>
+        <div class="col-md-4 col-xs-12">تحویل به پست :
+            @if(Model.DeliveredToPost)
+            {
+                <span class="text-success">داده شده</span>
+            }
+            else
+            {
+                <span class="text-danger">داده نشده</span>
+            }
+        </div>
+        <div class="col-md-4 col-xs-12">تحویل به مشتری :
+            @if(Model.IsDeliveredCutomer)
+            {
+                <span class="text-success">داده شده</span>
+            }
+            else
+            {
+                <span class="text-danger">داده نشده</span>
+            }
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <p class="text-xs-center bg-accent-1 bg-grey ">جزئیات سفارش</p>
+        <table class="table table-bordered">
+
+            <thead>
+
+                <tr>
+                    <th class="text-xs-center align-middle">ردیف</th>
+                    <th class="text-xs-center align-middle">نام کالا</th>
+                    <th class="text-xs-center align-middle">قیمت</th>
+                    <th class="text-xs-center align-middle">تخفیف کالا</th>
+                    <th class="text-xs-center align-middle">قیمت نهایی</th>
+                    <th class="text-xs-center align-middle">تعداد</th>
+                    <th class="text-xs-center align-middle">جمع کل</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @{ int rad = 1; int rowSumT = 0;}
+                @foreach (var item in Model.OrderDetails)
+                {
+                    DataLayer.Entities.Store.Product product = await _productService.GetProductByIdAsync(item.ProductId);
+
+                    <tr>
+                        <td class="text-xs-center align-middle">@rad</td>
+                        <td class="text-xs-center align-middle">
+                            @if (!string.IsNullOrEmpty(item.OrderDatailProductName))
+                            {
+                                <span>@item.OrderDatailProductName</span>
+                            }
+                            else
+                            {
+                                <span>@product.ProductName</span>
+                            }
+                        </td>
+                        <td class="text-xs-center align-middle">@item.OrderDetailPrice.ToString("N0") @Model.Currency</td>
+                        <td class="text-xs-center align-middle">@item.OrderDetailDiscountValue.ToString("N0") @Model.Currency</td>
+                        <td class="text-xs-center align-middle">
+                            @item.OrderDetailNetPrice.ToString("N0") @Model.Currency
+                        </td>
+                        <td class="text-xs-center align-middle">
+                            @item.OrderDetailCount
+
+                        </td>
+                        <td class="text-xs-center align-middle">
+                            @{
+                                int rowSum = item.OrderDetailCount * item.OrderDetailNetPrice;
+                                rowSumT += rowSum;
+                            }
+                            @rowSum.ToString("N0") @Model.Currency
+                        </td>
+
+                    </tr>
+                    rad++;
+                }
+                <tr>
+                    <td colspan="6" class="text-xs-left">جمــع</td>
+                    <td class="text-xs-center">@rowSumT.ToString("N0") @Model.Currency</td>
+                </tr>
+                <tr>
+                    <td colspan="6" class="text-xs-left">کوپن تخفیف</td>
+                    <td class="text-xs-center">@Model.Order_DiscountValue.ToString("N0") @Model.Currency</td>
+                </tr>
+                <tr>
+                    <td colspan="6" class="text-xs-left">کرایه</td>
+                    <td class="text-xs-center">@Model.Order_DeliveryCost.ToString("N0") @Model.Currency</td>
+                </tr>
+                <tr>
+                    <td colspan="6" class="text-xs-left">جمع کل</td>
+                    <td class="text-xs-center">@Model.Order_Sum.ToString("N0") @Model.Currency</td>
+                </tr>
+            </tbody>
+            
+        </table>
+
+    </div>
+
+
+</div>
+<div>
+
+    <a asp-action="MyOrders">بازگشت</a>
+</div>

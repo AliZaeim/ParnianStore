@@ -1,0 +1,107 @@
+﻿@model IEnumerable<DataLayer.Entities.Supplementary.AboutUsfaq>
+@using Core.Convertors;
+@{
+    ViewData["Title"] = "پرسش و پاسخ درباره ما";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">پرسش و پاسخ درباره ما</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">پرسش جدید</a>
+</p>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th class="text-xs-center align-middle">
+                #
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.Question)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.Answer)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th class="text-xs-center align-middle">عملیات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ int rad = 1;}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="text-xs-center align-middle">
+                    @rad
+                </td>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.Question)
+                </td>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.Answer)
+                </td>
+                <td class="text-xs-center align-middle">
+                    @if (item.IsActive)
+                    {
+                        <span class="fa fa-check-square cursor-pointer chk" data-id="@item.Id" data-status="0"></span>
+                    }
+                    else
+                    {
+                        <span class="fa fa-square-o cursor-pointer chk" data-id="@item.Id" data-status="1"></span>
+                    }
+                </td>
+                <td class="text-xs-center align-middle">
+                    @item.CreatedDate.ToShamsiN_WithTime()
+                </td>
+                <td class="text-xs-center align-middle">
+                    <a asp-action="Edit" asp-route-id="@item.Id">ویرایش</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">جزئیات</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">حــذف</a>
+                </td>
+            </tr>
+            rad++;
+        }
+    </tbody>
+</table>
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".chk").click(function () {
+                if (confirm("آیا مطمئن به تغییر وضعیت پرسش هستید؟")) {
+                    var idd = $(this).attr("data-id");
+                    var st = $(this).attr("data-status");
+                    var th = $(this);
+                    $.ajax({
+                        url: "/Manage/AboutUsfaqs/ChangeStatus",
+                        data: { id: idd, status: st },
+                        type: "GET",
+                        async: true,
+                        success: function (result) {
+
+                            if (result === true) {
+
+                                th.removeClass("fa-square-o").addClass("fa-check-square");
+                                th.attr("data-status", 0);
+                            }
+                            else {
+
+                                th.removeClass("fa-check-square").addClass("fa-square-o");
+                                th.attr("data-status", 1);
+                            }
+                        },
+                        error: function () {
+                            alert("error");
+                        }
+                    })
+                }
+
+            });
+        });
+    </script>
+}

@@ -1,0 +1,285 @@
+﻿@model Core.DTOs.Admin.AdminOrderVM
+@using Core.Services.Interfaces;
+@inject IProductService _productServie
+@{
+    ViewData["Title"] = "ثبت سفارش";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+
+}
+
+@if (Model.Saved)
+{
+    <h2 class="text-xs-center alert alert-success">سفارش با موفقیت ثبت شد</h2>
+}
+<h1 class="text-xs-center alert alert-info">ثبت سفارش</h1>
+<div class="row">
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <form asp-action="CreateOrder">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="offset-md-3 col-md-6  col-xs-12">
+
+            <div class="form-group col-xs-12">
+                <h5 class="text-xs-center border-bottom pb-1">سفارش</h5>
+                <div class="col-md-6 col-xs-12 ">
+                    <label class="label-control w-100 text-xs-center">کالا</label>
+                    <select id="pSelect" class="form-control text-xs-center">
+                        @if (Model.Products.Count() > 0)
+                        {
+                            <optgroup label="--- محصولات ---">
+                                @foreach (var p in Model.Products)
+                                {
+                                    int price = await _productServie.GetProductNetpriceAsync(p.ProductCode);
+
+                                    <option value="@p.ProductId" data-price="@price" data-kind="pr">@p.ProductName</option>
+                                }
+                            </optgroup>
+                        }
+                        @if (Model.Packages.Count() > 0)
+                        {
+                            <optgroup label="--- پک ها ---">
+                                @foreach (var pk in Model.Packages)
+                                {
+                                    int prc = await _productServie.GetPackageNetPriceAsync(pk.PkId);
+                                    <option value="@pk.PkId" data-price="@prc" data-kind="pk">@pk.PkTitle</option>
+                                }
+                            </optgroup>
+                        }
+
+                    </select>
+                </div>
+                <div class="col-md-4 col-xs-12">
+                    <label class="label-control w-100 text-xs-center">تعداد</label>
+                    <input type="number" class="form-control text-xs-center" id="pNumber" />
+                </div>
+                
+                <div class="col-md-2 col-xs-12 text-xs-center" >
+                    <label class="label-control w-100 text-xs-center">عملیات</label>
+                    <button class="icon-circle-plus btn btn-default text-success" type="button" title="افزودن به سبد" id="btnAdd"></button>
+                </div>
+            </div>
+            <span asp-validation-for="SelectedProducts" id="selproError" class="text-danger w-100 text-xs-center"></span>
+            <div class="form-group col-xs-12">
+
+                <div class="row border pt-1 pb-1" id="od"  >
+
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col-md-4 col-xs-12">
+           
+            <div class="form-group" id="buyer">
+                <h5 class="text-xs-center border-bottom pb-1">مشخصات خریدار</h5>
+                <div class="form-group">
+                    <label asp-for="BuyerCellphone" class="control-label"></label>
+                    <input asp-for="BuyerCellphone" readonly class="form-control" />
+                    <span asp-validation-for="BuyerCellphone" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="BuyerName" class="control-label"></label>
+                    <input asp-for="BuyerName" readonly class="form-control" />
+                    <span asp-validation-for="BuyerName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="BuyerFamily" class="control-label"></label>
+                    <input asp-for="BuyerFamily" readonly class="form-control" />
+                    <span asp-validation-for="BuyerFamily" class="text-danger"></span>
+                </div>
+                
+
+            </div>
+
+        </div>
+        <div class="col-md-4 col-xs-12">
+            <h5 class="text-xs-center border-bottom pb-1">مشخصات تحویل گیرنده</h5>
+            <div class="form-group">
+                <label asp-for="RecipientPhone" class="control-label"></label>
+                <input asp-for="RecipientPhone" class="form-control" />
+                <span asp-validation-for="RecipientPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RecipientName" class="control-label"></label>
+                <input asp-for="RecipientName" class="form-control" />
+                <span asp-validation-for="RecipientName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RecipientFamily" class="control-label"></label>
+                <input asp-for="RecipientFamily" class="form-control" />
+                <span asp-validation-for="RecipientFamily" class="text-danger"></span>
+            </div>
+            
+
+        </div>
+        <div class="col-md-4 col-xs-12">
+            <h5 class="text-xs-center border-bottom pb-1">آدرس تحویل گیرنده</h5>
+            <div class="form-group">
+                <label asp-for="StateId" class="control-label"></label>
+                <select class="form-control" asp-for="StateId">
+                    <option value="">انتخاب کنید...</option>
+                    @foreach (var st in Model.States)
+                    {
+                        <option value="@st.StateId">@st.StateName</option>
+                    }
+                </select>
+                <span asp-validation-for="StateId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CountyId" class="control-label"></label>
+                @if (Model.Counties == null)
+                {
+                    <select class="form-control" asp-for="CountyId">
+                        <option value="">انتخاب کنید...</option>
+                    </select>
+                    <span asp-validation-for="CountyId" class="text-danger"></span>
+                }
+                else
+                {
+                    <select class="form-control" asp-for="CountyId">
+                        <option value="">انتخاب کنید...</option>
+                        @foreach (var st in Model.Counties)
+                        {
+                            <option value="@st.CountyId">@st.CountyName</option>
+                        }
+                    </select>
+                }
+                <span asp-validation-for="CountyId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PostalCode" class="control-label"></label>
+                <input asp-for="PostalCode" class="form-control" />
+                <span asp-validation-for="PostalCode" class="text-danger"></span>
+            </div>
+            
+        </div>
+        <div class="offset-md-4 col-md-4 col-xs-12">
+            <div class="form-group">
+                <input type="submit" value="ثبت سفارش" class="btn btn-primary col-xs-12 " />
+            </div>
+        </div>
+
+    </form>
+</div>
+
+@section Scripts{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#StateId").change(function () {
+                var sId = $(this).val();
+                $.ajax({
+                    url: "/Generic/GetCountiesofState",
+                    data: { stId: sId },
+                    Type: "GET",
+                    success: function (result) {
+                        $("#CountyId").html(result);
+                    },
+                    error: function () {
+                        alert("Error");
+                    }
+                });
+            });
+            $("#allprs").click(function () {
+                $("input:checkbox.product").prop('checked', $(this).prop("checked"));
+                var total = $("#prMainul").find('.product:checked').length;
+                $("#selPr").text(total);
+            });
+            $(".product").click(function () {
+                var prv = $(this).prop('checked');
+
+                if (prv === false) {
+                    $("#allprs").prop('checked', false);
+                }
+                var total = $("#prMainul").find('.product:checked').length;
+                $("#selPr").text(total);
+            });
+
+            function CalTotal(cname) {
+                var cls = "." + cname;
+                let total = 0;
+                $(cls).each(function (index, item) {
+                    total += parseInt($(this).text());
+                    $(item).css('color', 'red');
+                });
+                return total;
+            }
+            function Appendrow(elemId) {
+                const elements = document.querySelectorAll('.odrow');
+                const ids = document.getElementsByName('SelectedProducts');
+                const types = document.getElementsByName('Kinds');
+                var pId = $("#pSelect option:selected").val();
+                var kind = $('#pSelect option:selected').attr("data-kind");
+                var id_array = $('[name="SelectedProducts"]').map(function () {
+                    return this.value;
+                }).get();
+                var kind_array = $('[name="Kinds"]').map(function () {
+                    return this.value;
+                }).get();
+                if (id_array.length > 0) {
+                    if (jQuery.inArray(pId, id_array) != -1 && jQuery.inArray(kind,kind_array) !=-1) {
+                        alert("کالای انتخاب شده قبلا به سبد اضافه شده است !");
+                        return;
+                    }
+                }
+                var pName = $('#pSelect option:selected').text();
+                if (kind === "pk") {
+                    pName = "پک " + pName;
+                }
+                var price = $('#pSelect option:selected').attr("data-price");
+               
+                var pcount = $("#pNumber").val();
+                var rowsum = parseInt(price) * parseInt(pcount);
+                var idd = "rw" + Math.floor((Math.random() * 100) + 1);
+                $("#" + elemId).append("<div class='form-group height-50 w-100 border-bottom odrow' id='" + idd + "'></div>");
+                $("<input type='hidden'  name='SelectedProducts' value=" + pId + " />").appendTo("#" + idd);
+                $("<input type='hidden'  name='Kinds' value=" + kind + " />").appendTo("#" + idd);
+                $("<span  class='col-xs-2 text-xs-center'>" + pName + "</span>").appendTo("#" + idd);
+                $("<span  class='col-xs-3 text-xs-center price'>" + price + "</span>").appendTo("#" + idd);
+                $("<input name='PCount' class='col-xs-2 text-xs-center' value=" + pcount + " />").appendTo("#" + idd);
+                $("<span  class='col-xs-3 text-xs-center rsum'>" + rowsum + "</span>").appendTo("#" + idd);
+                $("<button class='col-xs-1 icon-remove text-danger text-xs-center btn-remove' type='button'></button>").appendTo("#" + idd);
+            }
+            function AppendTotalRow(parentId, sum) {
+                $("#" + parentId).append("<div class='form-group height-50 w-100 border-bottom' id='osum'></div>")
+                $("<span  class='col-xs-7 text-xs-center'>" + "جمع کل" + "</span>").appendTo("#osum");
+                $("<span  class='col-xs-3 text-xs-center sum'>" + sum + "</span>").appendTo("#osum");
+                $("<span  class='col-xs-2 text-xs-center sum'>" + "--" + "</span>").appendTo("#osum");
+            }
+            $("#btnAdd").click(function () {
+                var pcount = $("#pNumber").val();
+                if (pcount === '') {
+                    alert("تعداد کالا را مشخص کنید!");
+                    return;
+                }
+                $("#selproError").remove();
+                Appendrow("od");
+                var tot = CalTotal("rsum");
+                $("#osum").remove();
+                AppendTotalRow("od", tot);
+
+                $(".btn-remove").click(function () {
+                    
+                    var parentId = $(this).parent().attr("id");
+                    $("#" + parentId).remove();
+                    $("#osum").remove();
+                    const _ids = document.getElementsByName('SelectedProducts');
+                    if (ids.length > 0) {
+                        var totbtn = CalTotal("rsum");
+                        AppendTotalRow("od", totbtn)
+                    }
+                   
+                    
+                });
+            });
+
+        })
+    </script>
+}

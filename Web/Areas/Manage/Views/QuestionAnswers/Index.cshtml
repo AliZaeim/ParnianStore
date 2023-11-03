@@ -1,0 +1,48 @@
+﻿@model IEnumerable<DataLayer.Entities.Supplementary.QuestionAnswer>
+@using Core.Convertors;
+@{
+    ViewData["Title"] = "سئوالات متداول";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">سئوالات متداول</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">ثبــت</a>
+</p>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+           <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+           <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.Question)
+            </th>
+           <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.Answer)
+            </th>
+           <th class="text-xs-center align-middle">عملیات</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td class="text-xs-center align-middle">
+                @item.CreatedDate.ToShamsiN_WithTime()
+            </td>
+            <td class="text-xs-center align-middle">
+                @Html.DisplayFor(modelItem => item.Question)
+            </td>
+            <td class="text-xs-center align-middle">
+                @Html.DisplayFor(modelItem => item.Answer)
+            </td>
+            <td class="text-xs-center align-middle">
+                <a asp-action="Edit" asp-route-id="@item.Id">ویرایش</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">جزئیات</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">حــذف</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

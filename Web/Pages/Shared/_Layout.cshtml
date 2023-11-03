@@ -1,0 +1,108 @@
+﻿@using Core.Services.Interfaces;
+@inject IUserService _userService
+@{
+    string url = "https://aliansabz.com";
+    string pageImage = "https://aliansabz.com/images/icons/alian-sabz-shop-logo.png";
+    string imageUrl = "https://aliansabz.com/images/icons/";
+    string imageAlt = "فروشگاه اینترنتی عالیان سبز";
+    if (ViewData["pageUrl"] != null)
+    {
+        url = ViewData["pageUrl"].ToString();
+    }
+    if (ViewData["pageImage"] != null)
+    {
+        pageImage = ViewData["pageImage"].ToString();
+    }
+    if (ViewData["imageUrl"] != null)
+    {
+        imageUrl = ViewData["imageUrl"].ToString();
+    }
+    if (ViewData["imageAlt"] != null)
+    {
+        imageAlt = ViewData["imageAlt"].ToString();
+    }
+}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BYLT1K82JQ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-BYLT1K82JQ');
+    </script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="og:site_name" value="عالیان سبز">
+    <meta property="og:title" content="@ViewData["Title"]">
+    <meta property="og:url" content="@url">
+    <meta property="og:image" content="@pageImage">
+    <meta property="og:image:url" content="@imageUrl">
+    <meta property="og:image:type" content=image/png>
+    <meta property="og:image:type" content=image/jpg>
+    <meta property="og:image:alt" content="@ViewData["imageAlt"]" />
+    <meta property="og:price:currency" content="IRR">
+    <meta property="og:locale" content="ir_FA">
+    <title>@ViewData["Title"]</title>
+
+    <meta name="description" content="@ViewData["Description"]" />
+    @if (ViewData["canonical_link"] != null)
+    {
+        <link rel="canonical" href="@ViewData["canonical_link"]" />
+    }
+
+    <partial name="_CssRefrences" />
+    @*dont use jqury 3.2.1*@
+    <script src="~/Layout/vendor/jquery/jquery-3.3.1.min.js"></script>
+    <script src="~/Layout/vendor/jquery/jquery.unobtrusive-ajax.min.js"></script>
+    @{
+        var initial =await _userService.GetInitialInfoAsync();
+        string fav = "favicon.png";
+        if (initial != null)
+        {
+            fav = initial.FavIcon;
+        }
+
+    }
+    <link rel="shortcut icon" href="/@fav" type="image/x-icon" />
+
+</head>
+<body class="animsition">
+    @RenderSection("Header", false)
+    @RenderSection("Sliders", false)
+    @RenderSection("FractionSliders", false)
+    @RenderBody()
+    @RenderSection("DiscountedProducts", false)
+    @RenderSection("HProduts", false)
+    @RenderSection("Subscription", false)
+    <partial name="_BacktoTop" />
+    @RenderSection("Shipping", false)
+    @RenderSection("Footer", false)
+    @await RenderSectionAsync("Scripts", required: false)
+    <partial name="_JsRefrences" />
+</body>
+
+</html>
+<!-- Modal -->
+<div class="modal fade" id="layoutModal" tabindex="-1" role="dialog" aria-labelledby="layoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="layoutModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            @*<div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>*@
+        </div>
+    </div>
+</div>

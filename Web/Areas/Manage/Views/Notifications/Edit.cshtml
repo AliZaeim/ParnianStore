@@ -1,0 +1,104 @@
+﻿@model DataLayer.Entities.Supplementary.Notification
+
+@{
+    ViewData["Title"] = "ویرایش اطلاعیه";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">ویرایش اطلاعیه</h1>
+
+
+<div class="row">
+    <div class="offset-md-4 col-md-4 col-xs-12">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="CreatedDate" />
+            <input type="hidden" asp-for="Image" />
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Text" class="control-label"></label>
+                <input asp-for="Text" class="form-control" />
+                <span asp-validation-for="Text" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Width" class="control-label"></label>
+                <input asp-for="Width" class="form-control" />
+                <span asp-validation-for="Width" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Padding" class="control-label"></label>
+                <input asp-for="Padding" class="form-control" />
+                <span asp-validation-for="Padding" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Link" class="control-label"></label>
+                <input asp-for="Link" class="form-control" />
+                <span asp-validation-for="Link" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Image" class="control-label"></label><img class="float-md-left" src="/images/notifications/@Model.Image" width="75" height="75" />
+                <input type="file" asp-for="Image" class="form-control" />
+                <span asp-validation-for="Image" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageWidth" class="control-label"></label>
+                <input asp-for="ImageWidth" class="form-control" />
+                <span asp-validation-for="ImageWidth" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageHeight" class="control-label"></label>
+                <input asp-for="ImageHeight" class="form-control" />
+                <span asp-validation-for="ImageHeight" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Position" class="control-label"></label>
+                <input asp-for="Position" class="form-control" />
+                <span asp-validation-for="Position" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Timer" class="control-label"></label>
+                <input asp-for="Timer" class="form-control" />
+                <span asp-validation-for="Timer" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="ShowProgressBar" /> @Html.DisplayNameFor(model => model.ShowProgressBar)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="ShowCloseButton" /> @Html.DisplayNameFor(model => model.ShowCloseButton)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="ShowConfirmButton" /> @Html.DisplayNameFor(model => model.ShowConfirmButton)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConfirmButtonText" class="control-label"></label>
+                <input asp-for="ConfirmButtonText" class="form-control" />
+                <span asp-validation-for="ConfirmButtonText" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="ویرایش" class="btn btn-primary col-xs-12" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">بازگشت</a>
+</div>
+

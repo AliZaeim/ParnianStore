@@ -1,0 +1,31 @@
+﻿@model DataLayer.Entities.Supplementary.State
+
+@{
+    ViewData["Title"] = "جزئیات استان";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">جزئیات استان</h1>
+
+<div>
+    
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.StateName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.StateName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Freight)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Freight)
+        </dd>
+        
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.StateId">ویرایش</a> |
+    <a asp-action="Index">بازگشت</a>
+</div>

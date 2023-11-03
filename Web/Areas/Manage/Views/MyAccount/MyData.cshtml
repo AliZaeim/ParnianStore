@@ -1,0 +1,33 @@
+﻿@model Core.DTOs.General.UserInfoVM;
+
+@{
+    ViewData["Title"] = "مشخصات کاربری";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row fs-18">
+    <h1 class="text-xs-center alert alert-info">مشخصات کاربری</h1>
+    <div class="col-xs-12 border-black p-1">
+        <div class="col-md-4 col-xs-12">
+            <p>نام : @Model.Name</p>
+            <p>نام خانوادگی : @Model.Family</p>
+            <p>نام کاربری : @Model.UserName</p>
+        </div>
+        <div class="col-md-4 col-xs-12">
+            <p>تلفن همراه : @Model.Cellphone</p>
+            <p>جنسیت : @Model.Sex</p>
+            <p>ایمیل : @Model.Email</p>
+        </div>
+        <div class="col-md-4 col-xs-12">
+            <p>استان : @Model.County?.State?.StateName</p>
+            <p>شهرستان : @Model.County?.CountyName</p>
+            
+        </div>
+        <div class="col-xs-12">
+            <p>آدرس : @Model.Address</p>
+        </div>
+    </div>
+    <div class="col-xs-12 mt-1">
+        <a asp-action="EditInfo" class="float-xs-left btn btn-success">ویرایش اطلاعات</a>
+    </div>
+</div>

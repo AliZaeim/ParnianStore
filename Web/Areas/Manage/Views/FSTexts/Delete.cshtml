@@ -1,0 +1,42 @@
+﻿@model DataLayer.Entities.Supplementary.FSText
+
+@{
+    ViewData["Title"] = "حذف متن اسلایدر تکه ای";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-danger">حذف متن اسلایدر تکه ای</h1>
+
+<h3 class="text-xs-center alert alert-warning">آیا مطمئن به حذف متن هستید؟</h3>
+<div>
+    
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Text)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Text)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TextClass)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TextClass)
+        </dd>
+       
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="ReturnUrl" />
+        <input type="submit" value="حــذف" class="btn btn-danger" /> |
+        @if (string.IsNullOrEmpty(Model.ReturnUrl))
+        {
+            <a asp-action="Index">بازگشت</a>
+        }
+        else
+        {
+            <a href="@Model.ReturnUrl.Replace("-","/")">بازگشت</a>
+        }
+    </form>
+</div>

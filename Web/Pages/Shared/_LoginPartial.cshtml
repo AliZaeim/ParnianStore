@@ -1,0 +1,17 @@
+﻿
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="sign-in">
+        <a href="/Manage/Home/Index" class="btn btn-green" title="@User.FindFirst("fullname")?.Value">پنل کاربری</a>
+        <a href="/Logout"><span>خـروج</span></a>
+    </div>
+}
+else
+{
+    <div class="sign-in">
+        <a href="/Login">ورود</a>
+        
+        <a href="/Register" class="btn btn-green">عضویت</a>
+    </div>
+
+}

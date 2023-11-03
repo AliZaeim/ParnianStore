@@ -1,0 +1,64 @@
+﻿@model IEnumerable<DataLayer.Entities.Supplementary.Slider>
+
+
+<section class="slide1">
+    <div class="wrap-slick1">
+        <div class="slick1">
+            @{ int counter = 1;}
+            @foreach (var item in Model)
+            {
+                string clas = "item" + counter.ToString() + "-slick1";
+                
+                <div class="item-slick1 @clas" style="background: url(/images/sliders/@item.SliderImage);background-repeat:no-repeat">
+                    <div class="wrap-content-slide1 sizefull flex-col-c-m p-l-15 p-r-15 p-t-150 p-b-170">
+                        @if (!string.IsNullOrEmpty(item.SliderTitle))
+                        {
+                            string Tdataappear = "fadeInDown";
+                            if (!string.IsNullOrEmpty(item.SliderTitle_DataAppear))
+                            {
+                                Tdataappear = item.SliderTitle_DataAppear;
+                            }
+                            <h2 class="caption1-slide1 text-white  t-center animated visible-false m-b-30 @item.SliderTitleClass" data-appear="@Tdataappear">
+                                @item.SliderTitle
+                            </h2>
+                        }
+
+                        @if (!string.IsNullOrEmpty(item.SliderComment))
+                        {
+                            string Cdataappear = "fadeInUp";
+                            @if (!string.IsNullOrEmpty(item.SliderComment_DataAppear))
+                            {
+                                Cdataappear = item.SliderComment_DataAppear;
+                            }
+                            <h3 class="caption2-slide1 text-white xl-text1  t-center animated visible-false m-b-37 @item.SliderCommentClass" data-appear="@Cdataappear">
+                                @item.SliderComment
+                            </h3>
+                        }
+                        @if (!string.IsNullOrEmpty(item.SliderLink))
+                        {
+                            string Ldataappear = "zoomIn";
+                            if (!string.IsNullOrEmpty(item.SliderLink_DataAppear))
+                            {
+                                Ldataappear = item.SliderLink_DataAppear;
+                            }
+                            <div class="wrap-btn-slide1 w-size1 animated visible-false" data-appear="@Ldataappear">
+
+                                <a href="@item.SliderLink" class="flex-c-m size2 bo-rad-23 s-text2 bgwhite hov1 trans-0-4 @item.SliderLinkClass">
+                                    @item.SliderLinkText
+                                </a>
+                            </div>
+                        }
+
+
+                    </div>
+                </div>
+                counter++;
+            }
+        </div>
+    </div>
+</section>
+
+
+
+
+

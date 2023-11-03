@@ -1,0 +1,65 @@
+﻿@model DataLayer.Entities.Supplementary.SitePage
+
+@{
+    ViewData["Title"] = "ثبت اطلاعات صفحه";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">ثبت اطلاعات صفحه</h1>
+<h4 class="text-xs-center">ابعاد تصویر : عرض 1920 پیکسل و ارتفاع 230 پیکسل</h4>
+
+
+<div class="row">
+    <div class="offset-md-4 col-md-4 col-xs-12">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EnName" class="control-label"></label>
+                <input asp-for="EnName" class="form-control" dir="ltr" />
+                <span asp-validation-for="EnName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label><span id="char-count" class="float-xs-left red">320</span>
+                <textarea asp-for="Description" rows="3" maxlength="320" placeholder="حداکثر 320 کاراکتر" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="ثبت" class="btn btn-primary col-xs-12" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">بازگشت</a>
+</div>
+@section Scripts
+{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+           
+            maxchars = 320;
+            $('#Description').keyup(function () {
+                var tlength = $(this).val().length;
+                $(this).val($(this).val().substring(0, maxchars));
+                var tlength = $(this).val().length;
+                remain = maxchars - parseInt(tlength);
+                $('#char-count').text(remain);
+            });
+        });
+    </script>
+}

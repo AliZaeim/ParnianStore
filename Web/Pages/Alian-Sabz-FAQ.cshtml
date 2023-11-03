@@ -1,0 +1,248 @@
+﻿@page
+@model Web.Pages.FAQModel
+@using Core.Convertors;
+@using Core.Services.Interfaces;
+@inject IUserService _userService
+@{
+    Layout = null;
+    string mess = string.Empty;
+    if (TempData["message"] != null)
+    {
+        mess = TempData["message"].ToString();
+    }
+}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BYLT1K82JQ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-BYLT1K82JQ');
+    </script>
+    <title>پرسش از عالیان سبز</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:site_name" value="عالیان سبز">
+    <meta property="og:title" content="پرسش از عالیان سبز">
+    <meta property="og:url" content="https://aliansabz.com/AlianSabz_FAQ">
+    <meta property="og:image:url" content="https://aliansabz.com/images/">
+    <meta property="og:image" content="https://aliansabz.com/images/alian-sabz-shop-100.png">
+    <meta property="og:image:type" content=image/png>
+    <meta property="og:image:type" content=image/jpg>
+    <meta property="og:image:alt" content="عالیان سبز" />
+    <meta property="og:price:currency" content="IRR">
+    <meta property="og:locale" content="ir_FA">
+    <meta name="description" content="مشتریان عزیز عالیان سبز می توانند در این صفحه سئوالات خود در مورد محصولات عالیان سبز و یا سئوالات دیگر خود را بپرسند" />
+    <link rel="canonical" href="https://aliansabz.com/AlianSabz_FAQ" />
+    <link rel="stylesheet" type="text/css" href="~/Layout/vendor/bootstrap/css/bootstrap.min.css">    
+    <link rel="stylesheet" type="text/css" href="~/Layout/vendor/animsition/css/animsition.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Layout/css/util.css">
+    <link rel="stylesheet" type="text/css" href="~/Layout/css/main.css">
+    <link href="~/Layout/css/tricklandstyle.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    @{
+        var initial =await _userService.GetInitialInfoAsync();
+        string fav = "favicon.png";
+        if (initial != null)
+        {
+            if (!string.IsNullOrEmpty(initial.FavIcon))
+            {
+                fav = initial.FavIcon;
+            }
+        }
+
+    }
+    <link rel="shortcut icon" href="/@fav" type="image/x-icon" />
+    
+</head>
+<body class="animsition">
+
+    <!-- Header -->
+    <partial name="_Header" />
+
+    <nav class="breadcrumb-nav rtl" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">عالیان سبز</a></li>
+            <li class="breadcrumb-item active" aria-current="page">پرسش از عالیان </li>
+        </ol>
+    </nav>
+
+    <!-- Title Page -->
+    <section class="bg-title-page p-t-100 p-b-150 flex-col-c-m general-page-bg02">
+        <h2 class="l-text2 t-center">
+            پرسش و پاسخ
+        </h2>
+        <p class="m-text13 t-center">
+            سئوالات خود را از طریق فرم زیر از ما بپرسید
+        </p>
+    </section>
+
+
+    <section class="about-us p-b-65 rtl" id="particles-js">
+
+        <div data-aos="zoom-in" data-aos-delay="400">
+            <div class="container p-b-65">
+                <div class="row flex-column align-items-center justify-content-center">
+                    <div class="col-12 col-lg-6 tl-box n-padding">
+                        <h4 class="text-xs-center alert alert-info">سئوال خود را از ما بپرسید</h4>
+                        <h6 class="text-xs-center alert alert-warning">جهت برقراری ارتباط و پاسخ به سوال، تلفن همراه یا ایمیل خود را وارد کنید</h6>
+                        <form method="post" class="mb-5">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="FaqVM.FullName" class="control-label"></label>
+                                <input asp-for="FaqVM.FullName" class="form-control border border-info" />
+                                <span asp-validation-for="FaqVM.FullName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="FaqVM.Cellphone" class="control-label"></label>
+                                <input asp-for="FaqVM.Cellphone" onkeypress="return /[0-9]/i.test(event.key)" class="form-control border border-info" />
+                                <span asp-validation-for="FaqVM.Cellphone" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="FaqVM.Email" class="control-label"></label>
+                                <input asp-for="FaqVM.Email" class="form-control border border-info" />
+                                <span asp-validation-for="FaqVM.Email" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="FaqVM.Question" class="control-label"></label>&ensp;<span class="text-danger fs-18 text-bold-700">*</span><span class="float-left">مانده : <span id="char-count" class="text-danger">300</span></span>
+                                <textarea asp-for="FaqVM.Question" id="question" maxlength="300" rows="5" class="form-control border border-info"></textarea>
+                                <span asp-validation-for="FaqVM.Question" class="text-danger"></span>
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <input type="submit" value="ثبت سوال" class="btn btn-primary btn-lg btn-block cursor-pointer col-12" />
+                            </div>
+
+                        </form>
+                    </div>
+                    @if (Model.FaqVM.FAQs.Count() != 0)
+                    {
+                        <div class="col-12 col-lg-6 n-padding mt-3 tl-box n-padding">
+                            <h4 class="text-xs-right text-success pb-2">پرسش های مشتریان</h4>
+                            @foreach (var faq in Model.FaqVM.FAQs.OrderByDescending(x => x.CreateDate))
+                            {
+                                <div class=" wrap-dropdown-content bo6 p-t-15 p-b-14 col-lg-12 border-red">
+                                    <span class="fs-12">@faq.FullName | @faq.CreateDate.ToShamsiWithTime()</span><br />
+                                    <div class="js-toggle-dropdown-content flex-sb-m cs-pointer m-text19 color0-hov trans-0-4 show-dropdown-content">
+
+
+                                        <h6 class="line-height-1">@faq.Question</h6><br />
+
+
+                                        <i class="down-mark fs-12 color1 fa fa-plus dis-none" aria-hidden="true"></i>
+                                        <i class="up-mark fs-12 color1 fa fa-minus" aria-hidden="true"></i>
+
+                                    </div>
+
+                                    <div class="dropdown-content dis-none p-t-15 p-b-23">
+                                        @foreach (var rep in faq.ReplyLines)
+                                        {
+                                            <h6 class="s-text8 text-justify">
+                                                @rep
+                                            </h6>
+                                        }
+
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- Footer -->
+    <partial name="_Footer" />
+
+
+
+    <!-- Back to top -->
+    <div class="btn-back-to-top bg0-hov" id="myBtn">
+        <span class="symbol-btn-back-to-top">
+            &uArr;
+        </span>
+    </div>
+
+    <!-- Container Selection -->
+    <div id="dropDownSelect1"></div>
+    <div id="dropDownSelect2"></div>
+
+    @if (!string.IsNullOrEmpty(mess))
+    {
+        <input type="hidden" value="@mess" id="success" />
+    }
+
+
+    <script type="text/javascript" src="~/Layout/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script type="text/javascript" src="~/Layout/vendor/animsition/js/animsition.min.js"></script>
+    <script type="text/javascript" src="/Layout/vendor/bootstrap/js/popper.js"></script>
+    <script type="text/javascript" src="~/Layout/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script type="text/javascript">
+        AOS.init();
+        /*[ No ui ]
+        ===========================================================*/
+        var filterBar = document.getElementById('filter-bar');
+
+        noUiSlider.create(filterBar, {
+            start: [50, 200],
+            connect: true,
+            range: {
+                'min': 50,
+                'max': 200
+            }
+        });
+
+        var skipValues = [
+            document.getElementById('value-lower'),
+            document.getElementById('value-upper')
+        ];
+
+        filterBar.noUiSlider.on('update', function (values, handle) {
+            skipValues[handle].innerHTML = Math.round(values[handle]);
+        });
+    </script>
+    <!--===============================================================================================-->
+    <script src="~/Layout/js/main.js"></script>
+    <script src="~/Layout/js/particl.min.js"></script>
+    <script src="~/Layout/js/particlejs.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var maxchars = 300;
+            $('#question').keyup(function () {
+                var tlength = $(this).val().length;
+                $(this).val($(this).val().substring(0, maxchars));
+                var tlength = $(this).val().length;
+                remain = maxchars - parseInt(tlength);
+                $('#char-count').text(remain);
+            });
+            if ($("#success").length) {
+                // $('#success').delay(8000).fadeOut('slow');
+
+                swal({
+                    title: "پیام سیستم",
+                    text: "سوال شما با موفقیت ثبت شد، بزودی جهت پاسخ با شما ارتباط می گیریم",
+                    icon: "success",
+                    button: "متوجه شدم",
+
+                });
+            }
+        });
+    </script>
+</body>
+</html>

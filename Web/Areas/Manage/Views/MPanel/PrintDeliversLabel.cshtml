@@ -1,0 +1,166 @@
+﻿@model Core.DTOs.Admin.DeliverLabelsInfo
+@using Core.Convertors;
+<title>چاپ برچسبهای پستی</title>
+@{
+    int counter = 1;
+    <link rel="shortcut icon" href="/favicon.png" type="image/x-icon" />
+    Layout = null;
+    <link rel="stylesheet" type="text/css" href="/AdminLayout/app-assets/css-rtl/bootstrap.css">
+    <style>
+        body {
+            direction: rtl;
+        }
+
+        html {
+            direction: rtl;
+        }
+
+        .page {
+            width: 21cm;
+            height: 29.7cm;
+            /*border: 1px solid blue;*/
+            padding: 1cm;
+        }
+
+        .LRow {
+            width: 100%;
+            min-height: 6cm;
+            height: 6cm;
+            /*border: 1px solid red;*/
+            display: flex;
+            padding: 5mm 5mm 0 0;
+            clear: both;
+        }
+
+            .LRow::after {
+                content: '';
+                display: table;
+                clear: both;
+            }
+
+
+
+        .box {
+            display: inline-flex;
+            width: 5.5cm;
+            min-height: 5cm;
+            height: 5cm;
+            max-height: 5cm;
+            border: 1px solid #9b9799;
+            margin-left: 5mm;
+            padding: 2mm 1mm;
+            
+            position: relative;
+        }
+
+
+
+        .sender p, .receiver p {
+            padding-bottom: 0;
+            margin: 0;
+        }
+
+        @@media print {
+
+            @@page {
+                size: A4;
+            }
+
+            @@page :left {
+                margin-left: 2cm;
+            }
+
+            @@page :right {
+                margin-right: 2cm;
+
+                @@top-right {
+                    content: string(doctitle);
+                    margin: 30pt 0 10pt 0;
+                    font-size: 9pt;
+                    color: #333;
+                }
+            }
+
+            @@page :top {
+                margin-top: 1cm;
+            }
+
+            .bp, .filterDiv {
+                display: none;
+            }
+            .h3Title{
+                display:none;
+            }
+            .footer {
+                display: none;
+            }
+
+            .navbar-fixed-top {
+                display: none;
+            }
+
+            .main-menu-content {
+                display: none;
+            }
+
+            .EndPage {
+                page-break-after: always;
+            }
+        }
+    </style>
+}
+<div class="page">
+
+    <h3 class="h3Title">جهت چاپ کلیدهای Ctrl + P  را فشار دهید.</h3>
+
+    @foreach (var item in Model.DeliverLabels)
+    {
+        <div class="LRow">
+            @*<div class="box">
+                    <div>
+                        فرستنده :
+                        <span>استان </span>
+                        <span>@Model.InitialInfo.StateName</span>-
+                        <span>@Model.InitialInfo.CountyName</span>-
+                        <span>@Model.InitialInfo.Address</span><br />
+                        <span>کد پستی : @Model.InitialInfo.PostalCode</span><br />
+                        <span>تلفن : @Model.InitialInfo.Phone</span>
+                    </div>
+                </div>*@
+            <div class="box">
+                <p>
+                    <span>گیرنده :</span>
+                    <span>@item.RecipientName @item.RecipientFamily</span><br />
+                    <span>آدرس :</span>
+                    <span>@item.Order_StateName، @item.Order_CountyName، @item.Order_Address</span><br />
+                    <span>کد پستی :</span>
+                    <span>
+                        @{
+                            string ENumber = Core.Utility.Applications.ConvertArabicNumberToEnglish.toEnglishNumber(item.Order_PostalCode);
+                        }
+                        @ENumber
+                    </span><br />
+                    <span>تلفن : </span>
+                    <span>@item.RecipientPhone</span>
+                </p>
+            </div>
+            <div class="box">
+                <p>
+                    <span>شماره سفارش :</span>
+                    <span>@item.Order_DedicatedNumber</span><br />
+                    <span>تاریخ ثبت :</span>
+                    <span>@item.Order_Date.ToShamsiWithTime()</span>
+                    <span>خریدار :</span>
+                    <span>@item.BuyerName @item.BuyerFamily</span>
+                </p>
+            </div>
+        </div>
+        if (counter == 5)
+        {
+            <div class="EndPage"></div>
+            counter = 1;
+
+        }
+        counter++;
+    }
+</div>

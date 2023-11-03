@@ -1,0 +1,51 @@
+﻿@model IEnumerable<DataLayer.Entities.Supplementary.SitePage>
+
+@{
+    ViewData["Title"] = "اطلاعات صفحات سایت";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">اطلاعات صفحات سایت</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">ثبــت</a>
+</p>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.DateCreated)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+
+            <th class="text-xs-center align-middle">عملیات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.DateCreated)
+                </td>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+
+                <td class="text-xs-center align-middle">
+                    <a asp-action="Edit" asp-route-id="@item.Id">ویرایش</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">جزئیات</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">حــذف</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,38 @@
+﻿@model IEnumerable<DataLayer.Entities.Supplementary.EmailBank>
+@using Core.Convertors;
+@{
+    ViewData["Title"] = "ایمیل های ثبت شده";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">ایمیل های ثبت شده</h1>
+
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th class="text-xs-center align-middle">عملیات</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td class="text-xs-center align-middle">
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td class="text-xs-center align-middle">
+                @item.CreatedDate.ToShamsiN_WithTime()
+            </td>
+            <td class="text-xs-center align-middle">                
+                <a asp-action="DeleteEmail" asp-route-id="@item.Id">حذف</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

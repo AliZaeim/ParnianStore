@@ -1,0 +1,341 @@
+﻿@page
+@model Web.Pages.ContactModel
+@using Core.Services.Interfaces;
+@inject IUserService _userService
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BYLT1K82JQ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-BYLT1K82JQ');
+    </script>
+    <title>تماس با عالیان سبز</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:site_name" value="عالیان سبز">
+    <meta property="og:title" content="تماس با عالیان سبز">
+    <meta property="og:url" content="http://localhost:65017/Contact">
+    <meta property="og:image" content="http://localhost:65017/images/">
+    <meta property="og:image:url" content="http://localhost:65017/images/alian-sabz-shop-100.png">
+    <meta property="og:image:type" content=image/png>
+    <meta property="og:image:type" content=image/jpg>
+    <meta property="og:image:alt" content="عالیان سبز" />
+    <meta property="og:price:currency" content="IRR">
+    <meta property="og:locale" content="ir_FA">
+    <meta name="description" content="اطلاعات تماس فروشگاه اینترنتی عالیان سبز" />
+    <link rel="canonical" href="https://aliansabz.com/Contact" />
+    <link rel="stylesheet" type="text/css" href="~/Layout/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="~/lib/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="~/lib/fonts/themify/themify-icons.css">
+    <link rel="stylesheet" type="text/css" href="~/lib/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Layout/vendor/animate/animate.css">
+    <link rel="stylesheet" type="text/css" href="~/Layout/vendor/animsition/css/animsition.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Layout/css/util.css">
+    <link rel="stylesheet" type="text/css" href="~/Layout/css/main.css">
+    <link href="~/Layout/css/tricklandstyle.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    @{
+        var initial =await _userService.GetInitialInfoAsync();
+        string fav = "favicon.png";
+        if (initial != null)
+        {
+            if (!string.IsNullOrEmpty(initial.FavIcon))
+            {
+                fav = initial.FavIcon;
+            }
+        }
+
+    }
+    <link rel="shortcut icon" href="/@fav" type="image/x-icon" />
+    
+</head>
+<body class="animsition">
+
+    <!-- Header -->
+    <partial name="_Header" />
+
+    <nav class="breadcrumb-nav rtl" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">خانه</a></li>
+            <li class="breadcrumb-item active" aria-current="page">تماس با عالیان سبز</li>
+        </ol>
+    </nav>
+
+    <!-- Title Page -->
+    <section class="bg-title-page p-t-100 p-b-150 flex-col-c-m general-page-bg02">
+        <h2 class="l-text2 t-center">
+            تماس با عالیان سبز
+        </h2>
+        <h6 class="m-text13 t-center">
+            از راه های ارتباطی زیر میتوانید با ما در تماس باشید
+        </h6>
+    </section>
+
+
+    <section class="about-us m-b-65">
+        <div data-aos="flip-up" data-aos-delay="400">
+            <div class="container m-b-65">
+                <div class="row tl-box rtl">
+                    <div class="col-12 col-lg-6 n-padding">
+                        @if (Model.ContactInfo != null)
+                        {
+                            @if (!string.IsNullOrEmpty(Model.ContactInfo.Cellphones))
+                            {
+                                <div class="tl-soical-contact">
+                                    <div class="social-icon-ct" title="تلفن همراه">
+                                        <i class="ri-cellphone-fill text-primary"></i>
+                                    </div>
+                                    <div class="social-text">
+                                        @foreach (var cell in Model.ContactInfo.CellPhoneList)
+                                        {
+                                            if (cell != Model.ContactInfo.CellPhoneList.LastOrDefault())
+                                            {
+                                                <span>@cell</span><br />
+                                            }
+                                            else
+                                            {
+                                                <span>@cell</span>
+                                            }
+                                        }
+
+                                    </div>
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.ContactInfo.Phones))
+                            {
+                                <div class="tl-soical-contact">
+                                    <div class="social-icon-ct" title="تلفن">
+                                        <i class="ri-phone-fill text-warning"></i>
+                                    </div>
+                                    <div class="social-text">
+                                        @foreach (var cell in Model.ContactInfo.PhoneList)
+                                        {
+                                            if (cell != Model.ContactInfo.PhoneList.LastOrDefault())
+                                            {
+                                                <span>@cell</span><br />
+                                            }
+                                            else
+                                            {
+                                                <span>@cell</span>
+                                            }
+                                        }
+
+                                    </div>
+                                </div>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.ContactInfo.InstagramLink))
+                            {
+                                <div class="tl-soical-contact">
+                                    <div class="social-icon-ct text-danger" title="اینستاگرام">
+                                        <i class="ri-instagram-fill"></i>
+                                    </div>
+                                    <div class="social-text">
+                                        <a href="@Model.ContactInfo.InstagramLink" target="_blank">اینستاگرام عالیان سبز</a>
+                                    </div>
+                                </div>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.ContactInfo.Emailes))
+                            {
+                                <div class="tl-soical-contact">
+                                    <div class="social-icon-ct text-success" title="ایمیل">
+                                        <i class="ri-mail-fill"></i>
+                                    </div>
+                                    <div class="social-text">
+                                        @foreach (var em in Model.ContactInfo.EmailList)
+                                        {
+                                            if (em != Model.ContactInfo.CellPhoneList.LastOrDefault())
+                                            {
+                                                <span>@em</span><br />
+                                            }
+                                            else
+                                            {
+                                                <span>@em</span>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.ContactInfo.TelegramLink))
+                            {
+                                <div class="tl-soical-contact">
+                                    <div class="social-icon-ct text-info" title="تلگرام">
+                                        <i class="ri-telegram-fill"></i>
+                                    </div>
+                                    <div class="social-text">
+                                        <a href="@Model.ContactInfo.TelegramLink">تلگرام عالیان سبز</a>
+                                    </div>
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.ContactInfo.Whatsapp))
+                            {
+                                <div class="tl-soical-contact">
+                                    <div class="social-icon-ct text-success" title="واتس آپ">
+                                        <i class="ri-whatsapp-fill"></i>
+                                    </div>
+                                    <div class="social-text">
+                                        <a href="@Model.ContactInfo.Whatsapp">واتز عالیان سبز</a>
+                                    </div>
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.ContactInfo.Faxes))
+                            {
+                                <div class="tl-soical-contact">
+                                    <div class="social-icon-ct text-info" title="فکس">
+                                        <i class="fa fa-fax"></i>
+                                    </div>
+                                    <div class="social-text">
+                                        @foreach (var fx in Model.ContactInfo.FaxList)
+                                        {
+                                            if (fx != Model.ContactInfo.FaxList.LastOrDefault())
+                                            {
+                                                <span>@fx</span><br />
+                                            }
+                                            else
+                                            {
+                                                <span>@fx</span>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.ContactInfo.Addresses))
+                            {
+                                <div class="tl-soical-contact">
+                                    <div class="social-icon-ct text-primary" title="آدرس">
+                                        <i class="ri-map-fill"></i>
+                                    </div>
+                                    <div class="social-text">
+                                        @foreach (var add in Model.ContactInfo.AddressList)
+                                        {
+                                            if (add != Model.ContactInfo.AddressList.LastOrDefault())
+                                            {
+                                                <span>@add</span><br />
+                                            }
+                                            else
+                                            {
+                                                <span>@add</span>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            }
+
+                        }
+
+
+                        @*<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3468.2675482078093!2d52.52041713453439!3d29.624971645220146!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xa654723cd58165d3!2z2LnYp9mE24zYp9mGINiq2KzZh9uM2LIg2KLYstmF2Kc!5e0!3m2!1sfa!2s!4v1625487982751!5m2!1sfa!2s" width="100%" height="200" style="border-radius: 20px;" allowfullscreen="" loading="lazy"></iframe>*@
+
+                    </div>
+                    <div class="col-12 col-lg-6 n-padding">
+
+                        <form method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <div class="fl-name">
+                                    <div class="tl-name">
+                                        <label asp-for="ContactMessage.FullName" class="control-label"></label>
+                                        <input asp-for="ContactMessage.FullName" class="form-control border" />
+                                        <span asp-validation-for="ContactMessage.FullName" class="text-danger"></span>
+                                    </div>
+                                    <div class="tl-phone">
+                                        <label asp-for="ContactMessage.Cellphone" class="control-label"></label>
+                                        <input asp-for="ContactMessage.Cellphone" placeholder="مثال : 0912xxxxxxx" onkeypress="return /[0-9]/i.test(event.key)" class="form-control border" />
+                                        <span asp-validation-for="ContactMessage.Cellphone" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="ContactMessage.Email" class="control-label"></label>
+                                <input asp-for="ContactMessage.Email" class="form-control border" />
+                                <span asp-validation-for="ContactMessage.Email" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="ContactMessage.Title" class="control-label"></label>
+                                <input asp-for="ContactMessage.Title" class="form-control border" />
+                                <span asp-validation-for="ContactMessage.Title" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="ContactMessage.Message" class="control-label"></label>
+                                <textarea asp-for="ContactMessage.Message" rows="10" cols="15" class="form-control border"></textarea>
+                                <span asp-validation-for="ContactMessage.Message" class="text-danger"></span>
+                            </div>
+
+
+                            <div class="form-group">
+                                <input type="submit" value="ارسال پیام" class="btn btn-primary btn-lg btn-block cursor-pointer col-xs-12" />
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <partial name="_Footer" />
+
+
+
+    <!-- Back to top -->
+    <div class="btn-back-to-top bg0-hov" id="myBtn">
+        <span class="symbol-btn-back-to-top">
+            &uArr;
+        </span>
+    </div>
+
+    <!-- Container Selection -->
+    <div id="dropDownSelect1"></div>
+    <div id="dropDownSelect2"></div>
+
+        <script type="text/javascript" src="~/Layout/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>    
+    <script type="text/javascript" src="~/Layout/vendor/animsition/js/animsition.min.js"></script>    
+    <script type="text/javascript" src="~/Layout/vendor/bootstrap/js/bootstrap.min.js"></script>    
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script type="text/javascript">
+        AOS.init();
+        /*[ No ui ]
+        ===========================================================*/
+        var filterBar = document.getElementById('filter-bar');
+
+        noUiSlider.create(filterBar, {
+            start: [50, 200],
+            connect: true,
+            range: {
+                'min': 50,
+                'max': 200
+            }
+        });
+
+        var skipValues = [
+            document.getElementById('value-lower'),
+            document.getElementById('value-upper')
+        ];
+
+        filterBar.noUiSlider.on('update', function (values, handle) {
+            skipValues[handle].innerHTML = Math.round(values[handle]);
+        });
+    </script>    
+    <script src="~/Layout/js/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,94 @@
+﻿@model DataLayer.Entities.Store.PackageGroup
+
+@{
+    ViewData["Title"] = "ویرایش گروه پکیج";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+    var groups = ViewData["groups"] as List<DataLayer.Entities.Store.PackageGroup>;
+    var banners = ViewData["banners"] as List<DataLayer.Entities.Supplementary.Banner>;
+}
+
+<h1 class="text-xs-center alert alert-info">ویرایش گروه پکیج</h1>
+
+
+<div class="row">
+    <div class="offset-md-4 col-md-4 col-xs-12">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="PgId" />
+            <div class="form-group">
+                <label asp-for="PgTitle" class="control-label"></label>
+                <input asp-for="PgTitle" class="form-control" />
+                <span asp-validation-for="PgTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PgEnTitle" class="control-label"></label>
+                <input asp-for="PgEnTitle" class="form-control" />
+                <span asp-validation-for="PgEnTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PgDiscountValue" class="control-label"></label>
+                <input asp-for="PgDiscountValue" class="form-control" />
+                <span asp-validation-for="PgDiscountValue" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PgDiscountPercent" class="control-label"></label>
+                <input asp-for="PgDiscountPercent" class="form-control" />
+                <span asp-validation-for="PgDiscountPercent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PgMark" class="control-label"></label>
+                <input asp-for="PgMark" class="form-control" />
+                <span asp-validation-for="PgMark" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ParentId" class="control-label"></label>
+                <select asp-for="ParentId" class="form-control">
+                    <option value="">انتخاب کنید ...</option>
+                    @foreach (var gr in groups.Where(w => w.ParentId == null && w.PgId != Model.PgId))
+                    {
+                        @if (gr == Model.Parent)
+                        {
+                            <option selected value="@gr.PgId">@gr.PgTitle</option>
+                        }
+                        else
+                        {
+                            <option value="@gr.PgId">@gr.PgTitle</option>
+                        }
+
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="BannerId" class="control-label"></label>
+                <select asp-for="BannerId" class="form-control">
+                    <option value="">انتخاب کنید ...</option>
+                    @foreach (var bn in banners)
+                    {
+                        @if (bn == Model.Banner)
+                        {
+                            <option selected value="@bn.Id">@bn.Comment</option>
+                        }
+                        else
+                        {
+                            <option value="@bn.Id">@bn.Comment</option>
+                        }
+
+                    }
+                </select>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="ویرایش" class="btn btn-primary col-xs-12" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">بازگشت</a>
+</div>
+

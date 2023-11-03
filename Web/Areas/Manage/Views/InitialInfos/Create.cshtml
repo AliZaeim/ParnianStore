@@ -1,0 +1,96 @@
+﻿@model DataLayer.Entities.Supplementary.InitialInfo
+
+@{
+    ViewData["Title"] = "ثبت اطلاعات پایه";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">ثبت اطلاعات پایه</h1>
+<h3 class="text-xs-center alert alert-warning">از عکس ها لوگو و فاوآیکن اجباری هستند | به ترتیب حداکثر 10 کیلوبایت و 5 کیلوبایت</h3>
+
+<div class="row">
+    <div class="offset-md-4 col-md-4 col-xs-12">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SiteCurrency" class="control-label"></label>
+                <input asp-for="SiteCurrency" class="form-control" />
+                <span asp-validation-for="SiteCurrency" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SiteLogo" class="control-label"></label>
+                <input asp-for="SiteLogo" type="file" class="form-control" />
+                <span asp-validation-for="SiteLogo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SiteThumbLogo" class="control-label"></label>
+                <input asp-for="SiteThumbLogo" type="file" class="form-control" />
+                <span asp-validation-for="SiteThumbLogo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FavIcon" class="control-label"></label>
+                <input asp-for="FavIcon" type="file" class="form-control" />
+                <span asp-validation-for="FavIcon" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="FreeShipping_MinimumPurchaseAmount" class="control-label"></label>
+                <input asp-for="FreeShipping_MinimumPurchaseAmount" class="form-control" />
+                <span asp-validation-for="FreeShipping_MinimumPurchaseAmount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Motto" class="control-label"></label>
+                <input asp-for="Motto" class="form-control" />
+                <span asp-validation-for="Motto" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PercentageIncreaseDiscount" class="control-label"></label>
+                <input asp-for="PercentageIncreaseDiscount" class="form-control" />
+                <span asp-validation-for="PercentageIncreaseDiscount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StateName" class="control-label"></label>
+                <input asp-for="StateName" class="form-control" />
+                <span asp-validation-for="StateName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CountyName" class="control-label"></label>
+                <input asp-for="CountyName" class="form-control" />
+                <span asp-validation-for="CountyName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Phone" class="control-label"></label>
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PostalCode" class="control-label"></label>
+                <input asp-for="PostalCode" class="form-control" />
+                <span asp-validation-for="PostalCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="ثبت" class="btn btn-primary col-xs-12" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">بازگشت</a>
+</div>
+
+@section Scripts
+{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

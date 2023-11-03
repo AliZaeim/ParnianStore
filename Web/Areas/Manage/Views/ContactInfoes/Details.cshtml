@@ -1,0 +1,95 @@
+﻿@model DataLayer.Entities.Supplementary.ContactInfo
+@using Core.Convertors;
+@{
+    ViewData["Title"] = "جزئیات اطلاعات تماس";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">جزئیات اطلاعات تماس</h1>
+
+<br />
+<div>
+
+
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Addresses)
+        </dt>
+        <dd class="col-sm-10">
+            @foreach (var ad in Model.AddressList)
+            {
+                <p>@ad</p>
+            }
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Phones)
+        </dt>
+        <dd class="col-sm-10">
+            @foreach (var p in Model.PhoneList)
+            {
+                <p>@p</p>
+            }
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Cellphones)
+        </dt>
+        <dd class="col-sm-10">
+            @foreach (var c in Model.CellPhoneList)
+            {
+                <p>@c</p>
+            }
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Emailes)
+        </dt>
+        <dd class="col-sm-10">
+            @foreach (var e in Model.EmailList)
+            {
+                <p>@e</p>
+            }
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Faxes)
+        </dt>
+        <dd class="col-sm-10">
+            @foreach (var f in Model.FaxList)
+            {
+                <p>@f</p>
+            }
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InstagramLink)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InstagramLink)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TelegramLink)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TelegramLink)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FacebookLink)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FacebookLink)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Whatsapp)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Whatsapp)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Model.CreatedDate.ToShamsiWithTime()
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">ویرایش</a> |
+    <a asp-action="Index">بازگشت</a>
+</div>

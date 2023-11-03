@@ -1,0 +1,29 @@
+﻿<section class="tl-newsletter">
+    <div class="bg-overlay"></div>
+    
+        
+        <div class="container">
+            <div class="row">
+                <div class="col-12 tl-newsletter-col pt-0" >
+                    <h2>خــبرنامه</h2>
+                    <p class="text-justify black fs-18 line-height-1 col-md-12">
+                        جهت کمک به عالیان سبز در روند اطلاع رسانی به موقع به مشتریان عزیز خود و آگاهی به موقع از تخفیف ها ،
+                        فروش های ویژه و مطلع شدن از موجود شدن محصولات در سایت، با عضویت در خبرنامه عالیان سبز می توانید در جریان این نوع اخبار قرار بگیرید.
+                    </p>
+                </div>
+                
+                <div class="col-12">
+                    <form method="post">
+                        <div class="input-group col-sm-12 pl-3 pr-3 m-t-30">
+                            <button @*id="AddEmail"*@ asp-page="Index" class="btn btn-black" type="submit">عضویت</button>
+                            <input type="email" id="inpEmail" autocomplete="off" class="col-sm-6 rounded-right input-lg text-left" placeholder="آدرس ایمیل" required name="Email" data-val="true" oninvalid="this.setCustomValidity('ایمیل را وارد کنید')" oninput="this.setCustomValidity('')">
+                        </div>
+                        
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+        
+    
+</section>

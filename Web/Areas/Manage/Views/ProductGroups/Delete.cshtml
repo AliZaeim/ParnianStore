@@ -1,0 +1,54 @@
+﻿@model DataLayer.Entities.Store.ProductGroup
+
+@{
+    ViewData["Title"] = "حــذف گروه محصول";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-danger">حــذف گروه محصول</h1>
+
+<h3 class="text-xs-center alert alert-warning">آیا مطمئن به حذف گروه محصول هستید؟</h3>
+<div>
+    
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ProductGroupTitle)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ProductGroupTitle)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ProductGroupComment)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ProductGroupComment)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ProductGroupDiscountPercent)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ProductGroupDiscountPercent)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ProductGroupDiscountValue)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ProductGroupDiscountValue)
+        </dd>
+        
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ProductGroupText)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ProductGroupText)
+        </dd>
+       
+        
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="ProductGroupId" />
+        <input type="submit" value="حـــذف" class="btn btn-danger" /> |
+        <a asp-action="Index">بازگشت</a>
+    </form>
+</div>

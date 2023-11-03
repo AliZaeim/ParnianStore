@@ -1,0 +1,337 @@
+﻿@using Core.Services.Interfaces;
+@inject IUserService _userServie
+<div data-scroll-to-active="true" class="main-menu menu-fixed menu-dark menu-accordion menu-shadow">
+
+    <!-- main menu content-->
+    <div class="main-menu-content">
+        <ul id="main-menu-navigation" class="navigation navigation-main">
+            <li class=" nav-item">
+                @if (_userServie.CheckPermissionByName("alianmanager", User.Identity.Name))
+                {
+                    <a href="#"><i class="icon-stack-2"></i><span class="menu-title">مدیریت</span></a>
+                    <ul class="menu-content">
+                        @if (_userServie.CheckPermissionByName("createorder", User.Identity.Name))
+                        {
+                            <li class="is-shown showspinner">
+                                <a href="~/Manage/AdminOrders/CreateOrder" class="menu-item showspinner">ثبت سفارش</a>
+                            </li>
+                        }
+                        @if (_userServie.CheckPermissionByName("deliverlabel", User.Identity.Name))
+                        {
+                            <li class="is-shown showspinner">
+                                <a href="~/Manage/MPanel/DeliversLabel" class="menu-item showspinner">برچسبهای پستی</a>
+                            </li>
+                        }
+                        @if (_userServie.CheckPermissionByName("manageroles", User.Identity.Name))
+                        {
+                            <li class="has-sub">
+                                <a href="#" class="menu-item">نقش ها</a>
+                                <ul class="menu-content">
+                                    <li class="is-shown">
+                                        <a href="/Manage/Roles/Index" class="menu-item showspinner">مشاهده لیست</a>
+                                    </li>
+                                    <li class="is-shown">
+                                        <a href="/Manage/Roles/Create" class="menu-item showspinner">ثبت نقش</a>
+                                    </li>
+
+                                </ul>
+
+                            </li>
+                        }
+                        @if (_userServie.CheckPermissionByName("uploadcenter", User.Identity.Name))
+                        {
+                            <li class="is-shown showspinner">
+                                <a data-url="uploadcenterIndex" href="~/Manage/UploadCenters/Index" class="menu-item showspinner">آپلود سنتر</a>
+                            </li>
+                        }
+                        @if (_userServie.CheckPermissionByName("ckuploadcenter", User.Identity.Name))
+                        {
+                            <li class="is-shown showspinner">
+                                <a href="~/Manage/Commons/FileBrowser" class="menu-item showspinner">فایلهای آپلودی CK</a>
+                            </li>
+                        }
+
+                        @if (_userServie.CheckPermissionByName("slider", User.Identity.Name))
+                        {
+                            <li class="has-sub">
+                                <a href="#" class="menu-item">اسلایدر</a>
+                                <ul class="menu-content">
+                                    @if (_userServie.CheckPermissionByName("sliders", User.Identity.Name))
+                                    {
+                                        <li class="is-shown">
+                                            <a href="/Manage/Sliders/Index" class="menu-item showspinner">اسلایدها</a>
+                                        </li>
+                                    }
+                                    @if (_userServie.CheckPermissionByName("fractionslider", User.Identity.Name))
+                                    {
+                                        <li class="has-sub">
+                                            <a href="#" class="menu-item">اسلایدر تکه ای</a>
+                                            <ul class="menu-content">
+                                                <li class="is-shown">
+                                                    <a href="/Manage/FractionSliders/Index" class="menu-item showspinner">اسلایدها</a>
+                                                </li>
+                                                <li class="is-shown">
+                                                    <a href="/Manage/FSImages/Index" class="menu-item showspinner">تصاویر اسلایدر</a>
+                                                </li>
+                                                <li class="is-shown">
+                                                    <a href="/Manage/FSTexts/Index" class="menu-item showspinner">متون اسلایدر</a>
+                                                </li>
+                                            </ul>
+
+                                        </li>
+                                    }
+                                    @if (_userServie.CheckPermissionByName("slidernextbanner", User.Identity.Name))
+                                    {
+                                        <li class="is-shown">
+                                            <a href="/Manage/BannerNextSliders/Index" class="menu-item showspinner">بنرهای کنار اسلایدر</a>
+                                        </li>
+                                    }
+
+
+                                </ul>
+
+                            </li>
+                        }
+                        @if (_userServie.CheckPermissionByName("store", User.Identity.Name))
+                        {
+                            <li class="has-sub">
+                                <a href="#" class="menu-item">فروشگاه</a>
+                                <ul class="menu-content">
+
+                                    @if (_userServie.CheckPermissionByName("productgroups", User.Identity.Name))
+                                    {
+                                        <li class="is-shown">
+                                            <a href="/Manage/ProductGroups/Index" class="menu-item showspinner">گروههای محصول</a>
+                                        </li>
+                                    }
+                                    @if (_userServie.CheckPermissionByName("packagegroups", User.Identity.Name))
+                                    {
+                                        <li class="is-shown">
+                                            <a href="/Manage/PackageGroups/Index" class="menu-item showspinner">گروههای پکیج</a>
+                                        </li>
+                                    }
+
+                                    @if (_userServie.CheckPermissionByName("products", User.Identity.Name))
+                                    {
+                                        <li class="is-shown">
+                                            <a href="/Manage/Products/Index" class="menu-item showspinner">محصولات</a>
+                                        </li>
+                                    }
+                                    @if (_userServie.CheckPermissionByName("ingredients", User.Identity.Name))
+                                    {
+                                        <li class="is-shown">
+                                            <a href="/Manage/Ingredients/Index" class="menu-item showspinner">اجزای تکشیل دهنده محصول</a>
+                                        </li>
+                                    }
+                                    @if (_userServie.CheckPermissionByName("packages", User.Identity.Name))
+                                    {
+                                        <li class="is-shown">
+                                            <a href="/Manage/Packages/Index" class="menu-item showspinner">پکیج ها</a>
+                                        </li>
+                                    }
+                                    @if (_userServie.CheckPermissionByName("warehouse", User.Identity.Name))
+                                    {
+                                        <li class="is-shown">
+                                            <a href="/Manage/WareHouses/Index" class="menu-item showspinner">دفتر انبار</a>
+                                        </li>
+                                    }
+                                    @if (_userServie.CheckPermissionByName("discountcoupen", User.Identity.Name))
+                                    {
+                                        <li class="is-shown">
+                                            <a href="/Manage/DiscountCoupens/Index" class="menu-item showspinner">کوپن تخفیف</a>
+                                        </li>
+                                    }
+                                    @if (_userServie.CheckPermissionByName("pintrobanner", User.Identity.Name))
+                                    {
+                                        <li class="is-shown">
+                                            <a href="/Manage/Banners/Index" class="menu-item showspinner">بنرهای معرفی محصول</a>
+                                        </li>
+                                    }
+
+                                </ul>
+
+                            </li>
+                        }
+                        @if (_userServie.CheckPermissionByName("weblog", User.Identity.Name))
+                        {
+                            <li class="has-sub">
+                                <a href="#" class="menu-item">وبلاگ</a>
+                                <ul class="menu-content">
+                                    @if (_userServie.CheckPermissionByName("webloggroups", User.Identity.Name))
+                                    {
+                                        <li class="is-shown">
+                                            <a href="/Manage/BlogGroups/Index" class="menu-item showspinner">گروهها</a>
+                                        </li>
+                                    }
+                                    @if (_userServie.CheckPermissionByName("aliannews", User.Identity.Name))
+                                    {
+                                        <li class="is-shown">
+                                            <a href="/Manage/Blogs/Index" class="menu-item showspinner">بلاگ ها</a>
+                                        </li>
+                                    }
+
+
+                                </ul>
+
+                            </li>
+                        }
+
+                        @if (_userServie.CheckPermissionByName("supplementary", User.Identity.Name))
+                        {
+                            <li class="has-sub">
+                                <a href="#" class="menu-item">اطلاعات تکمیلی</a>
+
+                                <ul class="menu-content">
+                                    @if (_userServie.CheckPermissionByName("sitepages", User.Identity.Name))
+                                    {
+                                        <li class="is-shown">
+                                            <a href="/Manage/SitePages/Index" class="menu-item showspinner">اطلاعات صفحات سایت</a>
+                                        </li>
+                                    }
+                                    @if (_userServie.CheckPermissionByName("terms", User.Identity.Name))
+                                    {
+                                        <li class="is-shown">
+                                            <a href="/Manage/Terms/Index" class="menu-item showspinner">قواعد و مقررات سایت</a>
+                                        </li>
+                                    }
+                                    @if (_userServie.CheckPermissionByName("insta", User.Identity.Name))
+                                    {
+                                        <li class="is-shown">
+                                            <a href="/Manage/Instagrams/Index" class="menu-item showspinner">اینستاگرام</a>
+                                        </li>
+                                    }
+                                    @if (_userServie.CheckPermissionByName("aboutfaq", User.Identity.Name))
+                                    {
+                                        <li class="is-shown">
+                                            <a href="/Manage/AboutUsfaqs/Index" class="menu-item showspinner">پرسش و پاسخ درباره ما</a>
+                                        </li>
+                                    }
+
+                                    @if (_userServie.CheckPermissionByName("contactinfo", User.Identity.Name))
+                                    {
+                                        <li class="is-shown">
+                                            <a href="/Manage/ContactInfoes/Index" class="menu-item showspinner">اطلاعات تماس</a>
+                                        </li>
+                                    }
+                                    @if (_userServie.CheckPermissionByName("contactusermessage", User.Identity.Name))
+                                    {
+                                        <li class="is-shown">
+                                            <a href="/Manage/ContactMessages/Index" class="menu-item showspinner">پیام های کاربران از تماس با ما</a>
+                                        </li>
+                                    }
+                                    @if (_userServie.CheckPermissionByName("sitefaq", User.Identity.Name))
+                                    {
+                                        <li class="is-shown">
+                                            <a href="/Manage/QuestionAnswers/Index" class="menu-item showspinner">سئوالات متداول</a>
+                                        </li>
+                                    }
+                                    @if (_userServie.CheckPermissionByName("faq", User.Identity.Name))
+                                    {
+                                        <li class="is-shown">
+                                            <a href="/Manage/FAQs/Index" class="menu-item showspinner">پرسش و پاسخ</a>
+                                        </li>
+                                    }
+                                    @if (_userServie.CheckPermissionByName("initialinfo", User.Identity.Name))
+                                    {
+                                        <li class="is-shown">
+                                            <a href="/Manage/InitialInfos/Index" class="menu-item showspinner">اطلاعات پایه</a>
+                                        </li>
+                                    }
+                                    @if (_userServie.CheckPermissionByName("notification", User.Identity.Name))
+                                    {
+                                        <li class="is-shown">
+                                            <a href="/Manage/Notifications/Index" class="menu-item showspinner">اطلاعیه ها</a>
+                                        </li>
+                                    }
+                                    @if (_userServie.CheckPermissionByName("footertopcols", User.Identity.Name))
+                                    {
+                                        <li class="is-shown">
+                                            <a href="/Manage/ThreeColmuns/Index" class="menu-item showspinner">ستونهای بالای فوتر</a>
+                                        </li>
+                                    }
+                                    @if (_userServie.CheckPermissionByName("state", User.Identity.Name))
+                                    {
+                                        <li class="is-shown">
+                                            <a href="/Manage/States/Index" class="menu-item showspinner">استان ها</a>
+                                        </li>
+                                    }
+                                    @if (_userServie.CheckPermissionByName("county", User.Identity.Name))
+                                    {
+                                        <li class="is-shown">
+                                            <a href="/Manage/Counties/Index" class="menu-item showspinner">شهرستان ها</a>
+                                        </li>
+                                    }
+
+
+                                </ul>
+
+                            </li>
+                        }
+                        @if (_userServie.CheckPermissionByName("reportsforadmin", User.Identity.Name))
+                        {
+                            <li class="has-sub">
+                                <a href="#" class="menu-item">گزارشات</a>
+                                <ul class="menu-content">
+                                    @if (_userServie.CheckPermissionByName("registeredusers", User.Identity.Name))
+                                    {
+                                        <li class="is-shown">
+                                            <a href="/Manage/AdminReports/Registered" class="menu-item showspinner">ثبت نامی ها</a>
+                                        </li>
+                                    }
+                                    @if (_userServie.CheckPermissionByName("ordersforadmin", User.Identity.Name))
+                                    {
+                                        <li class="is-shown">
+                                            <a href="/Manage/AdminOrders/Index" class="menu-item showspinner">سفارشات</a>
+                                        </li>
+                                    }
+                                    @if (_userServie.CheckPermissionByName("ordersforadmin", User.Identity.Name))
+                                    {
+                                        <li class="is-shown">
+                                            <a href="/Manage/AdminOrders/SearchOrders" class="menu-item showspinner">جستجوی سفارشات</a>
+                                        </li>
+                                    }
+                                    @if (_userServie.CheckPermissionByName("bascketsforadmin", User.Identity.Name))
+                                    {
+                                        <li class="is-shown">
+                                            <a href="/Manage/AdminOrders/GetCarts" class="menu-item showspinner">سبدهای خرید</a>
+                                        </li>
+                                    }
+                                    <li class="is-shown">
+                                        <a href="/Manage/AdminReports/GetEmails" class="menu-item showspinner">ایمیل های ثبت شده</a>
+                                    </li>
+
+                                </ul>
+
+                            </li>
+                        }
+
+                    </ul>
+                }
+
+            </li>
+
+
+            <li class="is-shown">
+                <a href="/Manage/MyAccount/MyOrders" class="menu-item showspinner"><span class="icon-paper green"></span>&ensp; سفارش ها </a>
+            </li>
+            <li class="is-shown">
+                <a href="/Manage/MyAccount/MyData" class="menu-item showspinner"><span class="icon-user-md yellow"></span> &ensp; مشخصات کاربری </a>
+
+            </li>
+            <li class="is-shown">
+                <a href="/Manage/MyAccount/MyQuestions" class="menu-item showspinner"><span class="icon-question white"></span> &ensp; سئوالات من </a>
+
+            </li>
+            @if (_userServie.CheckPermissionByName("markater", User.Identity.Name))
+            {
+                if (_userServie.CheckPermissionByName("mcreateorder", User.Identity.Name))
+                {
+                    <li class="is-shown">
+                        <a href="/Manage/MyAccount/CreateOrder" class="menu-item showspinner"><span class="icon-save primary"></span>&ensp; ثبت سفارش </a>
+                    </li>
+                }
+            }
+        </ul>
+    </div>
+
+</div>

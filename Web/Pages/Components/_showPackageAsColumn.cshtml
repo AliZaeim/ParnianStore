@@ -1,0 +1,110 @@
+﻿@model DataLayer.Entities.Store.Package
+@using Core.Services.Interfaces;
+@inject IProductService _productService
+@using Core.DTOs.General;
+@{
+    DiscountOptionVM discountOptionVM = await _productService.HasPackageDiscountAsync(Model.PkId);
+    string gnme = Model.PackageGroup.PgEnTitle.Replace(" ", "");
+    string cur = "ریال";
+    var init = await _productService.GetInitialInfoAsync();
+    if (init != null)
+    {
+        cur = init.SiteCurrency;
+    }
+    string zaddId = "zadd" + Model.PgId;
+    int PCount =  await _productService.GetPackage_Inventory_InStoreAsync(Model.PkId);
+}
+<div class="col-xs-3 col-sm-4 col-lg-4  p-b-50 m-0">
+    <!-- Block2 -->
+
+    <div class="block2 tl-box" >
+        <div class="block2-img wrap-pic-w of-hidden pos-relative tl-box">
+            @if (PCount <= 0)
+            {
+                <span class="top-left-label bg-dark text-white fs-12 d-block w-100 text-center ">پایان موجودی</span>
+            }
+            else
+            {
+                @if (!string.IsNullOrEmpty(Model.PkLabel))
+                {
+                    <span class="top-left-label bg-info text-white fs-12  text-xs-center ">@Model.PkLabel</span>
+                }
+                @if (discountOptionVM.HasDiscount)
+                {
+                    <label class="top-left-label bg-danger text-white fs-12 text-xs-center ">@discountOptionVM.DiscountPercent @discountOptionVM.DiscountUnit</label>
+                }
+            }
+            <img src="/images/packages/@Model.PkSliderImage" alt="IMG-PRODUCT">
+
+            <div class="block2-overlay trans-0-4">
+                <a href="javascript:void(0)" class="block2-btn-addwishlist hov-pointer trans-0-4" data-zaddId="@zaddId" data-pid="@Model.PkId">
+                    <i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
+                    <i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
+                </a>
+
+                @if (PCount > 0)
+                {
+                    <div class="block2-btn-addcart w-size1 trans-0-4" data-pid="@Model.PkId" data-kind="pk" data-min-Inv="@Model.PkMin_Inventory_ForAlarm" data-max-buy="@Model.MaximumNumberofPurchases">
+                        <!-- Button -->
+                        <button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
+                            افزودن به سبد
+                        </button>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="tl-heart ">
+            <div class="heart-counter tl-box">
+                <i class="ri-heart-fill " data-zaddId="@zaddId" data-pid="@Model.PkId"></i>
+                <span id="@zaddId">@Model.Popularity</span>
+            </div>
+        </div>
+
+        <div class="block2-txt p-t-20">
+            <a href="/Package/d/@Model.PkEnTitle.Replace(" ","-")" class="tl-product-heading block2-name dis-block s-text3 p-b-5">
+                @Model.PkTitle
+            </a>
+            <a asp-page="Packages" asp-route-gname="@gnme" class="text-center block2-name dis-block p-b-5">@Model.PackageGroup.PgTitle</a>
+
+            <div class="tl-price-cart">
+                @{
+                    string btnClass = "block-btn-bottom-addcart btn tl-add-to-cart-btn";
+                }
+                @if (PCount <= 0)
+                {
+                    btnClass = "btn tl-add-to-cart-btn-disabled disabled zcursor-not-allowed";
+                }
+                <div>
+                    <button class="@btnClass" data-pid="@Model.PkId" data-kind="pk" data-min-Inv="@Model.PkMin_Inventory_ForAlarm" data-max-buy="10">
+                        <img src="/images/icons/add-to-cart.svg">
+                    </button>
+                </div>
+                @if (PCount > 0)
+                {
+                    <div class="price">
+                        @if (discountOptionVM.HasDiscount)
+                        {
+                            <bdi class="offer-price">@Model.PkPrice.GetValueOrDefault(0).ToString("N0")</bdi>
+                            <span>@discountOptionVM.NetPrice.ToString("N0")</span>
+                        }
+                        else
+                        {
+                            <span>@Model.PkPrice.GetValueOrDefault(0).ToString("N0")</span>
+                        }
+                        <span class="tl-price-t">@cur</span>
+                    </div>
+                }
+                else
+                {
+                    <div class="price">
+                        <span class="bg-danger col-12 d-block">پایان موجودی</span>
+                    </div>
+                }
+
+
+            </div>
+        </div>
+    </div>
+
+</div>

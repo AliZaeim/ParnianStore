@@ -1,0 +1,18 @@
+﻿@page "/AccessDenied"
+@model Web.Pages.Account.AccessDeniedModel
+@{
+    ViewData["Title"] = "ورود به حساب کاربری";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+@section Header{
+    <partial name="_Header" />
+}
+
+<div class="row">
+    <div class="container text-xs-center">
+        <img src="~/images/icons/accessdenied2.jpg" alt="access denied image" />
+        <h3 class="text-danger text-xs-center mt-1">
+            شما مجوز دسترسی به آدرس مورد نظر را ندارید !
+        </h3>
+    </div>
+</div>

@@ -1,0 +1,248 @@
+﻿@model DataLayer.Entities.Store.Product
+@using Core.Convertors;
+@using Core.Services.Interfaces;
+@inject IProductService _proService;
+@{
+    ViewData["Title"] = "جزئیات محصول";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">جزئیات محصول</h1>
+
+<div>
+
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.ProductCode)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.ProductCode)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.ProductName)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.ProductName)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.ProductEnName)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.ProductEnName)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Product_Weight)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Product_Weight)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.ProductPrice)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.ProductPrice)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.NoPriceDisplay)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.NoPriceDisplay)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.ProductInfoComment)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.Raw(Model.ProductInfoComment)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Contraindications)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.Raw(Model.Contraindications)
+        </dd>
+
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.SideEffects)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.Raw(Model.SideEffects)
+        </dd>
+
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.DrugInteractions)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.Raw(Model.DrugInteractions)
+        </dd>
+
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Regimens)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.Raw(Model.Regimens)
+        </dd>
+        <dt class="col-sm-4">
+            مواد تشکیل دهنده
+        </dt>
+        <dd class="col-sm-8">
+            @foreach (var item in Model.ProductIngredients)
+            {
+                var ing = await _proService.GetIngredientByIdAsync(item.IngredientId);
+                @if (item != Model.ProductIngredients.LastOrDefault())
+                {
+                    <span>@ing.Name</span><span> | </span>
+                }
+                else
+                {
+                    <span>@ing.Name</span>
+                }
+
+            }
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.ProductComment)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.Raw(Model.ProductComment)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.ProductPageTitle)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.Raw(Model.ProductPageTitle)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.ProductPageDescription)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.Raw(Model.ProductPageDescription)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.ProductPercentDiscount)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.ProductPercentDiscount)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.ProductValueDiscount)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.ProductValueDiscount)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.ProductUnit)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.ProductUnit)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.ProductTagsList)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.ProductTagsList)
+        </dd>
+        
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.ProductFeatures)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.ProductFeatures)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.ProductTopFeature)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.ProductTopFeature)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.ProductIsFeatured)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.ProductIsFeatured)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.ProductMinimumInventory)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.ProductMinimumInventory)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.MaximumNumberofPurchases)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.MaximumNumberofPurchases)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </dt>
+        <dd class="col-sm-8">
+            @Model.CreatedDate.ToShamsiN_WithTime()
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.IsActive)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.IsActive)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Participate_in_IncrementalDiscounts)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Participate_in_IncrementalDiscounts)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.ProductImage)
+        </dt>
+        <dd class="col-sm-8">
+            <img src="/images/products/@Model.ProductImage" width="50" height="50" />
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.ProductImageAlt)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.ProductImageAlt)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.ProductListImage)
+        </dt>
+        <dd class="col-sm-8">
+            <img src="/images/products/@Model.ProductListImage" width="50" height="50" />
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.ProductListImageAlt)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.ProductListImageAlt)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Popularity)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Popularity)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.ProductLabel)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.ProductLabel)
+        </dd>
+
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.ProductGroup)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.ProductGroup.ProductGroupTitle)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.HowToUse)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.HowToUse)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ProductId">ویرایش</a> |
+    <a asp-action="Index">بازگشت</a>
+</div>

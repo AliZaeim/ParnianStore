@@ -1,0 +1,326 @@
+﻿@model Core.DTOs.General.SearchVM
+@using Core.Services.Interfaces;
+@inject IProductService _productService
+@using Core.DTOs.General;
+@{
+
+    string gnme = string.Empty;
+    string cur = "ریال";
+    var init = await _productService.GetInitialInfoAsync();
+    if (init != null)
+    {
+        cur = init.SiteCurrency;
+    }
+}
+
+<section class="container">
+    <div class="row">
+        @if (Model.Products.Count() != 0)
+        {
+
+            <h4 class="text-center alert alert-success col-12 m-t-15">محصولات</h4>
+
+        }
+
+        @foreach (var item in Model.Products)
+        {
+            DiscountOptionVM discountOptionVM = await _productService.HasProductDiscountAsync(item.ProductCode);
+            int PCount = await _productService.GetProduct_Inventory_InStoreAsync(item.ProductCode);
+            string zaddId = "zadd" + item.ProductId;
+            <div class="col-xs-12 col-md-4 col-lg-3 p-b-50 m-t-20">
+
+                <!-- Block2 -->
+                <div class="block2 tl-box m-b-25">
+                    <div class="block2-img wrap-pic-w of-hidden pos-relative tl-box">
+                        @if (PCount <= 0)
+                        {
+                            @if (!item.NoPriceDisplay)
+                            {
+                                <span class="top-left-label bg-dark text-white fs-12 d-block w-100 text-center ">پایان موجودی</span>
+                            }
+
+                        }
+                        else
+                        {
+                            @if (!string.IsNullOrEmpty(item.ProductLabel))
+                            {
+                                <span class="top-left-label bg-green text-white fs-12  text-xs-center ">@item.ProductLabel</span>
+                            }
+                            @if (discountOptionVM.HasDiscount)
+                            {
+                                <label class="top-left-label bg-danger text-white fs-12 text-xs-center ">@discountOptionVM.DiscountPercent @discountOptionVM.DiscountUnit</label>
+                            }
+                        }
+                        <img src="/images/products/@item.ProductListImage" alt="@item.ProductListImageAlt">
+
+                        <div class="block2-overlay trans-0-4">
+                            <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4" data-zaddId="@zaddId" data-pid="@item.ProductId">
+                                <i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
+                                <i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
+                            </a>
+
+                            @if (!item.NoPriceDisplay)
+                            {
+                                @if (PCount > 0)
+                                {
+                                    <div class="block2-btn-addcart w-size1 trans-0-4" data-pid="@item.ProductId" data-kind="pr" data-min-Inv="@item.ProductMinimumInventory" data-max-buy="@item.MaximumNumberofPurchases">
+                                        <!-- Button -->
+                                        <button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
+                                            افزودن به سبد
+                                        </button>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+
+                    <div class="tl-heart">
+                        <div class="heart-counter tl-box">
+                            <i class="ri-heart-fill" data-zaddId="@zaddId" data-pid="@item.ProductId"></i>
+                            <span id="@zaddId">@item.Popularity</span>
+                        </div>
+                    </div>
+
+                    <div class="block2-txt  p-t-20">
+                        <a href="/Product/d/@item.ProductEnName.Replace(" " ,"-")" class="tl-product-heading block2-name dis-block s-text3 p-b-5">
+                            @item.ProductName
+                            @if (item.ProductTopFeature.Contains(Model.Search))
+                            {
+                                <span class="tl-product-ft text-danger">(@item.ProductTopFeature)</span>
+                            }
+                            else
+                            {
+                                <span class="tl-product-ft">(@item.ProductTopFeature)</span>
+                            }
+                        </a>
+
+                        <div class="tl-manual-s text-justify height-300">
+                            <span class="tl-green-color">روش مصرف : </span><br /> <span class="text-justify">@item.HowToUse</span>
+                        </div>
+
+                        <div class="tl-usefor-s">
+                            <ol style="width:100%">
+                                @{
+                                    string[] srchList = Model.Search.Split(" ");
+                                    int fcount = item.FeaturessList.Count();
+
+                                }
+                                @if (fcount <= 6)
+                                {
+                                    @foreach (var fe in item.FeaturessList)
+                                    {
+                                        @if (fe.Contains(Model.Search))
+                                        {
+                                            <li class="li-searchp m-b-6 fs-12 text-center text-danger">
+                                                <b>@fe.Trim()</b>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="li-searchp m-b-6 fs-12 text-center">@fe.Trim()</li>
+                                        }
+                                    }
+
+                                }
+                                else
+                                {
+                                    <li class="col-12">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="row">
+                                                    @foreach (var fe1 in item.FeaturessList.ToList().Take(6).ToList())
+                                                    {
+                                                        @if (fe1.Contains(Model.Search))
+                                                        {
+                                                            <span class="col-12 text-danger m-b-6 fs-14"><b>@fe1</b></span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="col-12 m-b-6 fs-12">@fe1</span>
+                                                        }
+                                                    }
+                                                </div>
+                                            </div>
+                                            <div class="col-6 ">
+                                                <div class="row">
+                                                    @foreach (var fe2 in item.FeaturessList.ToList().Skip(6).TakeLast(6).ToList())
+                                                    {
+                                                        @if (fe2.Contains(Model.Search))
+                                                        {
+                                                            <span class="col-12 text-danger m-b-6 fs-14"><b>@fe2</b></span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="col-12 m-b-6 fs-12">@fe2</span>
+                                                        }
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                }
+                                
+
+                            </ol>
+                        </div>
+
+                        <div class="tl-price-cart">
+                            @{
+                                string btnClass = "block-btn-bottom-addcart btn tl-add-to-cart-btn";
+                            }
+                            @if (PCount <= 0)
+                            {
+                                btnClass = "btn tl-add-to-cart-btn-disabled disabled zcursor-not-allowed";
+                            }
+                            @if (!item.NoPriceDisplay)
+                            {
+                                <div>
+                                    <button class="@btnClass" data-pid="@item.ProductId" data-kind="pr" data-min-Inv="@item.ProductMinimumInventory" data-max-buy="@item.MaximumNumberofPurchases">
+                                        <img src="/images/icons/add-to-cart.svg">
+                                    </button>
+                                </div>
+                                @if (PCount > 0)
+                                {
+                                    <div class="price">
+                                        @if (discountOptionVM.HasDiscount)
+                                        {
+                                            <bdi class="offer-price">@item.ProductPrice.ToString("N0")</bdi>
+                                            <span>@discountOptionVM.NetPrice.ToString("N0")</span>
+                                        }
+                                        else
+                                        {
+                                            <span>@item.ProductPrice.ToString("N0")</span>
+                                        }
+                                        <span class="tl-price-t">@cur</span>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="price">
+                                        <span class="bg-danger col-12 d-block">پایان موجودی</span>
+                                    </div>
+                                }
+                            }
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        }
+    </div>
+
+    <div class="row">
+        @if (Model.Packages.Count() != 0)
+        {
+            <h4 class="text-center alert alert-success col-12 mt-5">پک ها</h4>
+        }
+        @foreach (var item in Model.Packages)
+        {
+            DiscountOptionVM discountOptionVM = await _productService.HasPackageDiscountAsync(item.PkId);
+            int PCount = await _productService.GetPackage_Inventory_InStoreAsync(item.PkId);
+            string zaddId = "zadd" + item.PkId;
+            <div class="col-xs-12 col-lg-3 p-b-50 m-t-20">
+
+                <!-- Block2 -->
+                <div class="block2 tl-box m-b-25">
+                    <div class="block2-img wrap-pic-w of-hidden pos-relative tl-box">
+                        @if (PCount <= 0)
+                        {
+                            <span class="top-left-label bg-dark text-white fs-12 d-block w-100 text-center ">ناموجود</span>
+                        }
+                        else
+                        {
+                            @if (!string.IsNullOrEmpty(item.PkLabel))
+                            {
+                                <span class="top-left-label bg-green text-white fs-12  text-xs-center ">@item.PkLabel</span>
+                            }
+                            @if (discountOptionVM.HasDiscount)
+                            {
+                                <label class="top-left-label bg-danger text-white fs-12 text-xs-center ">@discountOptionVM.DiscountPercent @discountOptionVM.DiscountUnit</label>
+                            }
+                        }
+                        <img src="/images/packages/@item.PkSliderImage" alt="@item.PkSliderImage_Alt">
+
+                        <div class="block2-overlay trans-0-4">
+                            <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4" data-zaddId="@zaddId" data-pid="@item.PkId">
+                                <i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
+                                <i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
+                            </a>
+
+                            @if (PCount > 0)
+                            {
+                                <div class="block2-btn-addcart w-size1 trans-0-4" data-pid="@item.PkId" data-kind="pk" data-min-Inv="@item.PkMin_Inventory_ForAlarm" data-max-buy="@item.MaximumNumberofPurchases">
+                                    <!-- Button -->
+                                    <button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
+                                        افزودن به سبد
+                                    </button>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="tl-heart">
+                        <div class="heart-counter tl-box">
+                            <i class="ri-heart-fill" data-zaddId="@zaddId" data-pid="@item.PkId"></i>
+                            <span id="@zaddId">@item.Popularity</span>
+                        </div>
+                    </div>
+
+                    <div class="block2-txt  p-t-20">
+                        <a href="/Package/d/@item.PkEnTitle.Replace(" " ,"-")" class="tl-product-heading block2-name dis-block s-text3 p-b-5">
+                            @item.PkTitle <span class="tl-product-ft">
+                                @if (item.PkFeature.Contains(Model.Search))
+                                {
+                                    <span class="text-danger">(@item.PkFeature)</span>
+                                }
+                                else
+                                {
+                                    <span>(@item.PkFeature)</span>
+                                }
+
+                            </span>
+                        </a>
+
+                        <div class="tl-manual-s text-justify">
+                            <span class="tl-green-color">روش مصرف : </span><br />
+                            <span class="text-justify">@item.PkHowToUse</span>
+                        </div>
+
+
+
+                        <div class="tl-price-cart">
+                            @{
+                                string btnClass = "block-btn-bottom-addcart btn tl-add-to-cart-btn";
+                            }
+                            @if (PCount <= 0)
+                            {
+                                btnClass = "btn tl-add-to-cart-btn-disabled disabled zcursor-not-allowed";
+                            }
+                            <div>
+                                <button class="@btnClass" data-pid="@item.PkId" data-kind="pk" data-min-Inv="@item.PkId" data-max-buy="@item.MaximumNumberofPurchases">
+                                    <img src="/images/icons/add-to-cart.svg">
+                                </button>
+                            </div>
+                            <div class="price">
+                                @if (discountOptionVM.HasDiscount)
+                                {
+                                    <bdi class="offer-price">@item.PkPrice.GetValueOrDefault().ToString("N0")</bdi>
+                                    <span>@discountOptionVM.NetPrice.ToString("N0")</span>
+                                }
+                                else
+                                {
+                                    <span>@item.PkPrice.GetValueOrDefault().ToString("N0")</span>
+                                }
+                                <span class="tl-price-t">@Model.Currency</span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>

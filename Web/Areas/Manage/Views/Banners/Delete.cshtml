@@ -1,0 +1,87 @@
+﻿@model DataLayer.Entities.Supplementary.Banner
+@using Core.Convertors;
+@{
+    ViewData["Title"] = "حــذف بنر";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-danger">حـــذف بنر</h1>
+
+<h3 class="text-xs-center alert alert-warning">آیا مطمئن به حذف بنر هستید؟</h3>
+<div>
+    
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Comment)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Comment)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Banner1)
+        </dt>
+        <dd class="col-sm-10">
+            <img src="/images/banners/@Model.Banner1" width="300" height="50" />
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Banner1_link)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Banner1_link)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Banner2)
+        </dt>
+        <dd class="col-sm-10">
+            <img src="/images/banners/@Model.Banner2" width="300" height="50" />
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Banner2_link)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Banner2_link)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Banner3)
+        </dt>
+        <dd class="col-sm-10">
+            <img src="/images/banners/@Model.Banner3" width="300" height="50" />
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Banner3_link)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Banner3_link)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Banner4)
+        </dt>
+        <dd class="col-sm-10">
+            <img src="/images/banners/@Model.Banner4" width="300" height="50" />
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Banner4_link)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Banner4_link)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.IsActive)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IsActive)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Model.CreatedDate.ToShamsiN_WithTime()
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="حــذف" class="btn btn-danger" /> |
+        <a asp-action="Index">بازگشت</a>
+    </form>
+</div>

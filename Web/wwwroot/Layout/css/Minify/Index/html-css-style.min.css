@@ -1,0 +1,242 @@
+@font-face {
+    font-family: ElegantIcons;
+    src: url(/lib/fonts/elegant-font/html-css/fonts/ElegantIcons.eot);
+    src: url(/lib/fonts/elegant-font/html-css/fonts/ElegantIcons.eot?#iefix) format('embedded-opentype'),url(https://aliansabz.com/lib/fonts/elegant-font/html-css/fonts/ElegantIcons.woff) format('woff'),url(https://aliansabz.com/lib/fonts/elegant-font/html-css/fonts/ElegantIcons.ttf) format('truetype'),url(https://aliansabz.com/lib/fonts/elegant-font/html-css/fonts/ElegantIcons.svg#ElegantIcons) format('svg');
+    font-weight: 400;
+    font-style: normal
+}
+
+[data-icon]:before {
+    font-family: ElegantIcons;
+    content: attr(data-icon);
+    speak: none;
+    font-weight: 400;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale
+}
+
+.arrow_back, .arrow_left, .arrow_left-right, .arrow_left-right_alt, .arrow_left_alt, .arrow_right, .arrow_right_alt, .icon_book, .icon_book_alt, .icon_cart, .icon_cart_alt, .icon_close, .icon_close_alt, .icon_close_alt2, .icon_contacts, .icon_contacts_alt, .icon_cursor, .icon_cursor_alt, .icon_document, .icon_document_alt, .icon_group, .icon_heart, .icon_heart_alt, .icon_id, .icon_id-2, .icon_id-2_alt, .icon_id_alt, .icon_image, .icon_images, .icon_info, .icon_info_alt, .icon_link, .icon_link_alt, .icon_map, .icon_map_alt, .icon_menu, .icon_mobile, .icon_ol, .icon_phone, .icon_pin, .icon_pin_alt, .icon_plus, .icon_plus-box, .icon_plus_alt, .icon_plus_alt2, .icon_search, .icon_search-2, .icon_search_alt, .icon_target, .icon_ul, .icon_zoom-in, .icon_zoom-in_alt, .social_instagram {
+    font-family: ElegantIcons;
+    speak: none;
+    font-style: normal;
+    font-weight: 400;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased
+}
+
+    .arrow_left:before {
+        content: "\23"
+    }
+
+    .arrow_right:before {
+        content: "\24"
+    }
+
+    .arrow_left-right_alt:before {
+        content: "\2b"
+    }
+
+    .arrow_left-right:before {
+        content: "\2c"
+    }
+
+    .arrow_back:before {
+        content: "\4a"
+    }
+
+    .icon_plus:before {
+        content: "\4c"
+    }
+
+    .icon_close:before {
+        content: "\4d"
+    }
+
+    .icon_plus_alt2:before {
+        content: "\50"
+    }
+
+    .icon_close_alt2:before {
+        content: "\51"
+    }
+
+    .icon_zoom-in_alt:before {
+        content: "\54"
+    }
+
+    .icon_search:before {
+        content: "\55"
+    }
+
+    .icon_plus-box:before {
+        content: "\59"
+    }
+
+    .icon_menu:before {
+        content: "\61"
+    }
+
+    .icon_ul:before {
+        content: "\64"
+    }
+
+    .icon_ol:before {
+        content: "\65"
+    }
+
+    .icon_document_alt:before {
+        content: "\68"
+    }
+
+    .icon_info_alt:before {
+        content: "\70"
+    }
+
+    .icon_image:before {
+        content: "\e005"
+    }
+
+    .icon_images:before {
+        content: "\e006"
+    }
+
+    .icon_mobile:before {
+        content: "\e00b"
+    }
+
+    .icon_cart_alt:before {
+        content: "\e015"
+    }
+
+    .icon_cursor_alt:before {
+        content: "\e01a"
+    }
+
+    .icon_pin_alt:before {
+        content: "\e01d"
+    }
+
+    .icon_map_alt:before {
+        content: "\e01f"
+    }
+
+    .icon_book_alt:before {
+        content: "\e022"
+    }
+
+    .icon_contacts_alt:before {
+        content: "\e026"
+    }
+
+    .icon_link_alt:before {
+        content: "\e02b"
+    }
+
+    .icon_link:before {
+        content: "\e02c"
+    }
+
+    .icon_heart_alt:before {
+        content: "\e030"
+    }
+
+    .arrow_left_alt:before {
+        content: "\e03b"
+    }
+
+    .arrow_right_alt:before {
+        content: "\e03c"
+    }
+
+    .icon_plus_alt:before {
+        content: "\e050"
+    }
+
+    .icon_close_alt:before {
+        content: "\e051"
+    }
+
+    .icon_zoom-in:before {
+        content: "\e054"
+    }
+
+    .icon_document:before {
+        content: "\e058"
+    }
+
+    .icon_info:before {
+        content: "\e060"
+    }
+
+    .icon_cart:before {
+        content: "\e07a"
+    }
+
+    .icon_cursor:before {
+        content: "\e07e"
+    }
+
+    .icon_pin:before {
+        content: "\e081"
+    }
+
+    .icon_map:before {
+        content: "\e083"
+    }
+
+    .icon_book:before {
+        content: "\e086"
+    }
+
+    .icon_contacts:before {
+        content: "\e087"
+    }
+
+    .icon_heart:before {
+        content: "\e089"
+    }
+
+    .icon_group:before {
+        content: "\e08b"
+    }
+
+    .icon_phone:before {
+        content: "\e090"
+    }
+
+    .social_instagram:before {
+        content: "\e09a"
+    }
+
+    .icon_search-2:before {
+        content: "\e101"
+    }
+
+    .icon_id:before {
+        content: "\e107"
+    }
+
+    .icon_id-2:before {
+        content: "\e108"
+    }
+
+    .icon_target:before {
+        content: "\e0f5"
+    }
+
+    .icon_search_alt:before {
+        content: "\e0f7"
+    }
+
+    .icon_id_alt:before {
+        content: "\e0e0"
+    }
+
+    .icon_id-2_alt:before {
+        content: "\e0fc"
+    }

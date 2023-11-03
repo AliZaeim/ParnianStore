@@ -1,0 +1,122 @@
+﻿@model Core.DTOs.General.ProductsInColumnsVM;
+@using Core.DTOs.General;
+@using Core.Services.Interfaces;
+@inject IProductService _productService
+@{
+    string cur = "ریال";
+    var init =await _productService.GetInitialInfoAsync();
+    if (init != null)
+    {
+        cur = init.SiteCurrency;
+    }
+}
+
+<div class="d-block mb-2">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 ml-2 ">
+                <h3 class="pr-5">
+                    <a href="@Model.Link" class="fs-22">
+                        <span class="@Model.TitleClass">@Model.Title</span><span> | </span>&ensp;<span class="tag tag-primary tag-pill white">@Model.TotalCount</span>
+                    </a>
+                    @if (Model.Products.Count() > 12)
+                    {
+                        <a href="@Model.Link" class="float-left">
+                            مشاهده تمام محصولات &emsp;
+                            <span class="fa fa-arrow-circle-left info"></span>
+                        </a>
+                    }
+
+                </h3>
+                <hr class="@Model.TitleLineClass">
+            </div>
+            <div class="col-md-12 text-center zrow m-t-15 p-b-5">
+                <center>
+                    @foreach (var item in Model.Products)
+                    {
+                        DiscountOptionVM discountOptionVM = await _productService.HasProductDiscountAsync(item.ProductCode);
+                        string gnme = string.Empty;
+                        <div class=" prCol ">
+                            <!-- Block2 -->
+
+                            <div class="block2 rounded border-cyan zpb-2-mm">
+                                <div class="block2-img wrap-pic-w of-hidden pos-relative ">
+                                    @if (!string.IsNullOrEmpty(item.ProductLabel))
+                                    {
+                                        <span class="ztop-left-label0 bg-green text-white fs-18 text-xs-center ">@item.ProductLabel</span>
+                                    }
+                                    @if (discountOptionVM.HasDiscount)
+                                    {
+                                        <span class="ztop-right-label0 bg-info text-white fs-18 text-xs-center ">تخفیف</span>
+                                    }
+                                    <img class="rounded primg" src="/images/products/@item.ProductListImage" loading="lazy" alt="تصویر @item.ProductName">
+
+                                    <div class="block2-overlay trans-0-4">
+                                        <div class="block2-btn-addcart btn-addtocart w-size1 trans-0-4" data-pid="@item.ProductId" data-min-Inv="@item.ProductMinimumInventory" data-max-buy="@item.MaximumNumberofPurchases">
+                                            <button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4 font-family-yekan">
+                                                افزودن به سبد
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="block2-txt p-t-20 p-r-5 p-l-5">
+                                    @{ string zaddId = "zadd" + item.ProductId; }
+                                    <div>
+                                        <span class="float-left zaddwish" title="محبوبیت" data-zaddId="@zaddId" data-pid="@item.ProductId">
+                                            <span class="Model-05 " title="محبوبیت">
+                                                <i class="icon_heart cursor-pointer text-danger"></i> <span class="pop-num fs-9" id="@zaddId">@item.Popularity</span>
+                                            </span>
+                                        </span>
+                                        <h4 class="prgtitle mb-1">@item.ProductGroup.ProductGroupTitle</h4>
+                                    </div>
+                                    <div class="m-t-10">
+                                        <h6 class="fs-15 text-center zpt-2-mm  border-top-light-green     zcolor-greensite-tetrad1">@item.ProductTopFeature</h6>
+                                        <h5 class="fs-16 col-xs-12 text-md-center mt-1">
+                                            <a data-id="@item.ProductId" href="/Product/d/@item.ProductEnName.Replace(" " ,"-")" class="btn btn-success productBtn w-100 rounded">
+                                                @item.ProductName
+                                            </a>
+                                        </h5>
+                                    </div>
+
+                                    <div class="m-t-5 col-xs-12">
+
+                                        <div class="col-xs-12  m-t-5 zpl-1mm zpr-1mm  border-grey rounded">
+                                            @if (discountOptionVM.HasDiscount)
+                                            {
+                                                <span class="textline-through fs-11  text-xs-center font-family-yekan ztext-light-grey2">
+                                                    @item.ProductPrice.ToString("N0")
+                                                </span>
+                                                <span class="fs-16 text-info text-xs-center float-left">
+
+                                                    @discountOptionVM.NetPrice.ToString("N0") @cur
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="fs-16 w-100 d-block text-info text-xs-center">
+
+                                                    @item.ProductPrice.ToString("N0") @cur
+                                                </span>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="block-btn-bottom-addcart zmt-2-mm p-r-5 p-l-5" data-pid="@item.ProductId" data-min-Inv="@item.ProductMinimumInventory" data-max-buy="@item.MaximumNumberofPurchases">
+                                    <button class="flex-c-m size1 zbg-greensite-variation-blue rounded hov1 s-text1">
+                                        افزودن به سبد
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    }
+                </center>
+                
+            </div>
+        </div>
+    </div>
+    
+</div>
+   
+
+

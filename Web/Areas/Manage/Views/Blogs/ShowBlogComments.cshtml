@@ -1,0 +1,114 @@
+﻿@model IEnumerable<DataLayer.Entities.Blogs.BlogComment>
+@using Core.Convertors;
+@{
+    ViewData["Title"] = "نظرات داسنتنی ها";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+    string blogTitle = null;
+    if (Model != null)
+    {
+        blogTitle = Model.FirstOrDefault().Blog.BlogTitle;
+    }
+}
+
+<h1 class="text-xs-center alert alert-info">نظرات کاربران در مورد @blogTitle</h1>
+
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.Family)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.Cellphone)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.Comment)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.Family)
+                </td>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.Cellphone)
+                </td>
+                <td class="text-xs-center align-middle">
+                    @foreach (var com in item.CommentList)
+                    {
+                        <span class="col-xs-12">@com</span>
+                    }
+                </td>
+                <td class="text-xs-center align-middle">
+                    @item.CreatedDate.ToShamsiN_WithTime()
+                </td>
+                <td class="text-xs-center align-middle">
+                    @if (item.IsActive)
+                    {
+                        <span class="fa fa-check-square cursor-pointer chkA" data-id="@item.Id" data-status="0"></span>
+                    }
+                    else
+                    {
+                        <span class="fa fa-square-o cursor-pointer chkA" data-id="@item.Id" data-status="1"></span>
+                    }
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".chkA").click(function () {
+                var con = confirm("آیا برای تغییر وضعیت نظر، کاربر مطمئن هستید؟")
+                if (con) {
+                    var idd = $(this).attr("data-id");
+                    var st = $(this).attr("data-status");
+                    var th = $(this);
+                    $.ajax({
+                        url: "/Manage/Blogs/ChangeStatus",
+                        data: { id: idd, status: st },
+                        type: "GET",
+                        async: true,
+                        success: function (result) {
+
+                            if (result === true) {
+
+                                th.removeClass("fa-square-o").addClass("fa-check-square");
+                                th.attr("data-status", 0);
+                            }
+                            else {
+
+                                th.removeClass("fa-check-square").addClass("fa-square-o");
+                                th.attr("data-status", 1);
+                            }
+                        },
+                        error: function () {
+                            alert("error");
+                        }
+                    });
+                }
+
+            });
+        });
+    </script>
+}

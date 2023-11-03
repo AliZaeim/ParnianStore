@@ -1,0 +1,20 @@
+﻿@model DataLayer.Entities.Supplementary.BannerNextSlider
+@if (Model != null)
+{
+    if (Model.Banner1 != null && Model.Banner2 != null)
+    {
+        <div class="w-100 height-48-per rounded-5px">
+            <img src="/images/banners/@Model.Banner1" loading="lazy" height="167" class="w-100 rounded-5px" />
+        </div>
+        <div class="w-100 height-48-per rounded-5px m-t-15">
+            <img src="/images/banners/@Model.Banner2" loading="lazy" height="167" class="w-100 rounded-5px" />
+        </div>
+    }
+    else
+    {
+        if (Model.Banner1 != null)
+        {
+            <img src="/images/banners/@Model.Banner1" loading="lazy" height="350" class="w-100 rounded-5px" />
+        }
+    }
+}

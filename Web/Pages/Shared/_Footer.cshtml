@@ -1,0 +1,83 @@
+﻿@using Core.Services.Interfaces;
+@inject IUserService _userService
+
+<footer class="tl-footer">
+    <div class="container-tl p-t-45 p-b-45">
+        <div class="row tl-footer-row">
+            <div class="col-12 col-lg-3">
+                <h4>درباره عالیان سبز</h4>
+                <ul>
+                    <li class="zfooter-col1 text-justify">
+                        فروشگاه اینترنتی “عالیان سبز” وابسته به موسسه داروسازی پرنیان (درمانگر سبز) با محصولاتی با نام تجاری (عالیان) و (نیل تاک) در سال 1391 تاسیس شد، و مفتخر است که از این طریق خدمات ارزشمندی را به هموطنان عزیز و بازدید کنندگان خود در فروشگاه اینترنتی عالیان سبز ارائه دهد
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-12 col-lg-2">
+                <h4>خدمات ما</h4>
+                <ul>
+                    <li><a href="/Contact">نظرسنجی</a></li>
+                    <li><a href="/Contact">پشتیبانی</a></li>
+                    <li><a href="/Alian-Sabz-Tracking-Order">پیگیری سفارش</a></li>
+                    <li><a href="/How-To-Use">طریقه مصرف محصولات</a></li>
+                </ul>
+            </div>
+
+            <div class="col-12 col-lg-2">
+                <h4>راهنمای مشتریان</h4>
+                <ul>
+                    <li><a href="/Alian-Sabz-FAQ">سئوالات متداول</a></li>
+                    <li><a href="/Alian-Sabz-Terms">قوانین و مقررات</a></li>
+                    @*<li><a href="#">زمان بندی ارسال</a></li>*@
+                    <li><a href="javascript:void(0)" id="FbtnBuyHelping">راهنمای خرید</a></li>
+                </ul>
+            </div>
+
+            <div class="col-12 col-lg-2">
+                <h4>با عالیان سبز</h4>
+                <ul>
+                    <li><a href="/Products">محصولات</a></li>
+                    <li><a href="/Contact">تماس با عالیان</a></li>
+                    <li><a href="/About-alian-sabz">درباره عالیان</a></li>
+                    <li><a href="/Blogs">مجله عالیان</a></li>
+                </ul>
+
+            </div>
+
+            <div class="col-12 col-lg-3 tl-license">
+                <h4>مجوزها</h4>
+                <div class="tl-namads">
+                     <a class="col-12 col-lg-6" referrerpolicy="origin" target="_blank" href="https://trustseal.enamad.ir/?id=218245&amp;Code=1x6OGh3Tkl6AG4PTHYrz"><img referrerpolicy="origin" src="https://Trustseal.eNamad.ir/logo.aspx?id=218245&amp;Code=1x6OGh3Tkl6AG4PTHYrz" alt="" style="cursor:pointer" id="1x6OGh3Tkl6AG4PTHYrz"></a>
+                    <img class="col-12 col-lg-6" src="/images/alian-sabz-bank-mellat-logo-200200.png" />
+                    
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <div class="tl-footer-bottom">
+        <div class="container-tl tl-copyright">
+            <div class="copyright">
+                تمامی حقوق برای عالیان سبز محفوظ است
+            </div>
+            <div class="developed">
+                طراحی ظاهر سایت : <a href="https://trickland.co/" target="_blank">تریکلند</a> |  توسعه سایت : <a href="https://aliansabz.com/" target="_blank">عالیان سبز</a> 
+            </div>
+        </div>
+    </div>
+</footer>
+<div class="modal" tabindex="-1" role="dialog" id="footermodal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">راهنمای خرید</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            
+        </div>
+    </div>
+    
+</div>
+<partial name="_IntroModalSliders" />

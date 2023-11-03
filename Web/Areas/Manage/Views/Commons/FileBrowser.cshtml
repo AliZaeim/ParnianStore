@@ -1,0 +1,100 @@
+﻿@model Core.DTOs.Admin.FileBrowserVM;
+@{
+    ViewData["Title"] = "فایلهای آپلود شده توسط ck";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+    string[] imgEx = new string[] { ".gif", ".jpg", ".jpeg", ".png", ".tiff" };
+    string[] filmEx = new string[] { ".webm", ".mpg", ".ogg", ".mp4", ".avi", ".mov", ".m4v", ".mpeg", ".quicktime" };
+    string[] voiceEx = new string[] { ".mp3", ".m4a", ".wav", ".wma" };
+    string[] docEx = new string[] { ".pdf", ".txt", ".docx", ".doc", ".xls", ".xlsx" };
+}
+
+<h1 class="text-xs-center alert alert-info">فایلهای آپلود شده توسط CK</h1>
+
+<hr />
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+
+            <th class="text-xs-center align-middle">
+                فایل
+            </th>
+
+            <th class="text-xs-center align-middle">
+                تاریخ ایجاد
+            </th>
+            <th class="text-xs-center align-middle p-0">
+                آدرس
+            </th>
+            <th class="text-xs-center align-middle p-0">عملیات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.FileInfos)
+        {
+
+            var fileVirtualPath = System.IO.Path.Combine("uploadcenter/ckeditor4", item.Name);
+            var request = Context.Request;
+            var uriBuilder = new UriBuilder
+            {
+                Host = request.Host.Host,
+                Scheme = request.Scheme,
+                Path = fileVirtualPath
+            };
+            if (request.Host.Port.HasValue)
+                uriBuilder.Port = request.Host.Port.Value;
+            var url = uriBuilder.ToString();
+
+            <tr>
+
+                <td class="text-xs-center align-middle tdFile">
+                    @if (imgEx.Any(x => x == item.Extension))
+                    {
+
+                        <img src="~/uploadcenter/ckeditor4/@item.Name" data-url="@url" title="@item.Name" width="50" height="50" />
+                    }
+                    @if (filmEx.Any(x => x == item.Extension))
+                    {
+                        <video src="~/uploadcenter/ckeditor4/@item.Name" data-url="@url" title="@item.Name" controls>
+                        </video>
+
+                    }
+                    @if (voiceEx.Any(x => x == item.Extension))
+                    {
+                        <audio src="~/uploadcenter/ckeditor4/@item.Name" data-url="@url" title="@item.Name" controls>
+                        </audio>
+
+                    }
+                    @if (docEx.Any(x => x == item.Extension))
+                    {
+                       <p class="doc" data-url="@url" title="@item.Name">فایل با پسوند @item.Extension</p>
+                        
+                    }
+                </td>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.CreationTime)
+                </td>
+                <td class="text-xs-center align-middle p-0">
+
+                    <span dir="ltr" class="font-tahoma font-small-1">@url</span>
+                </td>
+                <td class="text-xs-center align-middle p-0">
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            var funcNum =@(Context.Request.Query["CKEditorFuncNum"] + ";");
+            $(".tdFile").on("click", "img , video , audio,.doc", function () {
+                var zurl = $(this).attr("data-url");               
+                window.opener.CKEDITOR.tools.callFunction(funcNum, zurl);
+                window.close();
+            }).hover(function () {
+                $(this).css('cursor', 'pointer');
+            });
+        })
+    </script>
+}

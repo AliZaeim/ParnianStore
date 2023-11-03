@@ -1,0 +1,364 @@
+﻿@page
+@using Core.Convertors;
+@model Web.Pages.Alian_Sabz_Tracking_OrderModel
+@{
+    Layout = null;
+}
+@using Core.Services.Interfaces;
+@inject IUserService _userService
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BYLT1K82JQ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-BYLT1K82JQ');
+    </script>
+    <title>پیگیری سفارش عالیان سبز</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/Layout/Vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <meta name="description" content="پیگیری سفارش ثبت شده در عالیان سبز توسط شماره سفارش " />
+
+    <link rel="stylesheet" type="text/css" href="~/Layout/Vendor/lightbox2/css/lightbox.min.css">
+    <link href="~/Layout/css/util.css" rel="stylesheet" type="text/css" />
+    <link href="~/Layout/css/main.css" rel="stylesheet" type="text/css" />
+    <link href="~/Layout/css/tricklandstyle.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css">
+    <link href="/Layout/css/aos.min.css" rel="stylesheet">
+    @{
+        var initial = await _userService.GetInitialInfoAsync();
+        string fav = "favicon.png";
+        if (initial != null)
+        {
+            if (!string.IsNullOrEmpty(initial.FavIcon))
+            {
+                fav = initial.FavIcon;
+            }
+        }
+
+    }
+    <link rel="shortcut icon" href="/@fav" type="image/x-icon" />
+</head>
+<body>
+    <partial name="_Header" />
+    <nav class="breadcrumb-nav rtl" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">عالیان سبز</a></li>
+            <li class="breadcrumb-item active" aria-current="page">پیگیری سفارش</li>
+        </ol>
+    </nav>
+    <!-- Title Page -->
+    <section class="bg-title-page p-t-100 p-b-150 flex-col-c-m general-page-bg02">
+        <h2 class="l-text2 t-center">
+            عالیان سبز
+        </h2>
+        <p class="m-text13 t-center">
+            پیگیری سفارش
+        </p>
+    </section>
+    <section class="about-us m-b-65">
+        <div data-aos="zoom-in" data-aos-delay="400">
+            <div class="container p-b-65">
+                <div class="row flex-column align-items-center justify-content-center">
+                    <div class="col-12 col-lg-6 tl-box n-padding">
+                        <form method="post" class="mb-5">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="OrderDedicatednumber" class="control-label"></label>
+                                <input asp-for="OrderDedicatednumber" class="form-control border border-info" placeholder="شماره سفارش خود را وارد کنید" />
+                                <span asp-validation-for="OrderDedicatednumber" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="مشاهده وضعیت" class="btn btn-primary btn-lg btn-block cursor-pointer col-xs-12" />
+                            </div>
+                        </form>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="container ">
+                @if (Model.Order != null)
+                {
+                    <div class="row">
+                        <div class="col">
+
+                        </div>
+                        <div class="col-10 border pt-0 pr-0 pl-0">
+                            <h5 class="alert alert-info text-center">
+                                سفارش شماره @Model.OrderDedicatednumber
+                                @if (Model.Order.Order_IsCanceled)
+                                {
+                                    <span class="text-xs-center text-danger"> لغو شده است !</span>
+                                }
+                            </h5>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-sm pr-4">
+                                        <p>تاریخ ثبت : @Model.Order.Order_Date.ToShamsiWithTime()</p>
+                                    </div>
+                                    <div class="col-sm pr-4">
+                                        <p>
+                                            واحد پول : @Model.Order.Currency
+                                        </p>
+                                    </div>
+                                    <div class="col-sm pr-4">
+                                        <p>
+                                            وضعیت پرداخت :
+                                            @if (Model.Order.Order_IsFinished)
+                                            {
+                                                <span class="text-success">تسویه شده</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-danger">تسویه نشده</span>
+                                            }
+                                        </p>
+                                    </div>
+
+                                </div>
+                                <div class="row m-t-20 m-b-20">
+                                    <div class="col-12 m-b-10">
+                                        <h6 class="zbg-lightgrey2 col-12 p-1 text-center">مشخصات خریدار</h6>
+                                    </div>
+                                    <div class="col-sm pr-4">
+                                        <p>نام : @Model.Order.Order_BuyerName</p>
+                                    </div>
+                                    <div class="col-sm pr-4">
+                                        <p>
+                                            نام خانوادگی : @Model.Order.Order_BuyerFamily
+                                        </p>
+                                    </div>
+                                    <div class="col-sm pr-4">
+                                        <p>
+                                            تلفن همراه : @Model.Order.Order_BuyerCellphone
+                                        </p>
+                                    </div>
+
+                                </div>
+                                <div class="row m-t-10">
+                                    <div class="col-12 m-b-20">
+                                        <h6 class="bg-success col-12 p-1  text-white text-center">مشخصات تحویل کالا</h6>
+                                    </div>
+
+                                    <div class="col pr-4">
+                                        <p>نام تحویل گیرنده : @Model.Order.RecipientName</p>
+                                    </div>
+                                    <div class="col pr-4">
+                                        <p>نام خانوادگی : @Model.Order.RecipientFamily</p>
+                                    </div>
+                                    <div class="col pr-4">
+                                        <p>تلفن همراه : @Model.Order.RecipientPhone</p>
+                                    </div>
+
+
+                                </div>
+                                <div class="row m-t-10">
+                                    <div class="col-sm pr-4">
+                                        <p>استان : @Model.Order.Order_StateName</p>
+                                    </div>
+                                    <div class="col-sm pr-4">
+                                        <p>
+                                            شهرستان :@Model.Order.Order_CountyName
+                                        </p>
+                                    </div>
+                                    <div class="col-sm pr-4">
+                                        <p>کد پستی : @Model.Order.Order_PostalCode</p>
+                                    </div>
+                                    <div class="col-12 pr-4 m-t-20">
+                                        <p>آدرس : @Model.Order.Order_Address</p>
+                                    </div>
+                                </div>
+                                <div class="row m-t-10">
+                                    <div class="col-12 m-b-20">
+                                        <h6 class="zbg-lightgrey2 col-12 p-1 text-center">وضعیت ها</h6>
+                                    </div>
+                                    <div class="col-sm pr-4">
+                                        <p>
+                                            انصراف از خرید :
+                                            @if (Model.Order.Order_IsCanceled)
+                                            {
+                                                <span class="text-danger">داده شده</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-success">داده نشده</span>
+                                            }
+                                        </p>
+                                    </div>
+                                    <div class="col-sm pr-4">
+                                        <p>
+                                            تحویل به پست :
+                                            @if (Model.Order.DeliveredToPost)
+                                            {
+                                                <span class="text-success">داده شده</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-danger">داده نشده</span>
+                                            }
+                                        </p>
+                                    </div>
+                                    <div class="col-sm pr-4">
+                                        <p>
+                                            تحویل به مشتری :
+                                            @if (Model.Order.IsDeliveredCutomer)
+                                            {
+                                                <span class="text-success">داده شده</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-danger">داده نشده</span>
+                                            }
+                                        </p>
+                                    </div>
+                                    @if (!string.IsNullOrEmpty(Model.Order.Comment))
+                                    {
+                                        <div class="col-12 m-t-5 pr-4">
+                                            @foreach (var com in Model.Order.CommentList)
+                                            {
+                                                <p>@com</p>
+                                            }
+                                        </div>
+                                    }
+
+                                </div>
+                                <div class="row m-t-10">
+                                    <div class="col-12 m-b-20">
+                                        <h6 class="bg-success col-12 p-1  text-white text-center">
+                                            جزئیات سفارش
+                                            <span class="text-warning">( @Model.Order.Currency )</span>
+                                        </h6>
+                                    </div>
+                                    <div class="col-12  table-responsive">
+
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center align-middle p-0">#</th>
+                                                    <th class="text-center align-middle" scope="col">محصول</th>
+                                                    <th class="text-center align-middle" scope="col">قیمت</th>
+                                                    <th class="text-center align-middle" scope="col">قیمت خالص</th>
+                                                    <th class="text-center align-middle" scope="col">کد تخفیف</th>
+                                                    <th class="text-center align-middle" scope="col">مبلغ تخفیف</th>
+                                                    <th class="text-center align-middle" scope="col">تعداد</th>
+                                                    <th class="text-center align-middle" scope="col">جمع</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{ int rad = 1;}
+                                                @foreach (var det in Model.Order.OrderDetails)
+                                                {
+                                                    int rowSum = det.OrderDetailCount * det.OrderDetailNetPrice;
+                                                    <tr>
+                                                        <td class="text-center align-middle p-0">@rad</td>
+                                                        <td class="text-center align-middle">@det.OrderDatailProductName</td>
+                                                        <td class="text-center align-middle">@det.OrderDetailPrice.ToString("N0")</td>
+                                                        <td class="text-center align-middle">@det.OrderDetailNetPrice.ToString("N0")</td>
+                                                        <td class="text-center align-middle">@det.OrderDetailDiscountCode</td>
+                                                        <td class="text-center align-middle">@det.OrderDetailDiscountValue</td>
+                                                        <td class="text-center align-middle">@det.OrderDetailCount</td>
+                                                        <td class="text-center align-middle">@rowSum.ToString("N0")</td>
+
+                                                    </tr>
+                                                    rad++;
+                                                }
+                                                <tr>
+                                                    <td colspan="7" class="text-left">کوپن تخفیف</td>
+                                                    <td class="text-center align-middle font-family-arial">@Model.Order.Order_DiscountCode</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="7" class="text-left">مبلغ کوپن تخفیف</td>
+                                                    <td class="text-center align-middle" dir="rtl">@Model.Order.Order_DiscountValue.ToString("N0")</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="7" class="text-left">هزینه ارسال</td>
+                                                    <td class="text-center align-middle">@Model.Order.Order_DeliveryCost.ToString("N0")</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="7" class="text-left">تخفیف هزینه ارسال</td>
+                                                    <td class="text-center align-middle">@Model.Order.Order_DeliveryCostDiscount.ToString("N0")</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td colspan="7" class="text-left">جمع کل </td>
+                                                    <td class="text-center align-middle">@Model.Order.Order_Sum.ToString("N0")</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col">
+
+                        </div>
+                    </div>
+
+                }
+                else
+                {
+                    @if (!string.IsNullOrEmpty(Model.OrderDedicatednumber))
+                    {
+                        <div class="row">
+                            <h4 class="col-12 text-center alert alert-danger">شماره سفارش نامعتبر است !</h4>
+                        </div>
+                    }
+
+
+                }
+
+            </div>
+
+        </div>
+    </section>
+    <partial name="_ThreeColumns" />
+    <partial name="_Subscription" />
+    <partial name="_Footer" />
+    <!-- Back to top -->
+    <div class="btn-back-to-top bg0-hov" id="myBtn">
+        <span class="symbol-btn-back-to-top">
+            &uArr;
+        </span>
+    </div>
+    <script type="text/javascript" src="/Layout/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script type="text/javascript" src="~/Layout/Vendor/animsition/js/animsition.min.js"></script>
+    <script src="~/Layout/vendor/bootstrap/js/popper.js"></script>
+    <script type="text/javascript" src="~/Layout/Vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script type="text/javascript">
+        AOS.init();
+        /*[ No ui ]
+        ===========================================================*/
+        var filterBar = document.getElementById('filter-bar');
+
+        noUiSlider.create(filterBar, {
+            start: [50, 200],
+            connect: true,
+            range: {
+                'min': 50,
+                'max': 200
+            }
+        });
+
+        var skipValues = [
+            document.getElementById('value-lower'),
+            document.getElementById('value-upper')
+        ];
+
+        filterBar.noUiSlider.on('update', function (values, handle) {
+            skipValues[handle].innerHTML = Math.round(values[handle]);
+        });
+    </script>
+    <script src="~/Layout/js/main.js"></script>
+</body>
+</html>

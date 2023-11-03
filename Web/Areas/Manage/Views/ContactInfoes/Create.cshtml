@@ -1,0 +1,75 @@
+﻿@model DataLayer.Entities.Supplementary.ContactInfo
+
+@{
+    ViewData["Title"] = "ثبت اطلاعات تماس";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">ثبت اطلاعات تماس</h1>
+<h2 class="text-xs-center alert alert-warning">در هر گزینه موارد را با Enter می توانید از هم جدا کنید</h2>
+<div class="offset-md-4 col-md-4 col-xs-12 mt-2">
+    <a asp-action="Index" class="btn btn-warning col-xs-12">بازگشت</a>
+</div>
+<div class="row">
+    <div class="offset-md-2 col-md-8 col-xs-12">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Addresses" class="control-label"></label>
+                <textarea asp-for="Addresses" rows="5" maxlength="500" class="form-control"></textarea>
+                <span asp-validation-for="Addresses" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Phones" class="control-label"></label>
+                <textarea asp-for="Phones" rows="5" maxlength="500" class="form-control" dir="ltr"></textarea>
+                <span asp-validation-for="Phones" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cellphones" class="control-label"></label>
+                <textarea asp-for="Cellphones" rows="5" maxlength="500" class="form-control" dir="ltr"></textarea>
+                <span asp-validation-for="Cellphones" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Emailes" class="control-label"></label>
+                <textarea asp-for="Emailes" rows="5" maxlength="500" class="form-control" dir="ltr"></textarea>
+                <span asp-validation-for="Emailes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Faxes" class="control-label"></label>
+                <textarea asp-for="Faxes" rows="5" maxlength="500" class="form-control" dir="ltr"></textarea>
+                <span asp-validation-for="Faxes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InstagramLink" class="control-label"></label>
+                <input asp-for="InstagramLink" class="form-control" dir="ltr" />
+                <span asp-validation-for="InstagramLink" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TelegramLink" class="control-label"></label>
+                <input asp-for="TelegramLink" class="form-control" dir="ltr" />
+                <span asp-validation-for="TelegramLink" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FacebookLink" class="control-label"></label>
+                <input asp-for="FacebookLink" class="form-control" dir="ltr" />
+                <span asp-validation-for="FacebookLink" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Whatsapp" class="control-label"></label>
+                <input asp-for="Whatsapp" class="form-control" dir="ltr" />
+                <span asp-validation-for="Whatsapp" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="ثبت" class="btn btn-primary text-xs-center col-xs-12" />
+                <a asp-action="Index" class="btn btn-warning col-xs-12 mt-2">بازگشت</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+

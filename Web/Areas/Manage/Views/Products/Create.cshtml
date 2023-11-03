@@ -1,0 +1,367 @@
+﻿@model DataLayer.Entities.Store.Product
+
+@{
+    ViewData["Title"] = "ثبت محصول";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+    List<DataLayer.Entities.Store.Ingredient> ingredients = ViewData["Ingredients"] as List<DataLayer.Entities.Store.Ingredient>;
+    List<int> SelectedIngIds = ViewData["SelectedIngs"] as List<int>;
+
+    <script src="~/lib/ckeditor/ckeditor.js"></script>
+
+}
+<div>
+    <a asp-action="Index">بازگشت</a>
+</div>
+<h1 class="text-xs-center alert alert-info">ثبت محصول</h1>
+<div class="row">
+    <div class="container-fluid">
+
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="col-md-4 col-xs-12">
+                <div class="form-group pb-2">
+                    <label class="control-label">اجزای سازنده محصول</label>
+                    <div class="button-group col-md-12 col-xs-12">
+                        @{
+                            int ingcount = 0; bool chkAll = false;
+
+                            if (SelectedIngIds != null)
+                            {
+                                if (SelectedIngIds.Count() == ingredients.Count())
+                                {
+                                    chkAll = true;
+                                }
+                                ingcount = SelectedIngIds.Count;
+                            }
+
+                        }
+                        <button type="button" class="btn btn-default dropdown-toggle col-md-12  text-center border" data-toggle="dropdown">انتخاب سازنده محصول <span id="selIng" class="tag tag-pill tag-warning">@ingcount</span></button>
+                        <ul class="dropdown-menu w-100 pr-1" id="ingMainul">
+                            @if (ingredients.Count() == 0)
+                            {
+                                <li><p tabIndex="-1" class="red">سازنده ای موجود نمی باشد !</li>
+                            }
+                            else
+                            {
+                                <li><p tabIndex="-1"><input type="checkbox" id="allings" @((chkAll == true) ? "checked" : "") />&nbsp;همه</p></li>
+                            }
+
+                            @foreach (var ing in ingredients.OrderBy(x => x.Name).ToList())
+                            {
+                                <li class="font-weight-bold mb-1" tabindex="-1">
+                                    <p class="font-size-small text-black" tabIndex="-1">
+                                        @if (SelectedIngIds != null)
+                                        {
+                                            if (SelectedIngIds.Any(a => a == ing.IngredientId))
+                                            {
+                                                <input type="checkbox" class="ingredient" checked name="SelectedIngredients" value="@ing.IngredientId" /><span class="success pr-1 pl-1">@ing.Name</span>
+                                            }
+                                            else
+                                            {
+                                                <input type="checkbox" class="ingredient" name="SelectedIngredients" value="@ing.IngredientId" /><span class="success pr-1 pl-1">@ing.Name</span>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <input type="checkbox" class="ingredient" name="SelectedIngredients" value="@ing.IngredientId" /> <span class="success pr-1 pl-1">@ing.Name</span>
+                                        }
+
+                                    </p>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label" asp-for="ProductGroupId">گروه</label>
+                    <select class="form-control" asp-for="ProductGroupId" asp-items="ViewBag.ProductGroupId">
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Popularity" class="control-label"></label>
+                    <input asp-for="Popularity" value="0" min="0" class="form-control" />
+
+                    <span asp-validation-for="Popularity" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ProductCode" class="control-label"></label>
+                    @*<span class="tag tag-pill tag-primary float-xs-left">کد پیشنهادی : @pcode</span>*@
+
+                    <input asp-for="ProductCode" class="form-control" />
+                    <span asp-validation-for="ProductCode" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ProductName" class="control-label"></label>
+                    <input asp-for="ProductName" class="form-control" />
+                    <span asp-validation-for="ProductName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ProductEnName" class="control-label"></label>
+                    <input asp-for="ProductEnName" class="form-control" />
+                    <span asp-validation-for="ProductEnName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ProductPrice" class="control-label"></label>
+                    <input asp-for="ProductPrice" class="form-control" />
+                    <span asp-validation-for="ProductPrice" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ProductPercentDiscount" class="control-label"></label>
+                    <input asp-for="ProductPercentDiscount" min="0" class="form-control" />
+                    <span asp-validation-for="ProductPercentDiscount" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ProductValueDiscount" class="control-label"></label>
+                    <input asp-for="ProductValueDiscount" min="0" class="form-control" />
+                    <span asp-validation-for="ProductValueDiscount" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ProductFeatures" class="control-label"></label>
+                    <textarea asp-for="ProductFeatures" class="form-control" rows="3" placeholder="خواص و ویژگی هایی که یک محصول دارد- ویژگیها را با خط تیره از هم جدا کنید"></textarea>
+                    <span asp-validation-for="ProductFeatures" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ProductTopFeature" class="control-label"></label>
+                    <input asp-for="ProductTopFeature" class="form-control" />
+                    <span asp-validation-for="ProductTopFeature" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="HowToUse" class="control-label"></label>
+                    <textarea asp-for="HowToUse" class="form-control" maxlength="500" rows="3"></textarea>
+                    <span asp-validation-for="HowToUse" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Contraindications" class="control-label"></label>
+                    <textarea asp-for="Contraindications" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="Contraindications" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-12">
+                @{
+                    string inf = "اطلاعاتی در مورد امکانات تحویل محصول از قبیل حجم، نحوه بسته بندی و...";
+                }
+                <div class="form-group">
+                    <label asp-for="ProductInfoComment" class="control-label"></label><span class="fa fa-info-circle text-info" data-toggle="tooltip" data-placement="top" title="@inf"></span>
+                    <textarea asp-for="ProductInfoComment" class="form-control" rows="5"></textarea>
+                    <span asp-validation-for="ProductInfoComment" class="text-danger"></span>
+                </div>
+                <script>
+                    CKEDITOR.replace('ProductInfoComment');
+                </script>
+                <div class="form-group">
+                    <label asp-for="ProductTagsList" class="control-label"></label>
+                    <textarea asp-for="ProductTagsList" placeholder="گروه بندی جدید، با خط تیره از هم جدا شوند" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="ProductTagsList" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ProductTopTag" class="control-label"></label>
+                    <input asp-for="ProductTopTag" class="form-control" />
+                    <span asp-validation-for="ProductTopTag" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ProductUnit" class="control-label"></label>
+                    <input asp-for="ProductUnit" class="form-control" />
+                    <span asp-validation-for="ProductUnit" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="Participate_in_IncrementalDiscounts" /> @Html.DisplayNameFor(model => model.Participate_in_IncrementalDiscounts)
+                    </label>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="NoPriceDisplay" /> @Html.DisplayNameFor(model => model.NoPriceDisplay)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DrugInteractions" class="control-label"></label>
+                    <textarea asp-for="DrugInteractions" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="DrugInteractions" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>&ensp;<span class="text-danger">با Enter خطوط را جدا کنید</span><span class="float-xs-left">مانده : <span id="Deschar-count" class="text-danger">300</span></span>
+                    <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-12">
+                <div class="form-group">
+                    <label asp-for="ProductLabel" class="control-label"></label>
+                    <input asp-for="ProductLabel" placeholder="روی عکس محصول نمایش داده می شود" class="form-control">
+                    <span asp-validation-for="ProductLabel" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="ProductIsFeatured" /> @Html.DisplayNameFor(model => model.ProductIsFeatured)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ProductListImage" class="control-label"></label>
+                    <input type="file" asp-for="ProductListImage" class="form-control" />
+                    <span asp-validation-for="ProductListImage" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ProductListImageAlt" class="control-label"></label>
+                    <input asp-for="ProductListImageAlt" placeholder="Alt تصویر" class="form-control" />
+                    <span asp-validation-for="ProductListImageAlt" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ProductImage" class="control-label"></label>
+                    <input type="file" asp-for="ProductImage" class="form-control" />
+                    <span asp-validation-for="ProductImage" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ProductImageAlt" class="control-label"></label>
+                    <input asp-for="ProductImageAlt" placeholder="Alt تصویر" class="form-control" />
+                    <span asp-validation-for="ProductImageAlt" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ProductMinimumInventory" class="control-label"></label>
+                    <input asp-for="ProductMinimumInventory" class="form-control" />
+                    <span asp-validation-for="ProductMinimumInventory" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MaximumNumberofPurchases" class="control-label"></label>
+                    <input asp-for="MaximumNumberofPurchases" class="form-control" />
+                    <span asp-validation-for="MaximumNumberofPurchases" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ProductPageTitle" class="control-label"></label>
+                    <input asp-for="ProductPageTitle" placeholder="حداکثر 50 کاراکتر" class="form-control" />
+                    <span asp-validation-for="ProductPageTitle" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ProductPageDescription" class="control-label"></label><span class="float-xs-left">مانده : <span id="char-count" class="text-danger">320</span></span>
+                    <textarea asp-for="ProductPageDescription" maxlength="320" class="form-control"></textarea>
+                    <span asp-validation-for="ProductPageDescription" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Product_Weight" class="control-label"></label>
+                    <input asp-for="Product_Weight" class="form-control" />
+                    <span asp-validation-for="Product_Weight" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SideEffects" class="control-label"></label>
+                    <textarea asp-for="SideEffects" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="SideEffects" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Regimens" class="control-label"></label>
+                    <textarea asp-for="Regimens" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="Regimens" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Views" class="control-label"></label>
+                    <input asp-for="Views" class="form-control" />
+                    <span asp-validation-for="Views" class="text-danger"></span>
+                </div>
+            </div>
+
+
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label asp-for="ProductComment" class="control-label"></label>
+                    <textarea asp-for="ProductComment" class="form-control" rows="10"></textarea>
+                    <span asp-validation-for="ProductComment" class="text-danger"></span>
+                </div>
+                <script>
+
+                    CKEDITOR.replace('ProductComment');
+                </script>
+            </div>
+            <div class="col-xs-12">
+                <input type="submit" value="ثــبت" class="btn btn-primary offset-md-4 col-md-4 col-xs-12" />
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">بازگشت</a>
+</div>
+
+@section Scripts{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#allings").click(function () {
+                $("input:checkbox.ingredient").prop('checked', $(this).prop("checked"));
+                var total = $("#ingMainul").find('.ingredient:checked').length;
+                $("#selIng").text(total);
+            });
+            $(".ingredient").click(function () {
+                var prv = $(this).prop('checked');
+
+                if (prv === false) {
+                    $("#allings").prop('checked', false);
+                }
+                var total = $("#ingMainul").find('.ingredient:checked').length;
+                $("#selIng").text(total);
+            });
+
+
+            var idpg = $("#ProductGroupId").val();
+
+            $.ajax({
+                url: "/Manage/Products/GetProductCode",
+                data: { pgId: idpg },
+                cache: false,
+                contentType: "application/json; charset=utf-8",
+                Type: "GET",
+                success: function (result) {
+                    $("#ProductCode").val(result);
+                },
+                error: function () {
+                    alert("Error");
+                }
+            });
+            $("#ProductGroupId").change(function () {
+                var id = $(this).val();
+
+                $.ajax({
+                    url: "/Manage/Products/GetProductCode",
+                    data: { pgId: id },
+                    cache: false,
+                    contentType: "application/json; charset=utf-8",
+                    Type: "GET",
+                    success: function (result) {
+                        $("#ProductCode").val(result);
+                    },
+                    error: function () {
+                        alert("Error");
+                    }
+                });
+            });
+            maxchars = 320;
+            $('#ProductPageDescription').keyup(function () {
+                var tlength = $(this).val().length;
+                $(this).val($(this).val().substring(0, maxchars));
+                tlength = $(this).val().length;
+                remain = maxchars - parseInt(tlength);
+                $('#char-count').text(remain);
+            });
+            var Desmaxchars = 300;
+            $('#Description').keyup(function () {
+                var tlengthd = $(this).val().length;
+                $(this).val($(this).val().substring(0, Desmaxchars));
+                tlengthd = $(this).val().length;
+                var remainD = Desmaxchars - parseInt(tlengthd);
+                $('#Deschar-count').text(remainD);
+            });
+        });
+    </script>
+}

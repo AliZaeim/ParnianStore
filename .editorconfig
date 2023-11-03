@@ -1,0 +1,7 @@
+﻿[*.cs]
+
+# CA1304: Specify CultureInfo
+dotnet_diagnostic.CA1304.severity = suggestion
+
+# Default severity for all analyzer diagnostics
+dotnet_analyzer_diagnostic.severity = suggestion

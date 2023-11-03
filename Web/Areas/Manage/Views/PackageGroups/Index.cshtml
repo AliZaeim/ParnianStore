@@ -1,0 +1,66 @@
+﻿@model IEnumerable<DataLayer.Entities.Store.PackageGroup>
+
+@{
+    ViewData["Title"] = "گروه های پکیج";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">گروه های پکیج</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">ثبت گروه</a>
+</p>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+           <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.PgTitle)
+            </th>
+           <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.PgEnTitle)
+            </th>
+           <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.PgDiscountValue)
+            </th>
+           <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.PgDiscountPercent)
+            </th>
+           <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.PgMark)
+            </th>
+           <th class="text-xs-center align-middle">
+               تعداد پکیج
+           </th>
+           <th class="text-xs-center align-middle">عملیات</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td class="text-xs-center align-middle">
+                @Html.DisplayFor(modelItem => item.PgTitle)
+            </td>
+            <td class="text-xs-center align-middle">
+                @Html.DisplayFor(modelItem => item.PgEnTitle)
+            </td>
+            <td class="text-xs-center align-middle">
+                @Html.DisplayFor(modelItem => item.PgDiscountValue)
+            </td>
+            <td class="text-xs-center align-middle">
+                @Html.DisplayFor(modelItem => item.PgDiscountPercent)
+            </td>
+            <td class="text-xs-center align-middle">
+                @Html.DisplayFor(modelItem => item.PgMark)
+            </td>
+            <td class="text-xs-center align-middle">
+                @item.Packages.Count()
+            </td>
+            <td class="text-xs-center align-middle">
+                <a asp-action="Edit" asp-route-id="@item.PgId">ویرایش</a> |
+                <a asp-action="Details" asp-route-id="@item.PgId">جزئیات</a> |
+                <a asp-action="Delete" asp-route-id="@item.PgId">حــذف</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,81 @@
+﻿@model IEnumerable<DataLayer.Entities.Supplementary.InitialInfo>
+@using Core.Convertors;
+@{
+    ViewData["Title"] = "اطلاعات پایه";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">اطلاعات پایه</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">ایجاد اطلاعات جدید</a>
+</p>
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.SiteCurrency)
+                </th>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.SiteLogo)
+                </th>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.SiteThumbLogo)
+                </th>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.FavIcon)
+                </th>                
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.FreeShipping_MinimumPurchaseAmount)
+                </th>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.Motto)
+                </th>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.PercentageIncreaseDiscount)
+                </th>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.CreatedDate)
+                </th>
+                <th class="text-xs-center align-middle"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.SiteCurrency)
+                </td>
+                <td class="text-xs-center align-middle">
+                    <img src="/images/icons/@item.SiteLogo" />
+                </td>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.SiteThumbLogo)
+                </td>
+                <td class="text-xs-center align-middle">
+                    <img src="/@item.FavIcon" />
+                </td>               
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.FreeShipping_MinimumPurchaseAmount)
+                </td>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.Motto)
+                </td>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.PercentageIncreaseDiscount)
+                </td>
+                <td class="text-xs-center align-middle">
+                    @item.CreatedDate.ToShamsiWithTime()
+                </td>
+                <td class="text-xs-center align-middle">
+                    <a asp-action="Edit" asp-route-id="@item.Id">ویرایش</a>
+
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

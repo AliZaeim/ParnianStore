@@ -1,0 +1,66 @@
+﻿@model DataLayer.Entities.Store.WareHouse
+
+@{
+    ViewData["Title"] = "ثبت در دفتر انبار";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+    var products = ViewData["Products"] as List<DataLayer.Entities.Store.Product>;
+    var packages = ViewData["Packages"] as List<DataLayer.Entities.Store.Package>;
+}
+
+<h1 class="text-xs-center alert alert-info">ثبت در دفتر انبار</h1>
+
+
+<div class="row">
+    <div class="offset-md-4 col-md-4 col-xs-12">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ProductId" class="control-label"></label>
+                <select asp-for="ProductId" class="form-control">
+                    <option value="">انتخاب کنید...</option>
+                    @foreach (var pr in products)
+                    {
+                        <option value="@pr.ProductId">@pr.ProductName</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="PkId" class="control-label"></label>
+                <select asp-for="PkId" class="form-control">
+                    <option value="">انتخاب کنید...</option>
+                    @foreach (var pk in packages)
+                    {
+                        <option value="@pk.PkId">@pk.PkTitle</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="WareHouse_Input" class="control-label"></label>
+                <input asp-for="WareHouse_Input" class="form-control" />
+                <span asp-validation-for="WareHouse_Input" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="WareHouse_Export" class="control-label"></label>
+                <input asp-for="WareHouse_Export" class="form-control" />
+                <span asp-validation-for="WareHouse_Export" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="WareHouse_Comment" class="control-label"></label>
+                <input asp-for="WareHouse_Comment" class="form-control" />
+                <span asp-validation-for="WareHouse_Comment" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="ثبت" class="btn btn-primary col-xs-12" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">بازگشت</a>
+</div>
+@section Scripts
+{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

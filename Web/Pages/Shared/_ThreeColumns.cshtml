@@ -1,0 +1,123 @@
+﻿@using Core.Services.Interfaces;
+@using DataLayer.Entities.Supplementary;
+@inject IGenericService<ThreeColmun> _threeCol
+@{
+    List<ThreeColmun> threeColmuns = (List<ThreeColmun>)await _threeCol.GetAllAsync();
+    threeColmuns = threeColmuns.Where(x => x.IsActive).OrderBy(x => x.Id).ToList();
+    int colCount = 0;
+    int rowCount = 0;
+    if (threeColmuns != null)
+    {
+        if (threeColmuns.Count() != 0)
+        {
+            colCount = threeColmuns.Count();
+            if (colCount % 3 != 0)
+            {
+                rowCount = (int)(colCount / 3) + 1;
+            }
+            else
+            {
+                rowCount = (int)(colCount / 3);
+            }
+
+        }
+    }
+
+}
+@if (rowCount != 0)
+{
+   
+    <section class="tl-whyus p-t-105 p-b-105">
+        <div class="container">
+            <div class="row">
+                @for (int r = 1; r <= rowCount; r++)
+                {
+                    int col1 = ((r - 1) * 3) + 1;
+                    ThreeColmun c1 = threeColmuns.Skip(col1 - 1).Take(1).SingleOrDefault();
+                    @if (!string.IsNullOrEmpty(c1?.Link))
+                    {
+                        <a href="@c1?.Link" class="col-12 col-md-4 tl-whyus-col">
+                            <div >
+                                @if (!string.IsNullOrEmpty(c1?.Image))
+                                {
+                                    <img src="~/images/icons/@c1?.Image" alt="@c1?.Text">
+                                }
+                                <h4>@c1?.Title</h4>
+                                <h5 class="fs-16">@c1?.Text</h5>
+                            </div>
+                        </a>
+                    }
+                    else
+                    {
+                        <div class="col-12 col-lg-4 tl-whyus-col">
+                            @if (!string.IsNullOrEmpty(c1?.Image))
+                            {
+                                <img src="~/images/icons/@c1.Image" alt="@c1.Text">
+                            }
+                            <h4>@c1?.Title</h4>
+                            <h5 class="fs-16">@c1?.Text</h5>
+                        </div>
+                    }
+                    int col2 = ((r - 1) * 3) + 2;
+                    ThreeColmun c2 = threeColmuns.Skip(col2 - 1).Take(1).SingleOrDefault();
+                    @if (!string.IsNullOrEmpty(c2?.Link))
+                    {
+                        <a href="@c2?.Link" class="col-12 col-lg-4 tl-whyus-col">
+                            <div>
+                                @if (!string.IsNullOrEmpty(c2?.Image))
+                                {
+                                    <img src="~/images/icons/@c2?.Image" alt="@c2?.Text">
+                                }
+                                <h4>@c2?.Title</h4>
+                                <h5 class="fs-16">@c2?.Text</h5>
+                            </div>
+                        </a>
+                    }
+                    else
+                    {
+                        <div class="col-12 col-lg-4 tl-whyus-col">
+                            @if (!string.IsNullOrEmpty(c2?.Image))
+                            {
+                                <img src="~/images/icons/@c2.Image" alt="@c2.Text">
+                            }
+                            <h4>@c2?.Title</h4>
+                            <h5 class="fs-16">@c2?.Text</h5>
+                        </div>
+                    }
+                    int col3 = ((r - 1) * 3) + 3;
+                    ThreeColmun c3 = threeColmuns.Skip(col3 - 1).Take(1).SingleOrDefault();
+                    @if (!string.IsNullOrEmpty(c3?.Link))
+                    {
+                        <a href="@c3?.Link" class="col-12 col-lg-4 tl-whyus-col">
+
+                            <div>
+                                @if (!string.IsNullOrEmpty(c3?.Image))
+                                {
+                                    <img src="~/images/icons/@c3.Image" alt="@c3.Text">
+                                }
+
+                                <h4>@c3?.Title</h4>
+                                <h5 class="fs-16">@c3?.Text</h5>
+                            </div>
+                        </a>
+                    }
+                    else
+                    {
+                        <div class="col-12 col-lg-4 tl-whyus-col">
+                            @if (!string.IsNullOrEmpty(c3?.Image))
+                            {
+
+                                <img src="~/images/icons/@c3.Image" alt="@c3.Text">
+                            }
+                            <h4>@c3?.Title</h4>
+                            <h5 class="fs-16">@c3?.Text</h5>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+       
+    </section>
+
+}
+

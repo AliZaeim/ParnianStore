@@ -1,0 +1,74 @@
+﻿@model DataLayer.Entities.Blogs.Blog
+
+@{
+    ViewData["Title"] = "حذف خبر";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-danger">حذف خبر</h1>
+
+<h3 class="text-xs-center alert alert-warning">آیا مطمئن به حذف خبر هستید؟</h3>
+<div>
+    
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BlogTitle)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BlogTitle)
+        </dd>
+        
+        
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BlogSummary)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BlogSummary)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BlogTags)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BlogTags)
+        </dd>
+        
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BlogShortKey)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BlogShortKey)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BlogRefferalLink)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BlogRefferalLink)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BlogViewsCount)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BlogViewsCount)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ProductCodes)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ProductCodes)
+        </dd>
+       
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BlogGroup)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BlogGroup.BlogGroupTitle)
+        </dd class>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="BlogId" />
+        <input type="submit" value="حــذف" class="btn btn-danger" /> |
+        <a asp-action="Index">بازگشت</a>
+    </form>
+</div>

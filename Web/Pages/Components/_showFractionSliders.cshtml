@@ -1,0 +1,83 @@
+﻿@model IEnumerable<DataLayer.Entities.Supplementary.FractionSlider>
+@using Core.DTOs.General;
+@if (Model != null)
+{
+   
+<div class="flex-row zmt_D9mm">
+    <div class="slider-wrapper">
+        <div class="responisve-container">
+            <div class="slider" id="fractionDiv">
+                <div class="fs_loader"></div>
+
+                @foreach (var item in Model.OrderBy(x => x.ShowRating).ToList())
+                {
+                    List<FractionSliderObjectVM> fractionSliderObjectVMs = new();
+                    string html = string.Empty;
+                    bool hasLink = false;
+                    int linkdatastep = 1;
+                    foreach (var img in item.FSImages.Where(w => w.IsActive))
+                    {
+                        FractionSliderObjectVM fractionSliderObjectVM = new();
+                        fractionSliderObjectVM.Id = img.Id;
+                        fractionSliderObjectVM.Datastep = img.DataStep;
+                        fractionSliderObjectVM.Showrate = img.ShowRating;
+                        fractionSliderObjectVM.Type = "img";
+                        fractionSliderObjectVM.Delay = img.DataDelay;
+                        linkdatastep += 1;
+                        fractionSliderObjectVMs.Add(fractionSliderObjectVM);
+                    }
+                    foreach (var txt in item.FSTexts.Where(w => w.IsActive))
+                    {
+                        FractionSliderObjectVM fractionSliderObjectVM = new();
+                        fractionSliderObjectVM.Id = txt.Id;
+                        fractionSliderObjectVM.Datastep = txt.DataStep;
+                        fractionSliderObjectVM.Showrate = txt.ShowRating;
+                        fractionSliderObjectVM.Type = "txt";
+                        fractionSliderObjectVM.Delay = txt.DataDelay;
+                        linkdatastep += 1;
+                        fractionSliderObjectVMs.Add(fractionSliderObjectVM);
+                    }
+                    if (!string.IsNullOrEmpty(item.Link))
+                    {
+                        hasLink = true;
+                        html = String.Format("<a href='{0}' class='slide'>", item.Link);
+                    }
+                    else
+                    {
+                        html = "<div class='slide'>";
+                    }
+
+                    @foreach (var Sobj in fractionSliderObjectVMs.OrderBy(x => x.Showrate).ThenBy(x => x.Datastep).ToList())
+                    {
+                        if (Sobj.Type == "img")
+                        {
+                            var simg = item.FSImages.FirstOrDefault(x => x.Id == Sobj.Id);
+                            html += String.Format("<img  src='/images/sliders/fs/{0}' width='{1}' height='{2}' data-position='{3}' data-ease-in='{4}' data-in='{5}' data-delay='{6}' data-out='{7}' />", simg.Image, simg.Height, simg.Width, simg.DataPosition, simg.DataEaseIn, simg.DataIn, simg.DataDelay, simg.DataOut);
+
+                        }
+                        if (Sobj.Type == "txt")
+                        {
+                            var stxt = item.FSTexts.FirstOrDefault(x => x.Id == Sobj.Id);
+                            html += String.Format("<p class='{0}' data-position='{1}' data-in='{2}' data-step='{3}'", stxt.TextClass, stxt.DataPosition, stxt.DataIn, stxt.DataStep);
+                            html += String.Format(" data-special='{0}' data-delay='{1}' data-out='{2}' data-ease-in='{3}'", stxt.DataSpecial, stxt.DataSpecial, stxt.DataDelay, stxt.DataEaseIn);
+                            html += String.Format(">{0}</p>", stxt.Text);
+                        }
+                    }
+                    if (hasLink)
+                    {
+                        html += "</a>";
+                    }
+                    else
+                    {
+                        html += "</div>";
+                    }
+
+                    @Html.Raw(html);
+                }
+            </div>
+        </div>
+    </div>
+</div>
+}
+
+

@@ -1,0 +1,43 @@
+﻿@model IEnumerable<DataLayer.Entities.Supplementary.State>
+
+@{
+    ViewData["Title"] = "استانها";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">استانها</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">ثبت استان</a>
+</p>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.StateName)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.Freight)
+            </th>
+            
+            <th class="text-xs-center align-middle"></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td class="text-xs-center align-middle">
+                @Html.DisplayFor(modelItem => item.StateName)
+            </td>
+            <td class="text-xs-center align-middle">
+                @Html.DisplayFor(modelItem => item.Freight)
+            </td>
+            
+            <td class="text-xs-center align-middle">
+                <a asp-action="Edit" asp-route-id="@item.StateId">ویراش</a> |
+                <a asp-action="Details" asp-route-id="@item.StateId">جزئیات</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

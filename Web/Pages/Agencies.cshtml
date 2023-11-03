@@ -1,0 +1,40 @@
+﻿@page
+@model Web.Pages.AgenciesModel
+@{
+    ViewData["Title"] = "نمایندگی های مورد تایید عالیان سبز";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+@section Header{
+    <partial name="_Header" />
+}
+
+<!-- Title Page -->
+<section class="zbg-title-page zlinear-gradient-cool1 p-t-20 p-b-25 flex-col-c-m">
+    <h2 class="l-text1 t-center">
+        نمایندگی های مجاز عالیان سبز
+    </h2>
+</section>
+<!-- breadcrumb -->
+<div class="bread-crumb zbg-greensite-analogus3  flex-w p-l-52 p-r-15 p-t-10 p-b-10  p-l-15-sm font-family-yekan">
+    <span class="m-text14 ">شما اینجا هستید </span>
+    <i class="fa fa-angle-left m-l-8 m-r-9 zpt-1-mm" aria-hidden="true"></i>
+
+    <a href="/" class="m-text14 text-white">
+        عالیان سبز
+
+    </a>
+    <i class="fa fa-angle-left m-l-8 m-r-9 zpt-1-mm" aria-hidden="true"></i>
+
+    <span class="m-text14 ">
+        نمایندگی های مورد تایید عالیان سبز
+    </span>
+</div>
+
+<section class="bgwhite">
+    <div class="container p-t-80 p-b-80">
+        <h3 class="text-xs-center alert alert-info">اطلاعات این صفحه در حال بروزرسانی است، لطفا صبور باشید</h3>
+    </div>
+</section>
+@section Footer{
+    <partial name="_Footer" />
+}

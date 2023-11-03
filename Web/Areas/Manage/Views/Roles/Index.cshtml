@@ -1,0 +1,65 @@
+﻿@model IEnumerable<DataLayer.Entities.User.Role>
+@using Core.Services.Interfaces;
+@inject IUserService _userService
+@{
+    ViewData["Title"] = "نقش ها";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">نقش ها</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">ثبت نقش جدید</a>
+</p>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.RoleName)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.RoleTitle)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.RoleRate)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.IsDeleted)
+            </th>
+            <th class="text-xs-center align-middle">عملیات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.RoleName)
+                </td>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.RoleTitle)
+                </td>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.RoleRate)
+                </td>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.IsDeleted)
+                </td>
+                <td class="text-xs-center align-middle">
+                    @if (_userService.CheckPermissionByName("manageroles", User.Identity.Name))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.RoleId">ویرایش</a> <span> | </span>
+                        <a asp-action="Details" asp-route-id="@item.RoleId">جزئیات</a> <span> | </span>
+                        <a asp-action="Delete" asp-route-id="@item.RoleId">حذف</a> <span> | </span>
+                        @if (_userService.CheckPermissionByName("rolepermissions", User.Identity.Name))
+                        {
+                            <a asp-action="Index" asp-controller="RolePermissions" asp-route-roleId="@item.RoleId">دسترسی ها</a> <span> | </span>
+                        }
+
+                    }
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

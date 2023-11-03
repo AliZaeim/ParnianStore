@@ -1,0 +1,260 @@
+﻿@model DataLayer.Entities.Store.Order
+@using Core.Convertors;
+@{
+    ViewData["Title"] = "جزئیات سفارش";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">جزئیات سفارش</h1>
+
+<div>
+    
+    <dl class="row">
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Order_Date)
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Order_Date.ToShamsiWithTime()
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Currency)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Currency)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Order_BuyerName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Order_BuyerName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Order_BuyerFamily)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Order_BuyerFamily)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Order_BuyerCellphone)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Order_BuyerCellphone)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RecipientName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RecipientName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RecipientFamily)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RecipientFamily)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RecipientPhone)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RecipientPhone)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Order_StateName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Order_StateName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Order_CountyName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Order_CountyName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Order_Address)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Order_Address)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Order_PostalCode)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Order_PostalCode)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Order_DiscountCode)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Order_DiscountCode)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Order_DiscountValue)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Order_DiscountValue)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Order_DeliveryCost)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Order_DeliveryCost)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Order_DeliveryCostDiscount)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Order_DeliveryCostDiscount)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Order_Sum)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Order_Sum)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Order_IsFinished)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Order_IsFinished)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Order_IsDeleted)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Order_IsDeleted)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Order_IsCanceled)
+        </dt>
+        <dd class="col-sm-10 text-danger">
+            @Html.DisplayFor(model => model.Order_IsCanceled)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CancellationComment)
+        </dt>
+        <dd class="col-sm-10 text-danger">
+            @Html.DisplayFor(model => model.CancellationComment)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.IsDeliveredCutomer)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IsDeliveredCutomer)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DeliveredToPost)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DeliveredToPost)
+        </dd>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CancellationComment)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UserBusinessName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserBusinessName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UserBusinessPercent)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserBusinessPercent)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Order_DedicatedNumber)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Order_DedicatedNumber)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DeliveryType)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DeliveryType)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Comment)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Comment)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Cart)
+        </dt>
+        <dd class="col-sm-10">
+            
+            <a href="/Manage/AdminOrders/CartDetails?id=@Model.CartId">کارت</a>
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UserRole)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserRole.FullName)
+        </dd>
+    </dl>
+    <div class="row">
+        <div class="col-12 border table-responsive">
+            <h4 class="text-xs-center text-info pr-0 pl-0">جزئیات سفارش</h4>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th class="text-center align-middle p-0">#</th>
+                        <th class="text-center align-middle">محصول</th>
+                        <th class="text-center align-middle">قیمت</th>
+                        <th class="text-center align-middle">قیمت خالص</th>
+                        <th class="text-center align-middle">کد تخفیف</th>
+                        <th class="text-center align-middle">مبلغ تخفیف</th>
+                        <th class="text-center align-middle">تعداد</th>
+                        <th class="text--center align-middle">جمع</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ int rad = 1;}
+                    @foreach (var det in Model.OrderDetails)
+                    {
+                        int rowSum = det.OrderDetailCount * det.OrderDetailNetPrice;
+                        <tr>
+                            <td class="text-xs-center align-middle p-0">@rad</td>
+                            <td class="text-xs-center align-middle">@det.OrderDatailProductName</td>
+                            <td class="text-xs-center align-middle">@det.OrderDetailPrice.ToString("N0")</td>
+                            <td class="text-xs-center align-middle">@det.OrderDetailNetPrice.ToString("N0")</td>
+                            <td class="text-xs-center align-middle">@det.OrderDetailDiscountCode</td>
+                            <td class="text-xs-center align-middle">@det.OrderDetailDiscountValue</td>
+                            <td class="text-xs-center align-middle">@det.OrderDetailCount</td>
+                            <td class="text-xs-center align-middle">@rowSum.ToString("N0")</td>
+
+                        </tr>
+                    }
+                    <tr>
+                        <td colspan="7" class="text-xs-left">هزینه ارسال</td>
+                        <td class="text-xs-center align-middle">@Model.Order_DeliveryCost.ToString("N0")</td>
+                    </tr>
+                    <tr>
+                        <td colspan="7" class="text-xs-left">تخفیف هزینه ارسال</td>
+                        <td class="text-xs-center align-middle">@Model.Order_DeliveryCostDiscount.ToString("N0")</td>
+                    </tr>
+                    <tr>
+                        <td colspan="7" class="text-xs-left">کوپن تخفیف</td>
+                        <td class="text-xs-center align-middle font-family-arial">@Model.Order_DiscountCode</td>
+                    </tr>
+                    <tr>
+                        <td colspan="7" class="text-xs-left">مبلغ کوپن تخفیف</td>
+                        <td class="text-xs-center align-middle font-family-arial">@Model.Order_DiscountValue.ToString("N0")</td>
+                    </tr>
+                    <tr>
+                        <td colspan="7" class="text-xs-left">جمع کل </td>
+                        <td class="text-xs-center align-middle">@Model.Order_Sum.ToString("N0")</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">ویرایش</a> |
+    <a asp-action="Index">بازگشت</a>
+</div>

@@ -1,0 +1,539 @@
+﻿@page "/product/d/{name}"
+@model Web.Pages.ProductDetailsModel
+@using Core.Services.Interfaces;
+@inject IProductService _productService
+@using Core.Convertors;
+@{
+    Layout = null;
+    string cur = "ریال";
+    if (Model.InitialInfo != null)
+    {
+        cur = Model.InitialInfo.SiteCurrency;
+    }
+    string cls1 = "col-12 col-lg-3";
+    string cls2 = "col-12 co-lg-6";
+    string cls3 = "col-12 col-lg-3";
+    string abstract_top_margin = "mt-0";
+    if (Model.ProductDatailsVM.Product.NoPriceDisplay)
+    {
+        cls1 = "col-12 offset-lg-1 col-lg-3";
+        cls2 = "col-12 col-lg-6";
+        cls3 = "col-0 col-lg-0";
+        abstract_top_margin = "m-t-20";
+    }
+    string fav = "favicon.png";
+    if (Model.InitialInfo != null)
+    {
+        if (!string.IsNullOrEmpty(Model.InitialInfo.FavIcon))
+        {
+            fav = Model.InitialInfo.FavIcon;
+        }
+    }
+    string description = "توضیحات کامل در مورد محصول" + " " + Model.ProductDatailsVM.Product.ProductName + " که مناسب برای " + " " + Model.ProductDatailsVM.Product.ProductFeatures + " می باشد.";
+    if (!string.IsNullOrEmpty(Model.ProductDatailsVM.Product.ProductPageDescription))
+    {
+        description = Model.ProductDatailsVM.Product.ProductPageDescription;
+    }
+}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BYLT1K82JQ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-BYLT1K82JQ');
+    </script>
+    <title>
+        @Model.ProductDatailsVM.ProductName عالیان سبز | @Model.ProductDatailsVM.Product.ProductTopFeature
+    </title>
+
+    <title>@Model.ProductDatailsVM.Product.ProductPageTitle</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta property=og:site_name value="عالیان سبز">
+    <meta property=og:title content="@Model.ProductDatailsVM.Product.ProductPageTitle">
+    <meta property=og:url content=https://aliansabz.com/Product/d/@Model.ProductDatailsVM.Product.ProductEnName>
+    <meta property=og:image content=https://aliansabz.com/images/products/@Model.ProductDatailsVM.Product.ProductListImage>
+    <meta property=og:image:url content="https://aliansabz.com/images/products/">
+    <meta property=og:image:type content=image/png>
+    <meta property=og:image:type content=image/jpg>
+    <meta property=og:image:alt content="@Model.ProductDatailsVM.Product.ProductListImageAlt">
+    <meta property=og:price:currency content=IRR>
+    <meta property=og:locale content=ir_FA>
+
+
+    <meta name="description" content="@description" />
+    <link rel="canonical" href='https:/aliansabz.com/product/d/@Model.ProductDatailsVM.Product.ProductEnName.Replace(" ","-")' />
+    <link rel="shortcut icon" href="/@fav" type="image/x-icon" />
+    <link rel="stylesheet" type="text/css" href="/Layout/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Layout/vendor/css-hamburgers/hamburgers.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Layout/vendor/animsition/css/animsition.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Layout/vendor/slick/slick.css">
+    <link rel="stylesheet" type="text/css" href="~/Layout/vendor/lightbox2/css/lightbox.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Layout/css/util.css">
+    <link rel="stylesheet" type="text/css" href="~/Layout/css/main.css">
+    <link href="~/Layout/css/tricklandstyle.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+
+</head>
+<body class="animsition">
+    <partial name="_Header" />
+    <nav class="breadcrumb-nav rtl">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">خانه</a></li>
+            <li class="breadcrumb-item"><a href="/products">محصولات</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Model.ProductDatailsVM.ProductName</li>
+        </ol>
+    </nav>
+    <section class="product-detail rtl p-t-50 p-b-45">
+        @if (Model.ProductDatailsVM.Product.IsActive)
+        {
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12 @cls1 m-b-20">
+                        @if (!Model.ProductDatailsVM.Product.NoPriceDisplay)
+                        {
+                            @if (Model.Inventory <= 0)
+                            {
+                                <span class="centered-label bg-semi-red text-shadow1 text-black">پایان موجودی</span>
+                            }
+                        }
+
+
+                        <picture class="tl-box">
+                            <source media="(min-width: 481px)" srcset="/images/products/@Model.ProductDatailsVM.Product.ProductImage">
+                            <source media="(max-width: 480px)" srcset="/images/products/@Model.ProductDatailsVM.Product.ProductListImage">
+                            <img src="/images/products/@Model.ProductDatailsVM.Product.ProductImage" alt="@Model.ProductDatailsVM.Product.ProductImageAlt">
+                        </picture>
+                    </div>
+
+                    <div class="col-12 @cls2 m-b-10">
+                        <div class="row">
+                            <div class="col-12 col-lg-6  mb-3 mb-sm-0">
+                                <h1 class="text-xs-center text-md-right">
+                                    @Model.ProductDatailsVM.ProductName
+
+                                </h1>
+                            </div>
+                            <div class="col-12 col-lg-3 text-center  mb-3 mb-sm-0">
+                                @Model.ProductDatailsVM.Product.ProductGroup.ProductGroupTitle
+                            </div>
+                            <div class="col-12 col-lg-3 text-center  mb-3 mb-sm-0">
+                                @if (!Model.ProductDatailsVM.Product.NoPriceDisplay)
+                                {
+                                    @if (Model.Inventory <= 0)
+                                    {
+                                        <span class="bg-danger text-white p-2 rounded">پایان موجودی</span>
+                                    }
+                                }
+
+                            </div>
+                        </div>
+                        <div class="@abstract_top_margin">
+                            <h6 class=" m-b-20"><span class="bg bg-info text-center rounded text-white p-1">توضیحات کوتاه</span></h6>
+                            <p class="text-justify m-t-10 line-height-1 fs-15">@Model.ProductDatailsVM.Product.Description</p>
+                        </div>
+                        <div class="m-t-20">
+                            <h6 class=" m-b-20"><span class="bg bg-info text-center rounded text-white p-1">طریقه مصرف</span></h6>
+                            <p class="text-justify line-height-1 m-t-10">@Model.ProductDatailsVM.Product.HowToUse</p>
+                        </div>
+                        @if (!Model.ProductDatailsVM.Product.NoPriceDisplay)
+                        {
+                            @if (Model.Inventory > 0)
+                            {
+                                <div class="add-to-cart-product p-t-10">
+
+                                    <div class="price-singleproduct">
+                                        @if (Model.DiscountOptionVM.HasDiscount)
+                                        {
+                                            <bdi class="offer-price">@Model.ProductDatailsVM.Product.ProductPrice.ToString("N0")</bdi>
+                                            <span>@Model.DiscountOptionVM.NetPrice.ToString("N0")</span>
+                                        }
+                                        else
+                                        {
+                                            <span>@Model.ProductDatailsVM.Product.ProductPrice.ToString("N0")</span>
+                                        }
+                                        <span class="tl-price-t">@cur</span>
+                                    </div>
+                                    @{
+                                        string btnText = "افزودن به سبد";
+                                        string oper = "eq";
+                                        if (Model.ProductDatailsVM.CartHasProduct)
+                                        {
+                                            btnText = "اصلاح سبد";
+                                            oper = "eq";
+                                        }
+                                        else
+                                        {
+                                            oper = "plus";
+                                        }
+                                        int Curpcount = Model.ProductDatailsVM.CountInCart;
+                                        int pcount = Model.ProductDatailsVM.CountInCart;
+                                        if (pcount == 0) pcount = 1;
+                                    }
+                                    <div class="buying">
+                                        <div class="product-counter">
+                                            <button class="btn-num-product-down color1 flex-c-m size7 bg8 eff2">
+                                                <i class="ri-subtract-fill"></i>
+                                            </button>
+
+                                            <input class="size8 m-text18 t-center num-product" type="number" name="num-product" value="@pcount">
+
+                                            <button class="btn-num-product-up color1 flex-c-m size7 bg8 eff2">
+                                                <i class="ri-add-fill"></i>
+                                            </button>
+                                        </div>
+                                        <div class="btn-addcart-product-detail" data-pid="@Model.ProductDatailsVM.Product.ProductId" data-kind="pr" data-curpcount="@Curpcount" data-op="@oper">
+                                            <button class=" btn btn-green btn-add-to-cart">@btnText</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            }
+                        }
+                        <div class="tags">
+                            <span> برچسب ها : </span>
+                            <div class="tags-badge ">
+                                @foreach (var tg in Model.ProductDatailsVM.Product.TagsList)
+                                {
+                                    string tagg = tg.Trim().Replace(" ", "-");
+                                    if (tg != Model.ProductDatailsVM.Product.TagsList.LastOrDefault())
+                                    {
+                                        <a href="/Products/tag/@tagg" class="ml-1"><span class="bg text-center text-white hov4 p-1 bg-info rounded">@tg.Trim()</span></a>
+                                    }
+                                    else
+                                    {
+                                        <a href="/Products/tag/@tagg"><span class="bg text-center text-white p-1 bg-info hov4 rounded">@tg.Trim()</span></a>
+                                    }
+
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    @if (!Model.ProductDatailsVM.Product.NoPriceDisplay)
+                    {
+                        <div class="col-12 @cls3">
+                            <div class="tl-box p-3 fs-22 text-center m-b-10 bg-info text-white">
+                                ارسال رایگان
+                            </div>
+                            <div class="tl-box zp-10">
+                                <img src="/images/icons/alian-sabz-delivery.jpg" />
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+            <div class="container desc">
+                <div class="row">
+                    <div class="col-12">
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="true">توضیحات</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" id="ing-tab" data-toggle="tab" href="#ingredients" role="tab" aria-controls="description" aria-selected="true">محتویات</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#comment" role="tab" aria-controls="comment" aria-selected="false">نظرات (@Model.ProductDatailsVM.Product.ProductComments.Count())</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+
+                            <div class="tab-pane fade show active p-t-35" id="description" role="tabpanel" aria-labelledby="home-tab">
+
+                                @Html.Raw(Model.ProductDatailsVM.Product.ProductInfoComment)
+                                <h6 class="text-success m-b-20">ویژگی های @Model.ProductDatailsVM.Product.ProductName</h6>
+                                <ol class="m-r-20" type="1">
+                                    @foreach (var fet in Model.ProductDatailsVM.Product.FeaturessList)
+                                    {
+                                        <li class="zlist-style-type-decimal m-r-20">@fet</li>
+                                    }
+                                </ol>
+                                <h6 class="text-success m-b-20">عوارض جانبی @Model.ProductDatailsVM.Product.ProductName</h6>
+                                <p class="text-justify line-height-1 p-r-20">@Model.ProductDatailsVM.Product.SideEffects</p>
+                                <h6 class="text-success m-b-20">موارد منع مصرف @Model.ProductDatailsVM.Product.ProductName</h6>
+                                @{ string[] conts = Model.ProductDatailsVM.Product.Contraindications.Split("-");}
+                                <ol class="m-r-20" type="1">
+                                    @foreach (var cont in conts)
+                                    {
+                                        <li class="zlist-style-type-decimal m-r-20">@cont</li>
+                                    }
+                                </ol>
+                                <h6 class="text-success m-b-20">تداخل دارویی</h6>
+                                <p class="text-justify line-height-1 p-r-20">@Model.ProductDatailsVM.Product.DrugInteractions</p>
+                                <h6 class="text-success m-b-20">هنگام مصرف  @Model.ProductDatailsVM.Product.ProductName بهتر است از خوردن مواد غذایی زیر پرهیز کنید</h6>
+                                @{ string[] regs = Model.ProductDatailsVM.Product.Regimens.Split("-");}
+                                <ol class="m-r-20" type="1">
+                                    @foreach (var reg in regs)
+                                    {
+                                        <li class="zlist-style-type-decimal m-r-20">@reg</li>
+                                    }
+                                </ol>
+                                @Html.Raw(Model.ProductDatailsVM.Product.ProductComment)
+
+
+                            </div>
+                            <div class="tab-pane fade show  p-t-35" id="ingredients" role="tabpanel" aria-labelledby="ing-tab">
+                                @if (Model.ProductDatailsVM.Product.ProductIngredients != null)
+                                {
+                                    if (Model.ProductDatailsVM.Product.ProductIngredients.Count() != 0)
+                                    {
+                                        <div class="row row-cols-1 row-cols-lg-2">
+                                            @foreach (var item in Model.ProductDatailsVM.Product.ProductIngredients)
+                                            {
+                                                var product = await _productService.GetProductByIdAsync(item.ProductId);
+                                                var ingredient = await _productService.GetIngredientByIdAsync(item.IngredientId);
+
+
+                                                <h5 class="text-center bg-accent-1 bg-success text-white col-12 rounded p-1 m-b-15">@ingredient.Name | طبع @ingredient.Nature</h5>
+
+                                                <div class="col-sm-3 p-2 m-b-15 align-items-center text-center">
+                                                    <img class="rounded zmax-height200 zmax-width200" src="/images/productIngredients/@ingredient.Image" />
+                                                </div>
+                                                <div class="col-sm-9 m-b-15">
+                                                    <p class="text-justify">@ingredient.Comment</p>
+                                                    <div>
+                                                        <h6 class="m-b-20"><span class="text-info pb-1 zborder-bottom">ترکیبات شیمیایی مهم</span></h6>
+                                                        @if (ingredient.ChemicalsMeterialsList.Count() > 1)
+                                                        {
+                                                            <ol class="m-r-20" type="1">
+                                                                @foreach (var chem in ingredient.ChemicalsMeterialsList)
+                                                                {
+                                                                    <li class="zlist-style-type-decimal m-r-20">@chem</li>
+                                                                }
+                                                            </ol>
+                                                        }
+                                                        else
+                                                        {
+                                                            <p class="p-r-20 text-justify">@ingredient.ChemicalsMeterials</p>
+                                                        }
+                                                    </div>
+                                                    <div>
+                                                        <h6 class="m-b-20"><span class="text-info pb-1 zborder-bottom">خواص دارویی</span></h6>
+                                                        @if (ingredient.MedicinalPropertiesList.Count() > 1)
+                                                        {
+                                                            <ol class="m-r-20" type="1">
+                                                                @foreach (var med in ingredient.MedicinalPropertiesList)
+                                                                {
+                                                                    <li class="zlist-style-type-decimal m-r-20">@med</li>
+                                                                }
+                                                            </ol>
+                                                        }
+                                                        else
+                                                        {
+                                                            <p class="p-r-20 text-justify">@ingredient.MedicinalProperties</p>
+                                                        }
+                                                    </div>
+                                                    <div>
+                                                        <h6 class="m-b-20"><span class="text-info pb-1 zborder-bottom">توصیه ها</span></h6>
+                                                        @if (ingredient.RecommendationsList.Count() > 1)
+                                                        {
+
+                                                            <ol class="m-r-20" type="1">
+                                                                @foreach (var rec in ingredient.RecommendationsList)
+                                                                {
+                                                                    <li class="zlist-style-type-decimal m-r-20">@rec</li>
+                                                                }
+
+                                                            </ol>
+                                                        }
+                                                        else
+                                                        {
+                                                            <p class="p-r-20 text-justify">@ingredient.Recommendations</p>
+                                                        }
+                                                    </div>
+
+                                                </div>
+
+                                            }
+                                        </div>
+                                    }
+                                }
+                            </div>
+                            <div class="tab-pane fade p-t-45" id="comment" role="tabpanel" aria-labelledby="profile-tab">
+                                <h6 class="p-b-35 col-12 line-height-1">لطفا نظر خود را در مورد محصول @Model.ProductDatailsVM.ProductName عالیان سبز عنوان کنید، نظر شما بعد از ثبت و بررسی سلامت محتوا منتشر خواهد شد </h6>
+                                @if (!User.Identity.IsAuthenticated)
+                                {
+                                    <p class="t-center col-12 text-danger">توجه : شماره تلفن شما منتشر نخواهد شد</p>
+                                }
+
+                                <div class="container m-t-65">
+                                    <div class="row d-flex flex-column align-items-center justify-content-center">
+                                        <div class="col-12 col-lg-6">
+                                            <form method="post">
+                                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                                <input type="hidden" asp-for="ProductDatailsVM.ProductName" />
+                                                <input type="hidden" asp-for="ProductDatailsVM.ProductId" />
+                                                @if (!string.IsNullOrEmpty(Model.ProductDatailsVM.Cellphone))
+                                                {
+                                                    <input type="hidden" asp-for="ProductDatailsVM.Name" />
+                                                    <input type="hidden" asp-for="ProductDatailsVM.Family" />
+                                                    <input type="hidden" asp-for="ProductDatailsVM.Cellphone" />
+                                                }
+                                                else
+                                                {
+                                                    <div class="form-group">
+                                                        <label asp-for="ProductDatailsVM.Name" class="control-label"></label>
+                                                        <input asp-for="ProductDatailsVM.Name" class="form-control border" />
+                                                        <span asp-validation-for="ProductDatailsVM.Name" class="text-danger"></span>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label asp-for="ProductDatailsVM.Family" class="control-label"></label>
+                                                        <input asp-for="ProductDatailsVM.Family" class="form-control border" />
+                                                        <span asp-validation-for="ProductDatailsVM.Family" class="text-danger"></span>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label asp-for="ProductDatailsVM.Cellphone" class="control-label"></label>
+                                                        <input asp-for="ProductDatailsVM.Cellphone" class="form-control border" />
+                                                        <span asp-validation-for="ProductDatailsVM.Cellphone" class="text-danger"></span>
+                                                    </div>
+                                                }
+                                                <div class="form-group">
+                                                    <label asp-for="ProductDatailsVM.Comment" class="control-label"></label><span class="float-left">مانده : <span id="Pdchar-count" class="text-danger">500</span></span>
+                                                    <textarea id="Pdcomment" asp-for="ProductDatailsVM.Comment" rows="5" maxlength="500" class="form-control" placeholder="حداکثر 500 حرف"></textarea>
+                                                    <span asp-validation-for="ProductDatailsVM.Comment" class="text-danger"></span>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <input type="submit" value="ثبت" class="btn btn-primary text-xs-center w-100 cursor-pointer" />
+
+                                                </div>
+                                            </form>
+
+
+                                            <hr class="p-b-45">
+                                            @foreach (var com in Model.ProductDatailsVM.Product.ProductComments.Where(w => w.IsActive).OrderByDescending(x => x.CreatedDate).ToList())
+                                            {
+                                                <div class="col-12 tl-box comments">
+                                                    <h5>@com.Name @com.Family<span class="ztext-grey fs-12"> | @com.CreatedDate.ToShamsiN_WithTime()</span> </h5>
+                                                    @foreach (var pc in com.CommentList)
+                                                    {
+                                                        <p class="text-justify">@pc</p>
+                                                    }
+
+                                                </div>
+                                            }
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @if (Model.ProductDatailsVM.GroupProducts.Count() > 0 && !Model.ProductDatailsVM.Product.NoPriceDisplay)
+            {
+
+                string lnk = "/Products/" + Model.ProductDatailsVM.Product.ProductGroup.ProductEnGroupTitle.Replace(" ", "-");
+                string tit = "محصولات گروه " + Model.ProductDatailsVM.Product.ProductGroup.ProductGroupTitle;
+                <div>
+                    @await Component.InvokeAsync("ShowHProductsComponent", new { products = Model.ProductDatailsVM.GroupProducts, returnUrl = "Index", title = tit, link = lnk })
+                </div>
+            }
+            else
+            {
+                @if (Model.ProductDatailsVM.Product.NoPriceDisplay)
+                {
+                    @if (Model.RelatedPackages != null)
+                    {
+                        <div class="container p-b-30">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h3 class="text-center text-success m-b-40">@Model.ProductDatailsVM.Product.ProductName در پکهای زیر موجود می باشد</h3>
+
+                                    @foreach (var item in Model.RelatedPackages)
+                                    {
+
+                                        @await Component.InvokeAsync("ShowPackageAsColumnComponent", item)
+
+                                    }
+                                </div>
+                            </div>
+
+                        </div>
+                    }
+                }
+
+            }
+        }
+        else
+        {
+            @if (Model.RelatedPackages != null)
+            {
+                <div class="container p-b-30">
+                    <div class="row">
+                        <div class="col-12">
+                            <h3 class="text-center text-success m-b-40">@Model.ProductDatailsVM.Product.ProductName در پکهای زیر موجود می باشد</h3>
+
+                            @foreach (var item in Model.RelatedPackages)
+                            {
+
+                                @await Component.InvokeAsync("ShowPackageAsColumnComponent", item)
+
+                            }
+                        </div>
+                    </div>
+
+                </div>
+            }
+        }
+
+    </section>
+
+
+
+
+
+
+
+
+    <!-- Footer -->
+    <partial name="_Footer" />
+
+
+    <!-- Back to top -->
+    <div class="btn-back-to-top bg0-hov" id="myBtn">
+        <span class="symbol-btn-back-to-top">
+            &uArr;
+        </span>
+    </div>
+
+
+
+    <script src="~/Layout/vendor/jquery/jquery-3.3.1.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script type="text/javascript" src="~/Layout/Vendor/animsition/js/animsition.min.js"></script>
+    <script type="text/javascript" src="~/Layout/Vendor/bootstrap/js/popper.js"></script>
+    <script type="text/javascript" src="~/Layout/Vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/Layout/vendor/slick/slick.min.js"></script>
+    <script src="~/Layout/js/slick-custom.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/Layout/js/main.js"></script>
+    @if (TempData["saved"] != null)
+    {
+        <script type="text/javascript">
+            window.onload = function () {
+                Swal.fire({
+                    title: "عالیان سبز",
+                    text: "نظر شما با موفقیت ثبت شد",
+                    icon: "success",
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+            };
+        </script>
+    }
+
+</body>
+</html>

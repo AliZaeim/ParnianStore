@@ -1,0 +1,160 @@
+﻿@model IEnumerable<DataLayer.Entities.User.User>
+@using Core.Services.Interfaces;
+@using Core.Convertors;
+@inject IUserService _userService
+@{
+    ViewData["Title"] = "کاربران ثبت نامی";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">کاربران ثبت نامی</h1>
+@if (_userService.CheckPermissionByName("createuser", User.Identity.Name))
+{
+    <p>
+        <a asp-action="CreateUser">ثبت کاربر</a>
+    </p>
+}
+
+<div class="table-responsive">
+    <table class="table table-bordered ">
+        <thead>
+            <tr>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.Family)
+                </th>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.Cellphone)
+                </th>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.UserName)
+                </th>
+                <th class="text-xs-center align-middle">
+                    مسئولیتها
+                </th>
+                <th class="text-xs-center align-middle">
+                    تاریخ ثبت
+                </th>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.IsActive)
+                </th>
+
+                <th class="text-xs-center align-middle">عملیات</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.OrderByDescending(x => x.RegisteredDate))
+            {
+                <tr>
+                    <td class="text-xs-center align-middle">
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        @Html.DisplayFor(modelItem => item.Family)
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        @Html.DisplayFor(modelItem => item.Cellphone)
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        @{
+                            var roles = await _userService.GetRolesOfUserAsync(item.Id);
+                            if (roles != null)
+                            {
+                                foreach (var role in roles)
+                                {
+                                    if (role != roles.LastOrDefault())
+                                    {
+                                        <span>@role.RoleTitle</span><span> | </span>
+                                    }
+                                    else
+                                    {
+                                        <span>@role.RoleTitle</span>
+                                    }
+                                }
+                            }
+                        }
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        @{
+                            try
+                            {
+                                <span>@item.RegisteredDate.ToShamsiWithTime()</span>
+                            }
+                            catch (ArgumentOutOfRangeException)
+                            {
+
+                                <span>-</span>
+                            }
+                            
+                        }
+
+                    </td>
+                    <td class="text-xs-center align-middle">
+
+                        @if (item.IsActive)
+                        {
+                            <span class="fa fa-check-square cursor-pointer chk" data-id="@item.Id" data-status="0"></span>
+                        }
+                        else
+                        {
+                            <span class="fa fa-square-o cursor-pointer chk" data-id="@item.Id" data-status="1"></span>
+                        }
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        <a asp-action="Edit" asp-route-id="@item.Id">ویرایش</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">جزئیات</a> |
+                        @if (_userService.CheckPermissionByName("addrole", User.Identity.Name))
+                        {
+                            <a asp-action="AddRole" asp-route-userId="@item.Id">افزودن نفش</a>
+                        }
+
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".chk").click(function () {
+                if (confirm("آیا مطمئن به تغییر وضعیت کاربر هستید؟")) {
+                    var idd = $(this).attr("data-id");
+                    var st = $(this).attr("data-status");
+                    var th = $(this);
+                    $.ajax({
+                        url: "/Manage/AdminReports/ChangeStatus",
+                        data: { id: idd, status: st },
+                        type: "GET",
+                        async: true,
+                        success: function (result) {
+
+                            if (result === true) {
+
+                                th.removeClass("fa-square-o").addClass("fa-check-square");
+                                th.attr("data-status", 0);
+                            }
+                            else {
+
+                                th.removeClass("fa-check-square").addClass("fa-square-o");
+                                th.attr("data-status", 1);
+                            }
+                        },
+                        error: function () {
+                            alert("error");
+                        }
+                    })
+                }
+
+            });
+        });
+    </script>
+}

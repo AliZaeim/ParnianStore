@@ -1,0 +1,54 @@
+﻿@model DataLayer.Entities.Blogs.BlogGroup
+
+@{
+    ViewData["Title"] = "ویرایش گروه خبر";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">ویرایش گروه خبر</h1>
+
+
+<hr />
+<div class="row">
+    <div class="offset-md-4  col-md-4 col-xs-12">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="BlogGroupId" />
+            <input type="hidden" asp-for="IsDeleted" />
+            <div class="form-group">
+                <label asp-for="BlogGroupTitle" class="control-label"></label>
+                <input asp-for="BlogGroupTitle" class="form-control" />
+                <span asp-validation-for="BlogGroupTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BlogGroupEnTitle" class="control-label"></label>
+                <input asp-for="BlogGroupEnTitle" class="form-control" />
+                <span asp-validation-for="BlogGroupEnTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="ShowinMenu" /> @Html.DisplayNameFor(model => model.ShowinMenu)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="TitleinMenu" class="control-label"></label>
+                <input asp-for="TitleinMenu" class="form-control" />
+                <span asp-validation-for="TitleinMenu" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="ویرایش" class="btn btn-primary col-xs-12" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">بازگشت</a>
+</div>
+

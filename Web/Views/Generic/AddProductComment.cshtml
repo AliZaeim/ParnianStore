@@ -1,0 +1,41 @@
+﻿@model Core.DTOs.General.NonMemberProductCommentVM
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+
+<div class="offset-md-4 col-md-4 col-xs-12" id="ProductComment">
+    <form novalidate class="mt-1">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" id="RequestVerificationToken" name="RequestVerificationToken" value="@Xsrf.GetAndStoreTokens(Context).RequestToken" />
+        <div class="form-group">
+            <label asp-for="Name" class="control-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Family" class="control-label"></label>
+            <input asp-for="Family" class="form-control" />
+            <span asp-validation-for="Family" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Cellphone" class="control-label"></label>
+            <input asp-for="Cellphone" class="form-control" />
+            <span asp-validation-for="Cellphone" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Comment" class="control-label"></label>
+            <textarea asp-for="Comment" rows="5" maxlength="500" class="form-control"></textarea>
+            <span asp-validation-for="Comment" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            @*<input type="submit" value="ثبت" class="btn btn-primary text-xs-center col-xs-12" />*@
+            <button class="btn btn-primary col-xs-12">
+                <span id="comSpinner" class="spinner-border spinner-border-sm zd-none" role="status" aria-hidden="true"></span>
+                ثبت نظر
+            </button>
+        </div>
+    </form>
+</div>
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+

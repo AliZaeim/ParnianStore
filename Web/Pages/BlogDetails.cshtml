@@ -1,0 +1,293 @@
+﻿@page "/blog/d/{code}"
+@model Web.Pages.BlogDetailsModel
+@using Core.Services.Interfaces;
+@using Core.Convertors;
+@inject IUserService _userService
+@inject IProductService _producService
+@inject IBlogService _blogService
+@using System.Globalization;
+
+@{
+    Layout = null;
+    string cur = "ریال";
+    var init = await _producService.GetInitialInfoAsync();
+    if (init != null)
+    {
+        cur = init.SiteCurrency;
+    }
+    string fav = "favicon.png";
+    if (init != null)
+    {
+        if (!string.IsNullOrEmpty(init.FavIcon))
+        {
+            fav = init.FavIcon;
+        }
+    }
+}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BYLT1K82JQ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-BYLT1K82JQ');
+    </script>
+    <title>@Model.BlogDetailsVM.Blog.BlogPageTitle</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:site_name" value="عالیان سبز">
+    <meta property="og:title" content="@Model.BlogDetailsVM.Blog.BlogTitle | عالیان سبز">
+    <meta property="og:url" content="https://aliansabz.com/BlogDetails">
+    <meta property="og:image" content="https://aliansabz.com/images/blogs">
+    <meta property="og:image:url" content="@Model.BlogDetailsVM.Blog.BlogImageInBlog">
+    <meta property="og:image:type" content=image/png>
+    <meta property="og:image:type" content=image/jpg>
+    <meta property="og:image:alt" content="@Model.BlogDetailsVM.Blog.BlogTitle" />
+    <meta property="og:price:currency" content="IRR">
+    <meta property="og:locale" content="ir_FA">
+    <meta name="description" content="@Model.BlogDetailsVM.Blog.BlogPageDescription" />
+    <link rel="canonical" href="https://aliansabz.com/Blod/d/@Model.BlogDetailsVM.Blog.BlogShortKey" />
+
+    <link rel="shortcut icon" href="/@fav" type="image/x-icon" />
+
+    <link href="~/Layout/css/bundle/blogdet/styles.pure.css" rel="stylesheet" />
+    <link href="~/Layout/vendor/animsition/css/animsition.min.css" rel="stylesheet" />
+    <link href="~/Layout/vendor/slick/slick.css" rel="stylesheet" />
+</head>
+<body class="animsition">
+    <partial name="_Header" />
+    <nav class="breadcrumb-nav rtl fs-12" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">خانه</a></li>
+            <li class="breadcrumb-item"><a href="/Blogs">مجله عالیان</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Model.BlogDetailsVM.Blog.BlogTitle</li>
+        </ol>
+    </nav>
+    <section class="bgwhite p-t-55 p-b-65">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-md-4 col-lg-3 p-b-50">
+                    <div class="leftbar tl-box make-me-sticky">
+                        <!-- Categories -->
+                        <h4 class="m-text23 p-b-20">
+                            دسته بندی ها
+                        </h4>
+                        <ul>
+                            @foreach (var bg in Model.BlogDetailsVM.BlogGroups)
+                            {
+                            <li class="p-t-6 p-b-15">
+                                <a asp-page="blogs" asp-route-gName="@bg.BlogGroupEnTitle.Trim().Replace(" ","-")" class="col-sm-12 m-b-20">@bg.BlogGroupTitle &ensp; <span>( @bg.Blogs.Count )</span></a>
+
+                            </li>
+                            }
+                        </ul>
+                        <h4 class="m-text23 p-t-50 p-b-16">
+                            آرشیو
+                        </h4>
+                        <ul>
+                            @for (int i = 0; i <= 12; i++)
+                            {
+                                PersianCalendar pc = new PersianCalendar();
+                                DateTime dt = DateTime.Now.AddMonths(-i);
+                                int y = pc.GetYear(dt);
+                                int m = pc.GetMonth(dt);
+                                string ym = y.ToString() + "-" + m.ToString();
+
+                            @if (await _blogService.ExistBlogsWithYearMounth(y, m))
+                                {
+                                    List<DataLayer.Entities.Blogs.Blog>
+                                                  blogs = await _blogService.GetBlogsWithYearMounth(y, m);
+
+                            <li class="p-t-6 p-b-1 m-b-20">
+                                <a href="/blogs/?archive=@ym" class="col-sm-12">@m.ToPersianMounth() @y &ensp; <span>( @blogs.Count )</span></a>
+
+                            </li>
+                                }
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-8 col-sm-6 col-lg-9 p-b-80 rtl">
+                    <div class="p-r-50 p-r-0-lg">
+                        <div class="p-b-40">
+                            <div class="blog-detail-img wrap-pic-w ">
+                                <img src="/images/blogs/@Model.BlogDetailsVM.Blog.BlogImageInBlogDetails" alt="@Model.BlogDetailsVM.Blog.BlogTitle" class="tl-box">
+                            </div>
+                            <div class="blog-detail-txt tl-box m-t-33">
+                                <h1 class="blog-heading">@Model.BlogDetailsVM.Blog.BlogTitle</h1>
+                                <div class="blog-detail">
+                                    <span class="author">
+                                        <i class="ri-user-6-line"></i> @Model.BlogDetailsVM.Blog.Author
+                                    </span>
+                                    <span class="calendar">
+                                        <i class="ri-calendar-line"></i>
+                                        <time datetime="@Model.BlogDetailsVM.Blog.BlogDate">@Model.BlogDetailsVM.Blog.BlogDate.ToShamsiWithTime()</time>
+
+                                    </span>
+                                    &emsp;
+                                    <span>
+                                        <i class="ri-eye-fill"></i>
+                                        <span>@Model.BlogDetailsVM.Blog.BlogViewsCount</span>
+
+                                    </span>
+
+                                </div>
+
+                                <div class="post-content">
+                                    @Html.Raw(Model.BlogDetailsVM.Blog.BlogText)
+
+                                    <div class="tags p-t-15">
+                                        <span> برچسب ها : </span>
+                                        @{
+                                            string classs = "text-right";
+                                        }
+                                        @if (Model.BlogDetailsVM.Blog.TagsList.Count() > 4)
+                                        {
+                                            classs = "w-100 text-center";
+                                        }
+                                        <div class="tags-badge @classs text-center">
+                                            @foreach (var tg in Model.BlogDetailsVM.Blog.TagsList)
+                                            {
+                                                string tgg = tg.Trim();
+                                                if (tg == Model.BlogDetailsVM.Blog.TagsList.LastOrDefault())
+                                                {
+
+                                            <a href="/blogs/?Tag=@tgg.Replace(" ","-")"><span class="badge badge-primary">@tgg.Replace(" ", "-")</span></a>
+                                                }
+                                                else
+                                                {
+
+                                            <a href="/blogs/?Tag=@tgg.Replace(" ","-")" class="pl-1"><span class="badge badge-primary">@tgg.Replace(" ", "-")</span></a>
+                                                }
+
+                                            }
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <hr />
+                                <div class="container m-t-65">
+                                    <div class="row d-flex flex-column align-items-center justify-content-center">
+                                        <div class="col-12 col-lg-9 mb-1">
+                                            <h6 class="text-xs-center mb-1">
+                                                <span class="info col-xs-12 block line-height-1">برای بهبود کیفیت محتواهای موجود در عالیان سبز لطفا نظر خود را مطرح کنید.</span><br />
+                                                <span class="success col-xs-12">نظر شما بعد از ثبت و بررسی سلامت محتوا منتشر خواهد شد</span>
+
+                                            </h6>
+                                            @if (string.IsNullOrEmpty(Model.BlogDetailsVM.Cellphone))
+                                            {
+                                            <h4 class="text-xs-center">
+                                                <span class="warning">توجه : شماره تلفن شما منتشر نخواهد شد</span>
+                                            </h4>
+                                            }
+
+                                        </div>
+                                        <div class="col-12 col-lg-9">
+                                            <form method="post">
+                                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                                <input type="hidden" asp-for="BlogDetailsVM.BlogCode" />
+                                                <input type="hidden" asp-for="BlogDetailsVM.BlogId" />
+                                                @if (!string.IsNullOrEmpty(Model.BlogDetailsVM.Cellphone))
+                                                {
+                                                <input type="hidden" asp-for="BlogDetailsVM.Name" />
+                                                <input type="hidden" asp-for="BlogDetailsVM.Family" />
+                                                <input type="hidden" asp-for="BlogDetailsVM.Cellphone" />
+                                                }
+                                                else
+                                                {
+                                                <div class="form-group">
+                                                    <label asp-for="BlogDetailsVM.Name" class="control-label"></label>
+                                                    <input asp-for="BlogDetailsVM.Name" class="form-control border" />
+                                                    <span asp-validation-for="BlogDetailsVM.Name" class="text-danger"></span>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label asp-for="BlogDetailsVM.Family" class="control-label"></label>
+                                                    <input asp-for="BlogDetailsVM.Family" class="form-control border" />
+                                                    <span asp-validation-for="BlogDetailsVM.Family" class="text-danger"></span>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label asp-for="BlogDetailsVM.Cellphone" class="control-label"></label>
+                                                    <input asp-for="BlogDetailsVM.Cellphone" class="form-control border" />
+                                                    <span asp-validation-for="BlogDetailsVM.Cellphone" class="text-danger"></span>
+                                                </div>
+                                                }
+                                                <div class="form-group">
+                                                    <label asp-for="BlogDetailsVM.Comment" class="control-label"></label><span class="float-left">مانده : <span id="Bdchar-count" class="text-danger">500</span></span>
+                                                    <textarea id="Bdcomment" asp-for="BlogDetailsVM.Comment" rows="5" maxlength="500" class="form-control" placeholder="حداکثر 500 حرف"></textarea>
+                                                    <span asp-validation-for="BlogDetailsVM.Comment" class="text-danger"></span>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <input type="submit" value="ثبت" class="btn btn-primary text-xs-center w-100 cursor-pointer" />
+                                                    @*@Html.AntiForgeryToken()*@
+                                                </div>
+                                            </form>
+
+                                            <hr class="p-b-45">
+                                            @foreach (var com in Model.BlogDetailsVM.Blog.BlogComments.Where(w => w.IsActive).OrderByDescending(x => x.CreatedDate).ToList())
+                                            {
+                                            <div class="col-12 tl-box comments">
+                                                <h5>@com.Name @com.Family<span class="ztext-grey fs-12"> | @com.CreatedDate.ToShamsiN_WithTime()</span> </h5>
+                                                @foreach (var pc in com.CommentList)
+                                                    {
+                                                <p class="text-justify">@pc</p>
+                                                    }
+                                            </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    @if (Model.BlogDetailsVM.RelatedProducts.Count() > 0)
+    {
+        string tit = "محصولات مرتبط ";
+    @await Component.InvokeAsync("ShowHProductsComponent", new { products = Model.BlogDetailsVM.RelatedProducts, returnUrl = "Index", title = tit })
+    }
+    @if (Model.BlogDetailsVM.RelatedPackages.Count() > 0)
+    {
+        string tit = "پکهای مرتبط ";
+    @await Component.InvokeAsync("ShowHPackagesComponent", new { packages = Model.BlogDetailsVM.RelatedPackages, returnUrl = "Index", title = tit })
+    }
+    <partial name="_Footer" />
+    <div class="btn-back-to-top bg0-hov" id="myBtn">
+        <span class="symbol-btn-back-to-top">
+            &uArr;
+        </span>
+    </div>
+
+    <script type="text/javascript" src="/Layout/vendor/jquery/jquery-3.3.1.min.js"></script>
+    <script src="~/Layout/vendor/jquery/jquery.validate.min.js"></script>
+    <script src="~/Layout/vendor/jquery/jquery.validate.unobtrusive.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/Layout/css/bundle/Index/site.Tjs.min.js"></script>
+    @if (TempData["saved"] != null)
+    {
+    <script language="javascript">
+
+        window.onload = function () {
+            Swal.fire({
+                title: "عالیان سبز",
+                text: "نظر شما با موفقیت ثبت شد",
+                icon: "success",
+                showConfirmButton: false,
+                timer: 3000
+            });
+        };
+
+    </script>
+    }
+</body>
+</html>

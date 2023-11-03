@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="Group_64" data-name="Group 64" transform="translate(-153 -1868.549)">
+    <g id="Group_15" data-name="Group 15" transform="translate(153 1868.549)">
+      <g id="shopping-cart-line_2_" data-name="shopping-cart-line (2)">
+        <path id="Path_29" data-name="Path 29" d="M0,0H24V24H0Z" fill="none"/>
+        <path id="Path_30" data-name="Path 30" d="M4,16V4H2V2H5A1,1,0,0,1,6,3V15H18.438l2-8H8V5H21.72a1,1,0,0,1,.97,1.243l-2.5,10a1,1,0,0,1-.97.757H5A1,1,0,0,1,4,16Zm2,7a2,2,0,1,1,2-2A2,2,0,0,1,6,23Zm12,0a2,2,0,1,1,2-2A2,2,0,0,1,18,23Z" fill="#fff"/>
+      </g>
+      <g id="Group_6" data-name="Group 6" transform="translate(9.314 8.128)">
+        <line id="Line_5" data-name="Line 5" y2="5.884" transform="translate(2.942)" fill="none" stroke="#fff" stroke-width="1.5"/>
+        <line id="Line_6" data-name="Line 6" x2="5.884" transform="translate(0 2.942)" fill="none" stroke="#fff" stroke-width="1.5"/>
+      </g>
+    </g>
+  </g>
+</svg>

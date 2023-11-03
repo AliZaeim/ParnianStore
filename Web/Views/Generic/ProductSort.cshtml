@@ -1,0 +1,23 @@
+﻿@model IEnumerable<DataLayer.Entities.Store.Product>
+@using Core.DTOs.General;
+@using Core.Services.Interfaces;
+@inject IProductService _productService
+@if (Model != null)
+{
+    <input type="hidden" id="sortCount" value="@Model.Count()" />
+    @if (Model.Count() != 0)
+    {
+        @foreach (var pr in Model)
+        {
+            @await Component.InvokeAsync("ShowProductAsColumnComponent", pr)
+        }
+    }
+    else
+    {
+        <h4 class="text-xs-center alert alert-danger">محصولی یافت نشد !</h4>
+    }
+}
+else
+{
+    <h4 class="text-xs-center alert alert-danger">محصولی یافت نشد !</h4>
+}

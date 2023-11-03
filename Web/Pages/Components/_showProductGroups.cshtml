@@ -1,0 +1,29 @@
+﻿@model Core.DTOs.General.GroupMenuVM
+@{
+    string clss = string.Empty;
+}
+@foreach (var item in Model.ProductGroups)
+{
+
+    string gn = item.ProductEnGroupTitle.Replace(" ", "-");
+    <li class=@((Model.Type =="mobile") ? "item-menu-mobile":"items m-l-15 m-r-15")>
+        @if (Model.Type == "mobile")
+        {
+            <a href="/Products/@gn">@item.ProductGroupTitle</a>
+        }
+        else
+        {
+            <a href="/Products/@gn">
+                @if (string.IsNullOrEmpty(item.ProductGroupText))
+                {
+                    <span>@item.ProductGroupTitle</span>
+                }
+                else
+                {
+                    <span>@item.ProductGroupText</span>
+                }
+            </a>
+        }
+
+    </li>
+}

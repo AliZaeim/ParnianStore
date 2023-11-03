@@ -1,0 +1,6 @@
+User-agent:*
+Disallow:/Manage
+Disallow:/Cart
+Disallow:/Payment
+Disallow:/About
+Disallow:/Generic

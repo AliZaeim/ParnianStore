@@ -1,0 +1,121 @@
+﻿@model DataLayer.Entities.Supplementary.Banner
+    
+@if (Model.IsActive)
+{
+    <div class="container banners ">
+        <div class="row">
+            @if (Model.Banner1 != null && Model.Banner2 == null & Model.Banner3 == null && Model.Banner4 == null)
+            {
+                <div class="col-sm">
+                    <a href="@Model.Banner1_link" target="_blank">
+                        
+                            <picture class="rounded-10px">
+                                <source media="(min-width: 800px)" srcset="/images/banners/@Model.Banner1">
+                                <source media="(max-width: 799px)" srcset="/images/banners/mobile/@Model.Banner1Mobile">
+                                <img src="/images/banners/mobile/@Model.Banner1Mobile" loading="lazy" class="tl-alian-banner tl-box" alt="@Model.Banner1_Alt">
+                            </picture>
+                        
+                    </a>
+                </div>
+            }
+            @if (Model.Banner1 != null && Model.Banner2 != null & Model.Banner3 == null && Model.Banner4 == null)
+            {                
+                    <div class="col-sm">
+                        <a href="@Model.Banner1_link" target="_blank">
+                            <picture>
+                                <source media="(min-width: 800px)" srcset="/images/banners/@Model.Banner1">
+                                <source media="(max-width: 799px)" srcset="/images/banners/mobile/@Model.Banner1Mobile">
+                                <img src="/images/banners/mobile/@Model.Banner1Mobile" loading="lazy" class="tl-alian-banner tl-box" alt="@Model.Banner1_Alt">
+                            </picture>
+                        </a>
+                    </div>
+                    <div class="col-sm">
+                        <a href="@Model.Banner2_link" target="_blank">
+                            <picture>
+                                <source media="(min-width: 800px)" srcset="/images/banners/@Model.Banner2">
+                                <source media="(max-width: 799px)" srcset="/images/banners/mobile/@Model.Banner2Mobile">
+                                <img src="/images/banners/mobile/@Model.Banner2Mobile" loading="lazy" class="tl-alian-banner tl-box" alt="@Model.Banner2_Alt">
+                            </picture>
+                        </a>
+                    </div>               
+            }
+            @if (Model.Banner1 != null && Model.Banner2 != null & Model.Banner3 != null && Model.Banner4 == null)
+            {               
+                    <div class="col-sm">
+                        <a href="@Model.Banner1_link" target="_blank">
+                            <picture>
+                                <source media="(min-width: 800px)" srcset="/images/banners/@Model.Banner1">
+                                <source media="(max-width: 799px)" srcset="/images/banners/mobile/@Model.Banner1Mobile">
+                                <img src="/images/banners/mobile/@Model.Banner1Mobile" loading="lazy" class="tl-alian-banner tl-box" alt="@Model.Banner1_Alt">
+                            </picture>
+                        </a>
+                    </div>
+                    <div class="col-sm">
+                        <a href="@Model.Banner2_link" target="_blank">
+                            <picture>
+                                <source media="(min-width: 800px)" srcset="/images/banners/@Model.Banner2">
+                                <source media="(max-width: 799px)" srcset="/images/banners/mobile/@Model.Banner2Mobile">
+                                <img src="/images/banners/mobile/@Model.Banner2Mobile" loading="lazy" alt="@Model.Banner2_Alt" class="tl-alian-banner tl-box">
+                            </picture>
+                        </a>
+                    </div>
+                    <div class="col-sm">
+                        <center>
+                            <a href="@Model.Banner3_link" target="_blank">
+                                <picture>
+                                    <source media="(min-width: 800px)" srcset="/images/banners/@Model.Banner3">
+                                    <source media="(max-width: 799px)" srcset="/images/banners/mobile/@Model.Banner3Mobile">
+                                    <img src="/images/banners/mobile/@Model.Banner3Mobile" loading="lazy" class="tl-alian-banner tl-box" alt="@Model.Banner3_Alt">
+                                </picture>
+                            </a>
+                        </center>
+                    </div>                
+            }
+            @if (Model.Banner1 != null && Model.Banner2 != null & Model.Banner3 != null && Model.Banner4 != null)
+            {
+               
+
+                    <div class="col-sm">
+                        <a href="@Model.Banner1_link" target="_blank">
+                            <picture class="rounded-10px">
+                                <source media="(min-width: 800px)" srcset="/images/banners/@Model.Banner1">
+                                <source media="(max-width: 799px)" srcset="/images/banners/mobile/@Model.Banner1Mobile">
+                                <img src="/images/banners/mobile/@Model.Banner1" loading="lazy" class="tl-alian-banner tl-box" alt="@Model.Banner1_Alt">
+                            </picture>
+                        </a>
+                    </div>
+                    <div class="col-sm">
+                        <a href="@Model.Banner2_link" target="_blank">
+                            <picture class="rounded-10px">
+                                <source media="(min-width: 800px)" srcset="/images/banners/@Model.Banner2">
+                                <source media="(max-width: 799px)" srcset="/images/banners/mobile/@Model.Banner2Mobile">
+                                <img src="/images/banners/mobile/@Model.Banner2" loading="lazy" class="tl-alian-banner tl-box" alt="@Model.Banner2_Alt">
+                            </picture>
+                        </a>
+                    </div>
+                    <div class="col-sm">
+                        <a href="@Model.Banner3_link" target="_blank">
+                            <picture class="rounded-10px">
+                                <source media="(min-width: 800px)" srcset="/images/banners/@Model.Banner3">
+                                <source media="(max-width: 799px)" srcset="/images/banners/mobile/@Model.Banner3Mobile">
+                                <img src="/images/banners/mobile/@Model.Banner3" loading="lazy" class="tl-alian-banner tl-box" alt="@Model.Banner3_Alt">
+                            </picture>
+                        </a>
+                    </div>
+                    <div class="col-sm">
+                        <a href="@Model.Banner4_link" target="_blank">
+                            <picture class="rounded-10px ">
+                                <source media="(min-width: 800px)" srcset="/images/banners/@Model.Banner4">
+                                <source media="(max-width: 799px)" srcset="/images/banners/mobile/@Model.Banner4Mobile">
+                                <img src="/images/banners/mobile/@Model.Banner4" loading="lazy" class="tl-alian-banner tl-box" alt="@Model.Banner4_Alt">
+                            </picture>
+                        </a>
+                    </div>
+                
+            }
+        </div>
+       
+
+    </div>
+
+}

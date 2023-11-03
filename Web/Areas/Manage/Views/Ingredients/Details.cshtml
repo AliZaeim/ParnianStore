@@ -1,0 +1,60 @@
+﻿@model DataLayer.Entities.Store.Ingredient
+
+@{
+    ViewData["Title"] = "جزئیات" + " " + Model.Name;
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">جزئیات @Model.Name</h1>
+
+<div>
+    
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Image)
+        </dt>
+        <dd class = "col-sm-10">
+           <img src="/images/productIngredients/@Model.Image" />
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Comment)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Comment)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Nature)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Nature)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ChemicalsMeterials)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ChemicalsMeterials)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MedicinalProperties)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MedicinalProperties)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Recommendations)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Recommendations)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.IngredientId">ویرایش</a> |
+    <a asp-action="Index">بازگشت</a>
+</div>

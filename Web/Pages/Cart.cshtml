@@ -1,0 +1,557 @@
+﻿@page "/Cart"
+@using Core.Convertors;
+@model Web.Pages.CartModel
+@using Core.DTOs.General;
+@{
+
+    Layout = null;
+
+}
+@using Core.Services.Interfaces;
+@inject IProductService _productService
+@inject IStoreService _storeService
+@inject IUserService _userService
+@{
+    string cur = "ریال";
+    int freeship = 300000;
+    var init = await _productService.GetInitialInfoAsync();
+    if (Model.InitialInfo != null)
+    {
+        cur = Model.InitialInfo.SiteCurrency;
+        if (Model.InitialInfo.FreeShipping_MinimumPurchaseAmount.HasValue)
+        {
+            freeship = (int)Model.InitialInfo.FreeShipping_MinimumPurchaseAmount;
+        }
+
+    }
+    int total = 0;
+    int itemsTotalDis = 0;
+}
+
+
+<html lang="fa" dir="rtl">
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BYLT1K82JQ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-BYLT1K82JQ');
+    </script>
+    <title>سبد خرید فروشگاه عالیان سبز</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="~/Layout/vendor/bootstrap/css/bootstrap.min.css">
+    <link href="~/lib/fonts/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/Layout/vendor/lightbox2/css/lightbox.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Layout/css/util.css">
+    <link rel="stylesheet" type="text/css" href="~/Layout/css/main.css">
+    <link href="~/Layout/css/tricklandstyle.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css">
+    @{
+        var initial = await _userService.GetInitialInfoAsync();
+        string fav = "favicon.png";
+        if (initial != null)
+        {
+            if (!string.IsNullOrEmpty(initial.FavIcon))
+            {
+                fav = initial.FavIcon;
+            }
+
+        }
+
+    }
+    <link rel="shortcut icon" href="/@fav" type="image/x-icon" />
+</head>
+<body class="animsition" dir="rtl" lang="fa">
+    <partial name="_Header" />
+    <nav class="breadcrumb-nav rtl" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">خانه</a></li>
+
+            <li class="breadcrumb-item active" aria-current="page">سبد خرید</li>
+        </ol>
+    </nav>
+    <section class="bg-title-page p-t-100 p-b-150 flex-col-c-m general-page-bg02">
+        <h2 class="l-text2 t-center">
+            بررسی سبد خرید
+        </h2>
+    </section>
+    @if (Model != null)
+    {
+        if (Model.CartVm.Cart != null)
+        {
+            if (Model.CartVm.Cart.CartItems.Count() != 0)
+            {
+                <section class="p-1 mb-2">
+                    <p class="text-justify m-4   text-danger">توجه : در صورت تغییر تعداد محصول موجود در سبد خرید، با استفاده از دکمه ثبت در قسمت عملیات، تغییرات را ثبت کنید</p>
+                    <div class="container mb-2">
+                        <div class="row">
+                            <div class="table-responsive col-md-12 pt-1 pb-2">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center align-middle">تصویر کالا</th>
+                                            <th class="text-center align-middle">نام کالا</th>
+                                            @*<th class="text-center align-middle">قیمت</th>
+                                                <th class="text-center align-middle">تخفیف</th>*@
+                                            <th class="text-center align-middle">قیمت نهایی</th>
+                                            <th class="text-center align-middle">تعداد</th>
+                                            @*<th class="text-center align-middle">جمع تخفیف</th>*@
+                                            <th class="text-center align-middle">جمع</th>
+                                            <th class="text-center align-middle">عملیات</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.CartVm.Cart.CartItems)
+                                        {
+                                            string image = string.Empty;
+                                            string pName = string.Empty;
+                                            int basePrice = 0;
+                                            int price = 0;
+                                            int Item_Netprice = 0;
+                                            int Netsum = 0;
+                                            int itemDis = 0;
+                                            int Item_totalDis = 0;
+                                            DataLayer.Entities.Store.Product product = null;
+                                            DataLayer.Entities.Store.Package package = null;
+                                            DiscountOptionVM discountOptionVM = null;
+                                            if (item.Kind == "pr")
+                                            {
+                                                product = await _productService.GetProductByIdAsync(item.ProductId);
+                                                Item_Netprice = await _productService.GetProductNetpriceAsync(product.ProductCode);
+                                                Netsum = Item_Netprice * item.Quantity;
+                                                itemDis = (item.Price - Item_Netprice);
+                                                Item_totalDis = itemDis * item.Quantity;
+                                                discountOptionVM = await _productService.HasProductDiscountAsync(product.ProductCode);
+                                                price = product.ProductPrice;
+                                                basePrice = product.ProductPrice;
+                                                image = "/images/products/" + product.ProductImage;
+                                                pName = product.ProductName;
+                                            }
+                                            if (item.Kind == "pk")
+                                            {
+                                                package = await _productService.GetPackageByIdAsync(item.ProductId);
+                                                Item_Netprice = await _productService.GetPackageNetPriceAsync(item.ProductId);
+                                                Netsum = Item_Netprice * item.Quantity;
+                                                itemDis = (item.Price - Item_Netprice);
+                                                Item_totalDis = itemDis * item.Quantity;
+                                                discountOptionVM = await _productService.HasPackageDiscountAsync(item.ProductId);
+                                                price = package.PkPrice.GetValueOrDefault(0);
+                                                basePrice = package.PkPrice.GetValueOrDefault(0);
+                                                image = "/images/packages/" + package.PkImage;
+                                                pName = package.PkTitle;
+                                            }
+
+
+
+                                            if (discountOptionVM != null)
+                                            {
+                                                if (discountOptionVM.HasDiscount)
+                                                {
+                                                    price = discountOptionVM.NetPrice;
+                                                }
+                                                itemsTotalDis += (int)(discountOptionVM.DiscountAmount * item.Quantity);
+                                            }
+
+
+                                            <tr>
+                                                <td class="text-center align-middle">
+
+                                                    <img src="@image" class="width-50px">
+
+                                                </td>
+                                                <td class="text-center align-middle fs-16">
+                                                    @pName
+                                                </td>
+                                                @*<td class="text-center align-middle fs-16">
+                                                        @basePrice.ToString("N0")
+                                                    </td>
+                                                    <td class="text-center align-middle fs-16">
+                                                        @if (discountOptionVM != null)
+                                                        {
+                                                            <span>@discountOptionVM.DiscountAmount.ToString("N0")</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>@price.ToString("N0")</span>
+                                                        }
+
+                                                    </td>*@
+                                                <td class="text-center align-middle fs-16">
+                                                    @price
+                                                </td>
+                                                <td class="text-center align-middle">
+                                                    <div class="flex-c-str  of-hidden w-size17 w-100 text-xs-center">
+                                                        <button class="btn-num-product-down color1 flex-c-m size7 bg8 eff2" data-price="@item.Price" data-itemdis="@itemDis" data-itemnetprice="@Item_Netprice" data-pid="@item.ProductId">
+                                                            <i class="fs-12 fa fa-minus" aria-hidden="true"></i>
+                                                        </button>
+                                                        <input class="size8 m-text18 t-center border-grey num-product" type="number" data-num="@item.Quantity" data-price="@item.Price" ata-itemdis="@itemDis" data-itemnetprice="@Item_Netprice" name="num-product1" value="@item.Quantity">
+                                                        <button class="btn-num-product-up color1 flex-c-m size7 bg8 eff2" data-price="@item.Price" data-itemdis="@itemDis" data-itemnetprice="@Item_Netprice" data-pid="@item.ProductId">
+                                                            <i class="fs-12 fa fa-plus" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                                @{
+                                                    int sum = price * item.Quantity;
+                                                }
+                                                @*<td class="text-center rowdisSum align-middle">
+                                                        @Item_totalDis.ToString("N0")
+                                                    </td>*@
+                                                <td class="text-center align-middle rowSum fs-16" data-rowsum="@sum" data-rowdissum="@Item_totalDis">
+                                                    @sum.ToString("N0")
+                                                </td>
+                                                <td class="text-center align-middle p-0 tdaction">
+                                                    <button class="cursor-not-allowed save-btn btn btn-success text-black   mr-1" disabled data-qu="@item.Quantity" data-pid="@item.ProductId" data-kind="@item.Kind" data-name="@User.Identity.Name" title="ثبت تغییرات">
+                                                        ثبت
+                                                    </button>
+                                                    <span>&ensp;</span>
+                                                    <button class="text-white btn btn-danger  cursor-pointer remove-btn " data-qu="@item.Quantity" data-pid="@item.ProductId" data-itemId="@item.Id" title="حذف محصول">
+                                                        حذف
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            total += sum;
+                                        }
+                                        <tr>
+                                            <td colspan="3" class="text-md-left text-xs-center">جمع کل</td>
+                                            <td class="text-center align-middle">
+                                                <span id="itemscounttotal">@Model.CartVm.Cart.CartItems.Sum(x => x.Quantity)</span>
+                                            </td>
+                                            <td class="text-center align-middle">
+                                                <span id="itemsdistotal">@itemsTotalDis.ToString("N0")</span>
+                                            </td>
+                                            <td colspan="2" class="text-center align-middle">
+                                                <span class="fs-22" id="itemstotal">@total.ToString("N0")</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container mb-2">
+                        <div class="row ">
+                            @{
+                                float dcPercent = 0;
+                                DataLayer.Entities.Store.DiscountCoupen discountCoupen = null;
+                                if (!string.IsNullOrEmpty(Model.CartVm.Cart.DiscountCoupen))
+                                {
+                                    discountCoupen = await _storeService.GetDiscountByCodeAsync(Model.CartVm.Cart.DiscountCoupen);
+                                    if (discountCoupen != null)
+                                    {
+                                        dcPercent = discountCoupen.Percent;
+                                    }
+
+                                }
+                                int DisV = (int)((total * dcPercent) / 100);
+                                total -= DisV;
+                            }
+
+                            <div class="col-md-4 col-xs-12 mb-1">
+                                <input class="sizefull s-text7 p-l-22 p-r-22 input-lg height-50 text-left zborder-info bo-rad-5" dir="ltr" type="text" value="@Model.CartVm.DiscountCode" id="couponcode" placeholder="کوپن تخفیف">
+                            </div>
+                            <div class="col-md-3 col-xs-12 pr-1 mb-1">
+                                <button type="button" id="btnApplyCoupen" class="btn btn-secondary height-50 col-sm-12 text-center   bo-rad-5 hov1 s-text1 trans-0-4 font-family-Titr">
+                                    اعمال کوپن تخفیف
+                                </button>
+                            </div>
+
+                            @if (!string.IsNullOrEmpty(Model.CartVm.Cart.DiscountCoupen))
+                            {
+                                string coupenAlert = "به سبد خرید، کوپن تخفیف" + " " + discountCoupen.Percent + " " + "درصد اعمال شده است";
+                                <div class="col-md-5 col-xs-12 text-center text-white height-50 pt-2">
+                                    <span class=" bg-info rounded-5px pr-1 pl-1  border-blue">@coupenAlert </span>
+                                </div>
+
+                            }
+                        </div>
+
+
+
+
+                    </div>
+                    <div class="container">
+                        <div class="d-flex flex-row">
+                            <div class="col-12 bo9   p-t-30 p-b-38 m-t-30 m-r-0 m-l-auto">
+
+                                <div class="row">
+                                    <div class="col-12 p-b-12">
+                                        <span class="s-text18 font-family-yekan ">
+                                            جمع نهایی سبد خرید :
+                                        </span>
+                                        <span class="fs-24  font-family-yekan" id="cart-sum">
+                                            @total.ToString("N0") @cur
+                                        </span>
+                                    </div>
+
+                                    <!--  -->
+                                    <div class="col-12   bo10 p-t-15 p-b-20">
+                                        <h4 class="border-bottom text-center text-danger pb-1">هزینه ارسال رایگان می باشد</h4>
+                                    </div>
+                                    <div class="col-12 bo10 p-t-15 p-b-20">
+                                        <h6 class="fs-18 green font-family-yekan p-2 rounded-5px">
+                                            اطلاعات زیر را جهت پرداخت تکمیل کنید
+                                        </h6>
+                                        <form method="post" class="mt-1" dir="rtl">
+                                            <div class="container">
+                                                <div class="row pt-3">
+                                                    <input type="hidden" asp-for="CartVm.CartId" />
+
+                                                    <div class="col-12 col-lg-6">
+                                                        @if (string.IsNullOrEmpty(Model.CartVm.BuyerName))
+                                                        {
+                                                            <div class="form-group w-100 font-family-yekan">
+                                                                <label asp-for="CartVm.BuyerName" class="control-label"></label>
+                                                                <input class="form-control zborder-info" type="text" asp-for="CartVm.BuyerName" />
+                                                                <span asp-validation-for="CartVm.BuyerName" class="text-danger "></span>
+                                                            </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="form-group w-100 font-family-yekan">
+                                                                <label asp-for="CartVm.BuyerName" class="control-label"></label>
+                                                                <input class="form-control zborder-info" type="text" readonly asp-for="CartVm.BuyerName" />
+                                                                <span asp-validation-for="CartVm.BuyerName" class="text-danger "></span>
+                                                            </div>
+                                                        }
+                                                        @if (string.IsNullOrEmpty(Model.CartVm.BuyerFamily))
+                                                        {
+                                                            <div class="form-group w-100 font-family-yekan">
+                                                                <label asp-for="CartVm.BuyerFamily" class="control-label"></label>
+                                                                <input class="form-control zborder-info" type="text" asp-for="CartVm.BuyerFamily" />
+                                                                <span asp-validation-for="CartVm.BuyerFamily" class="text-danger "></span>
+                                                            </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="form-group w-100 font-family-yekan">
+                                                                <label asp-for="CartVm.BuyerFamily" class="control-label"></label>
+                                                                <input class="form-control zborder-info" readonly type="text" asp-for="CartVm.BuyerFamily" />
+                                                                <span asp-validation-for="CartVm.BuyerFamily" class="text-danger "></span>
+                                                            </div>
+                                                        }
+
+                                                        @if (string.IsNullOrEmpty(Model.CartVm.BuyerCellphone))
+                                                        {
+                                                            <div class="form-group w-100 font-family-yekan">
+                                                                <label asp-for="CartVm.BuyerCellphone" class="control-label"></label>
+                                                                <input class="form-control zborder-info" type="text" asp-for="CartVm.BuyerCellphone" placeholder="شماره ها در موبایل به انگلیسی وارد شوند" />
+                                                                <span asp-validation-for="CartVm.BuyerCellphone" class="text-danger "></span>
+                                                            </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="form-group w-100 font-family-yekan">
+                                                                <label asp-for="CartVm.BuyerCellphone" class="control-label"></label>
+                                                                <input class="form-control zborder-info" readonly type="text" asp-for="CartVm.BuyerCellphone" placeholder="شماره ها در موبایل به انگلیسی وارد شوند" />
+                                                                <span asp-validation-for="CartVm.BuyerCellphone" class="text-danger "></span>
+                                                            </div>
+                                                        }
+
+                                                        <input type="checkbox" id="chkDV" />&ensp;<label>تحویل گیرنده شخص دیگری می باشد</label>
+                                                        <div class="d-none" id="recipientDiv">
+                                                            <div class="form-group w-100 font-family-yekan">
+                                                                <label asp-for="CartVm.RecipientName" class="control-label"></label>
+                                                                <input class="form-control zborder-info" type="text" asp-for="CartVm.RecipientName" />
+                                                                <span asp-validation-for="CartVm.RecipientName" class="text-danger "></span>
+                                                            </div>
+                                                            <div class="form-group w-100 font-family-yekan">
+                                                                <label asp-for="CartVm.RecipientFamily" class="control-label"></label>
+                                                                <input class="form-control zborder-info" type="text" asp-for="CartVm.RecipientFamily" />
+                                                                <span asp-validation-for="CartVm.RecipientFamily" class="text-danger "></span>
+                                                            </div>
+                                                            <div class="form-group w-100 font-family-yekan">
+                                                                <label asp-for="CartVm.RecipientPhone" class="control-label"></label>
+                                                                <input class="form-control zborder-info" type="text" asp-for="CartVm.RecipientPhone" placeholder="شماره ها در موبایل به انگلیسی وارد شوند" />
+                                                                <span asp-validation-for="CartVm.RecipientPhone" class="text-danger "></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-12 col-lg-6">
+
+                                                        <div class="form-group w-100 font-family-yekan">
+                                                            <label asp-for="CartVm.SatetId" class="control-label"></label><span class="text-danger">*</span>
+                                                            <select class="form-control w-100 zborder-info zptb-1-mm" id="SId" asp-for="CartVm.SatetId">
+                                                                <option value="">استان محل تحویل کالا ...</option>
+                                                                @foreach (var st in Model.CartVm.States.ToList())
+                                                                {
+                                                                    <option value="@st.StateId">@st.StateName</option>
+                                                                }
+                                                            </select>
+                                                            <span asp-validation-for="CartVm.SatetId" class="text-danger"></span>
+                                                        </div>
+                                                        <div class="form-group w-100 font-family-yekan">
+                                                            <label asp-for="CartVm.CountyId" class="control-label"></label><span class="text-danger">*</span>
+                                                            <select class="form-control w-100 zborder-info zptb-1-mm" id="CId" asp-for="CartVm.CountyId">
+                                                                <option value="">شهرستان محل تحویل کالا ...</option>
+                                                                @if (Model.CartVm.Counties != null)
+                                                                {
+                                                                    @foreach (var cn in Model.CartVm.Counties)
+                                                                    {
+                                                                        @if (cn.CountyId == Model.CartVm.CountyId)
+                                                                        {
+                                                                            <option selected value="@cn.CountyId">@cn.CountyName</option>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <option value="@cn.CountyId">@cn.CountyName</option>
+                                                                        }
+                                                                    }
+                                                                }
+
+                                                            </select>
+                                                            <span asp-validation-for="CartVm.CountyId" class="text-danger"></span>
+                                                        </div>
+                                                        <div class="form-group w-100 font-family-yekan">
+                                                            <label asp-for="CartVm.Address" class="control-label"></label>
+                                                            <textarea class="form-control zborder-info" rows="2" asp-for="CartVm.Address" placeholder="خیابان- کوچه- پلاک- طبقه- واحد"></textarea>
+                                                            <span asp-validation-for="CartVm.Address" class="text-danger "></span>
+                                                        </div>
+                                                        <div class="form-group w-100  font-family-yekan">
+                                                            <label asp-for="CartVm.PostalCode" class="control-label"></label>
+                                                            <input class="form-control  zborder-info" type="text" asp-for="CartVm.PostalCode" placeholder="در صورت داشتن کد پستی جهت سهولت در ارسال حتما قید کنید">
+                                                            <span asp-validation-for="CartVm.PostalCode" class="text-danger "></span>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="form-group font-family-yekan text-center">
+                                                            <span>هزینه ارسال : </span>  <span id="fr" class="red fs-22">0</span>&ensp;<span>@cur</span>
+                                                        </div>
+
+                                                        <div class="form-group text-center mt-1">
+
+                                                            <p class="fs-22 font-family-Titr t-center">
+                                                                @{
+                                                                    int Deliver = 0;
+                                                                    if (total < freeship)
+                                                                    {
+                                                                        total += Deliver;
+                                                                    }
+
+                                                                }
+                                                                <input type="hidden" id="cartTot" value="@total" />
+                                                                <span id="cTotel">@total.ToString("N0")</span> @cur
+                                                            </p>
+                                                            <p class="t-center">
+                                                                @total.NumberToText(Language.Persian) @cur
+                                                            </p>
+
+                                                        </div>
+                                                        <div class="form-group w-100 trans-0-4 m-b-10 t-center">
+
+                                                            <button type="submit" class="btn btn-primary offset-md-4 col-md-4 col-xs-12   bo-rad-5 hov1 s-text1 trans-0-4 font-family-Titr">
+                                                                ثبت سفارش
+                                                            </button>
+
+                                                        </div>
+                                                    </div>
+
+
+
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            }
+            else
+            {
+                <div class="container">
+                    <div class="row">
+                        <h1 class="text-center col-12 alert alert-danger mt-2">سبد خرید خالی می باشد !</h1>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="container">
+                <div class="row">
+                    <h1 class="text-center col-12 alert alert-danger mt-2">سبد خرید خالی می باشد !</h1>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="container">
+            <div class="row">
+                <h1 class="text-center col-12 alert alert-danger mt-2">سبد خرید خالی می باشد !</h1>
+            </div>
+        </div>
+    }
+
+
+    <!-- Footer -->
+    <partial name="_Footer" />
+
+
+
+    <!-- Back to top -->
+    <div class="btn-back-to-top bg0-hov" id="myBtn">
+        <span class="symbol-btn-back-to-top">
+            &uArr;
+        </span>
+    </div>
+
+
+
+
+
+    <script type="text/javascript" src="~/Layout/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script type="text/javascript" src="~/Layout/vendor/animsition/js/animsition.min.js"></script>
+    <script src="~/Layout/vendor/bootstrap/js/popper.js"></script>
+    <script type="text/javascript" src="~/Layout/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+
+    <!--===============================================================================================-->
+    <script src="~/Layout/js/main.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var pmess = $("#Paymessage").val();
+            if (pmess != null) {
+                if (pmess != "") {
+                    alert(pmess);
+                }
+            }
+            $("#SId").change(function () {
+                var sId = $(this).val();
+
+
+                $.ajax({
+                    url: "/Generic/GetCountiesofState",
+                    data: { stId: sId },
+
+                    Type: "GET",
+                    success: function (result) {
+                        $("#CId").html(result);
+
+                    },
+                    error: function () {
+                        alert("Error");
+                    }
+                });
+            });
+            
+            $("#chkDV").change(function () {
+                $("#recipientDiv").toggleClass("d-none", "d-flex");
+            });
+            //$("#BuyerName").
+
+        });
+
+
+    </script>
+</body>
+</html>

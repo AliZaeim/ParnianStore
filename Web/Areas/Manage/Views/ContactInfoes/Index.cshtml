@@ -1,0 +1,71 @@
+﻿@model IEnumerable<DataLayer.Entities.Supplementary.ContactInfo>
+
+@{
+    ViewData["Title"] = "اطلاعات تماس";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">اطلاعات تماس</h1>
+<h3 class="text-xs-center alert alert-warning">آخرین رکورد اطلاعات ثبت شده مد نظر می باشد</h3>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">ثبت اطلاعات</a>
+</p>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.Phones)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.Cellphones)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.Emailes)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.Faxes)
+            </th>
+            <th class="text-xs-center align-middle">عملیات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td class="text-xs-center align-middle">
+                    @foreach (var ph in item.PhoneList)
+                    {
+                        <p>@ph</p>
+                    }
+                </td>
+                <td class="text-xs-center align-middle">
+                    @foreach (var c in item.CellPhoneList)
+                    {
+                        <p>@c</p>
+                    }
+                </td>
+                <td class="text-xs-center align-middle">
+                    @foreach (var e in item.EmailList)
+                    {
+                        <p>@e</p>
+                    }
+                </td>
+                <td class="text-xs-center align-middle">
+                    @foreach (var f in item.FaxList)
+                    {
+                        <p>@f</p>
+                    }
+                </td>
+                <td class="text-xs-center align-middle">
+                    
+                    <a asp-action="Edit" asp-route-id="@item.Id">ویرایش</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">جزئیات</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

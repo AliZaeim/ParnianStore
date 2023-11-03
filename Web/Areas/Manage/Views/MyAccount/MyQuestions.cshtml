@@ -1,0 +1,35 @@
+﻿@model Core.DTOs.General.MyQuestionsVM;
+
+@{
+    ViewData["Title"] = "سئوالات من";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+<h1 class="text-xs-center alert alert-info">سئوالات من</h1>
+@if (Model.FAQs.Count() == 0 && Model.ContactMessages.Count() == 0)
+{
+    <div class="row">
+        <h3 class="text-xl-center alert alert-warning">سئوالی مربوط به کاربری شما وجود ندارد !</h3>
+    </div>
+}
+else
+{
+    <div class="row">
+        @foreach (var fq in Model.FAQs)
+        {
+            <div class="offset-md-2 col-md-8 col-xs-12">
+                @foreach (var fqline in fq.QuestionLines)
+                {
+                    <p class="text-justify">@fqline</p>
+
+                }
+                <div class="border p-1">
+                    @foreach (var repline in fq.ReplyLines)
+                    {
+                        <p>@repline</p>
+                    }
+                </div>
+            </div>
+        }
+
+    </div>
+}

@@ -1,0 +1,92 @@
+﻿@*@model IEnumerable<DataLayer.Entities.Store.Product>*@
+@using Core.Services.Interfaces;
+@inject IProductService _productService;
+@{
+    ViewData["Title"] = "محصولات با موجودی کم";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+    List<DataLayer.Entities.Store.Product> products = ViewData["products"] as List<DataLayer.Entities.Store.Product>;
+    List<DataLayer.Entities.Store.Package> packages = ViewData["packages"] as List<DataLayer.Entities.Store.Package>;
+}
+
+<h1 class="text-xs-center alert alert-info">محصولات با موجودی کم</h1>
+<table class="table  table-bordered">
+    <thead>
+        <tr>
+            <th class="text-xs-center align-middle">
+                کد محصول
+            </th>
+            <th class="text-xs-center align-middle">
+                نام محصول
+            </th>
+            <th class="text-xs-center align-middle">
+                حداقل موجودی هشدار
+            </th>
+            <th class="text-xs-center align-middle">
+                حداکثر تعداد قابل خرید
+            </th>
+            <th class="text-xs-center align-middle">
+                موجودی
+            </th>
+            <th class="text-xs-center align-middle">
+                فعال/غیرفعال
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in products)
+        {
+            <tr>
+                <td class="text-xs-center align-middle">
+                    @item.ProductCode
+                </td>
+                <td class="text-xs-center align-middle">
+                    @item.ProductName
+                </td>
+
+                <td class="text-xs-center align-middle">
+                    @item.ProductMinimumInventory
+                </td>
+                <td class="text-xs-center align-middle">
+                    @item.MaximumNumberofPurchases
+                </td>
+                <td class="text-xs-center align-middle">
+                    @{
+                        int inv = await _productService.GetProduct_Inventory_InStoreAsync(item.ProductCode);
+                    }
+                    @inv
+                </td>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.IsActive)
+                </td>
+            </tr>
+        }
+        @foreach (var item in packages)
+        {
+            <tr>
+                <td class="text-xs-center align-middle">
+                    @item.PkCode
+                </td>
+                <td class="text-xs-center align-middle">
+                    @item.PkTitle
+                </td>
+
+                <td class="text-xs-center align-middle">
+                    @item.PkMin_Inventory_ForAlarm
+                </td>
+                <td class="text-xs-center align-middle">
+                    @item.MaximumNumberofPurchases
+                </td>
+                <td class="text-xs-center align-middle">
+                    @{
+                        int inv = await _productService.GetPackage_Inventory_InStoreAsync(item.PkId);
+                    }
+                    @inv
+                </td>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.IsActive)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

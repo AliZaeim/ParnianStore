@@ -1,0 +1,194 @@
+﻿@page
+@model Web.Pages.How_To_UseModel
+
+@{
+    ViewData["Title"] = "نحوه مصرف محصولات عالیان سبز";
+    Layout = null;
+
+}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BYLT1K82JQ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-BYLT1K82JQ');
+    </script>
+
+    <title>نحوه مصرف محصولات عالیان سبز</title>
+    <meta name="description" content="در این صفحه روش و مقدار مصرف محصولات عالیان سبز توضیح داده شده است" />
+    <link rel="canonical" href="https://aliansabz.com/How-To-Use" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property=og:site_name value="عالیان سبز">
+    <meta property=og:title content="نحوه مصرف محصولات عالیان سبز">
+    <meta property=og:url content=https://aliansabz.com/How-To-Use>
+    <meta property=og:image content=https://aliansabz.com/images/alian-sabz-shop-100.png>
+    <meta property=og:image:url content="https://aliansabz.com/images/">
+    <meta property=og:image:type content=image/png>
+    <meta property=og:image:type content=image/jpg>
+    <meta property=og:image:alt content="نحوه مصرف محصولات عالیان سبز">
+    <meta property=og:price:currency content=IRR>
+    <meta property=og:locale content=ir_FA>
+    <link rel="stylesheet" type="text/css" href="/Layout/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/Layout/vendor/css-hamburgers/hamburgers.min.css">
+    <link rel="stylesheet" type="text/css" href="/Layout/vendor/lightbox2/css/lightbox.min.css">
+    <link rel="stylesheet" type="text/css" href="/Layout/css/util.css">
+    <link rel="stylesheet" type="text/css" href="/Layout/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/Layout/css/tricklandstyle.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/@Model.Favicon" type="image/x-icon" />
+</head>
+<body id="ansimiation">
+    <partial name="_Header" />
+    <nav class="breadcrumb-nav rtl" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">خانه</a></li>
+
+            <li class="breadcrumb-item active" aria-current="page">طریقه مصرف محصولات عالیان سبز</li>
+        </ol>
+    </nav>
+    <!-- Title Page -->
+    <section class="bg-title-page p-t-100 p-b-150 flex-col-c-m general-page-bg02">
+        <h2 class="l-text2 t-center">
+            طریقه مصرف
+        </h2>
+        <p class="m-text13 t-center">
+            برای فهمیدن طریقه مصرف محصولات ما فقط کافیست آنرا جستجو کنید
+        </p>
+    </section>
+    <section class="manual-search">
+        <div data-aos="flip-up" data-aos-delay="400">
+            <div class="container">
+                <div class="row tl-box">
+
+                    <div class="col-12 n-padding">
+                        <i class="ri-search-line"></i> <input placeholder="جستجوی محصول" class="form-control zborder1 rounded-10px" id="howtouse-myInput">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </section>
+    <section class="tl-products-manual m-t-65">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 table-responsive">
+                    <table class="table table-bordered table-striped ">
+                        <thead class="thead-inverse text-white">
+                            <tr>
+                                <th class="text-center align-middle p-0">#</th>
+                                <th class="text-center align-middle ">محصول</th>
+                                <th class="text-center align-middle  ">تصویر</th>
+                                <th class="text-center align-middle zbg-greensite-variation-blue">طریقه مصرف</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tblProducts">
+                            @{ int rad = 1;}
+                            @foreach (var item in Model.products.Where(w=>w.IsActive).OrderBy(x => x.ProductPageTitle))
+                            {
+                                <tr>
+                                    <td class="text-center align-middle p-0">@rad</td>
+                                    <td class="text-center align-middle pname">
+                                        <a class="text-info ti-link" href="/Product/d/@item.ProductEnName.Replace(" ","-")">@item.ProductName</a>
+                                    </td>
+                                    <td class="text-center align-middle">
+                                        <img src="/images/products/@item.ProductListImage" alt="@item.ProductListImageAlt" />
+                                    </td>
+                                    <td class="align-middle text-justify">@item.HowToUse</td>
+                                </tr>
+                                rad++;
+                            }
+                            @foreach (var item in Model.packages.Where(w => w.IsActive).OrderBy(x => x.PkTitle))
+                            {
+                                <tr>
+                                    <td class="text-center align-middle">@rad</td>
+                                    <td class="text-center align-middle width-25-per pname">
+                                        <a class="text-info ti-link" href="/Package/d/@item.PkEnTitle.Replace(" ","-")">@item.PkTitle</a>
+                                    </td>
+                                    <td class="text-center align-middle">                                       
+                                        <img src="/images/packages/@item.PkSliderImage" alt="@item.PkSliderImage_Alt" />
+                                    </td>
+                                    <td class="align-middle text-justify">@item.PkHowToUse</td>
+                                </tr>
+                                rad++;
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+    <partial name="_ThreeColumns" />
+    <partial name="_Subscription" />
+    <partial name="_Footer" />
+    <!-- Back to top -->
+    <div class="btn-back-to-top bg0-hov" id="myBtn">
+        <span class="symbol-btn-back-to-top">
+            &uArr;
+        </span>
+    </div>
+
+    <!-- Container Selection -->
+    <div id="dropDownSelect1"></div>
+    <div id="dropDownSelect2"></div>
+    <!--===============================================================================================-->
+    <script type="text/javascript" src="/Layout/vendor/jquery/jquery-3.2.1.min.js"></script>
+   
+    <!--===============================================================================================-->
+    <script type="text/javascript" src="/Layout/vendor/animsition/js/animsition.min.js"></script>
+    <!--===============================================================================================-->
+    <script type="text/javascript" src="/Layout/vendor/bootstrap/js/popper.js"></script>
+    <script type="text/javascript" src="/Layout/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+
+    <!--===============================================================================================-->
+    @*<script type="text/javascript" src="/Layout/vendor/noui/nouislider.min.js"></script>*@
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script type="text/javascript">
+        AOS.init();
+        /*[ No ui ]
+        ===========================================================*/
+        var filterBar = document.getElementById('filter-bar');
+
+        noUiSlider.create(filterBar, {
+            start: [50, 200],
+            connect: true,
+            range: {
+                'min': 50,
+                'max': 200
+            }
+        });
+
+        var skipValues = [
+            document.getElementById('value-lower'),
+            document.getElementById('value-upper')
+        ];
+
+        filterBar.noUiSlider.on('update', function (values, handle) {
+            skipValues[handle].innerHTML = Math.round(values[handle]);
+        });
+    </script>
+
+    <!--===============================================================================================-->
+    <script src="/Layout/js/main.js"></script>
+    
+
+</body>
+</html>
+
+
+
+
+
+
+
+

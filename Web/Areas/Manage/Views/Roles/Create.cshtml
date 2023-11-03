@@ -1,0 +1,51 @@
+﻿@model DataLayer.Entities.User.Role
+
+@{
+    ViewData["Title"] = "ثبت نقش";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">ثبت نقش جدید</h1>
+
+
+<div class="row">
+    <div class="offset-md-4 col-md-4 col-xs-12">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="RoleName" class="control-label"></label>
+                <input asp-for="RoleName" class="form-control" placeholder="انگلیسی باشد" />
+                <span asp-validation-for="RoleName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RoleTitle" class="control-label"></label>
+                <input asp-for="RoleTitle" class="form-control" />
+                <span asp-validation-for="RoleTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RoleRate" class="control-label"></label>
+                <input asp-for="RoleRate" class="form-control" />
+                <span asp-validation-for="RoleRate" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="UseForRegister" /> @Html.DisplayNameFor(model => model.UseForRegister)
+                </label>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="ثــبت" class="btn btn-primary col-xs-12" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">بازگشت</a>
+</div>
+@section Scripts
+{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+}

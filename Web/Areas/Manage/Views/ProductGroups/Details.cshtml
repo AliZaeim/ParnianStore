@@ -1,0 +1,68 @@
+﻿@model DataLayer.Entities.Store.ProductGroup
+
+@{
+    ViewData["Title"] = "جزئیات گروه محصول";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">جزئیات گروه محصول</h1>
+
+<div>
+    
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ProductGroupTitle)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ProductGroupTitle)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ProductGroupMark)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ProductEnGroupTitle)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ProductEnGroupTitle)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ProductGroupMark)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ProductGroupComment)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ProductGroupComment)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ProductGroupDiscountPercent)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ProductGroupDiscountPercent)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ProductGroupDiscountValue)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ProductGroupDiscountValue)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ProductGroupImage)
+        </dt>
+        <dd class="col-sm-10">
+            <img width="50" height="50" src="~/images/productGroups/@Model.ProductGroupImage" />
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ProductGroupText)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ProductGroupText)
+        </dd>
+        
+
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ProductGroupId">ویرایش</a> |
+    <a asp-action="Index">بازگشت</a>
+</div>

@@ -1,0 +1,131 @@
+﻿@model IEnumerable<DataLayer.Entities.Supplementary.Slider>
+@using Core.Services.Interfaces;
+@inject IUserService _userService
+@{
+    ViewData["Title"] = "لیست اسلایدها";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+@{
+    //int roleId = int.Parse(User.FindFirst("RoleId").Value);
+}
+<h1 class="alert alert-info text-xs-center">لیست اسلایدها</h1>
+
+<div class="col-md-12 mb-1">
+    <a asp-action="Create" class="btn btn-success col-md-4 offset-md-4 col-xs-12">اسلاید جدید</a>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-bordered font-size-small">
+        <thead>
+            <tr>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.SliderImage)
+                </th>
+
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.SliderLink)
+                </th>
+
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.SliderIsActive)
+                </th>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.Views)
+                </th>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.SliderStartActiveDate)
+                </th>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.SliderEndActiveDate)
+                </th>
+                <th class="text-xs-center align-middle pr-3 pl-3">عملیات</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="text-xs-center align-middle">
+                        <img width="50" height="50" src="~/images/sliders/@item.SliderImage" />
+                    </td>
+
+                    <td class="text-xs-center align-middle" dir="ltr">
+                        @Html.DisplayFor(modelItem => item.SliderLink)
+                    </td>
+
+                    <td class="text-xs-center align-middle">
+                        @if (item.SliderIsActive)
+                        {
+                            <span class="fa fa-check-square cursor-pointer chk" data-id="@item.SliderId" data-status="0"></span>
+                        }
+                        else
+                        {
+                            <span class="fa fa-square-o cursor-pointer chk" data-id="@item.SliderId" data-status="1"></span>
+                        }
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        @Html.DisplayFor(modelItem => item.Views)
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        @Html.DisplayFor(modelItem => item.SliderStartActiveDate)
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        @Html.DisplayFor(modelItem => item.SliderEndActiveDate)
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        @*@if (_userService.CheckPermission(123, User.Identity.Name, roleId))
+                            {*@
+                        <a asp-action="Edit" asp-route-id="@item.SliderId" title="ویرایش"><i class="fa fa-edit"></i></a> <span>|</span>
+                        @*}
+                            @if (_userService.CheckPermission(125, User.Identity.Name, roleId))
+                            {*@
+                        <a asp-action="Details" asp-route-id="@item.SliderId" title="جزئیات"><i class="fa fa-list-alt"></i></a> <span>|</span>
+                        @*}
+                            @if (_userService.CheckPermission(124, User.Identity.Name, roleId))
+                            {*@
+                        <a asp-action="Delete" asp-route-id="@item.SliderId" title="حذف"><i class="fa fa-remove danger"></i></a>
+                        @*}*@
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".chk").click(function () {
+                if (confirm("آیا مطمئن به تغییر وضعیت پرسش هستید؟")) {
+                    var idd = $(this).attr("data-id");
+                    var st = $(this).attr("data-status");
+                    var th = $(this);
+                    $.ajax({
+                        url: "/Manage/Sliders/ChangeStatus",
+                        data: { id: idd, status: st },
+                        type: "GET",
+                        async: true,
+                        success: function (result) {
+
+                            if (result === true) {
+
+                                th.removeClass("fa-square-o").addClass("fa-check-square");
+                                th.attr("data-status", 0);
+                            }
+                            else {
+
+                                th.removeClass("fa-check-square").addClass("fa-square-o");
+                                th.attr("data-status", 1);
+                            }
+                        },
+                        error: function () {
+                            alert("error");
+                        }
+                    })
+                }
+
+            });
+        });
+    </script>
+}

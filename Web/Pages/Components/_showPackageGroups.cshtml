@@ -1,0 +1,29 @@
+﻿@model Core.DTOs.General.PackageGroupVM
+@{
+    string clss = string.Empty;
+}
+@foreach (var item in Model.PackageGroups)
+{
+    string gn = item.PgEnTitle.Replace(" ", "-");
+    <li class=@((Model.Type =="mobile") ? "item-menu-mobile":"items m-l-15 m-r-15")>
+        @if (Model.Type == "mobile")
+        {
+            <a href="/Packages/@gn">@item.PgTitle</a>
+        }
+        else
+        {
+            <a href="/Packages/@gn">
+                @if (string.IsNullOrEmpty(item.PgTitle))
+                {
+                    <span>@item.PgTitle</span>
+                }
+                else
+                {
+                    <span>@item.PgTitle</span>
+                }
+            </a>
+        }
+
+    </li>
+}
+

@@ -1,0 +1,49 @@
+﻿@model DataLayer.Entities.Supplementary.Terms
+
+@{
+    ViewData["Title"] = "ویرایش قواعد و ضوابط";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+    <script src="~/lib/ckeditor/ckeditor.js"></script>
+}
+
+<h1 class="text-xs-center alert alert-info">ویرایش قواعد و ضوابط</h1>
+
+
+<div class="row">
+    <div class="offset-md-2 col-md-8 col-xs-12">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ShowRating" class="control-label"></label>
+                <input asp-for="ShowRating" class="form-control" />
+                <span asp-validation-for="ShowRating" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Text" class="control-label"></label>
+                <textarea asp-for="Text" rows="10" class="form-control"></textarea>
+                <span asp-validation-for="Text" class="text-danger"></span>
+            </div>
+            <script>
+                CKEDITOR.replace('Text');
+            </script>
+            <div class="form-group">
+                <input type="submit" value="ویــرایش" class="btn btn-primary col-xs-12" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">بازگشت</a>
+</div>
+
+@section Scripts{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

@@ -1,0 +1,118 @@
+﻿@model IEnumerable<DataLayer.Entities.Supplementary.FAQ>
+@using Core.Convertors;
+@{
+    ViewData["Title"] = "پرسش های کاربران - قسمت پرسش و پاسخ";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">پرسش های کاربران - قسمت پرسش و پاسخ</h1>
+
+<p>
+    <a asp-action="Create">ثبت</a>
+</p>
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.CreateDate)
+                </th>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.FullName)
+                </th>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.Cellphone)
+                </th>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.Question)
+                </th>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.Reply)
+                </th>
+                <th class="text-xs-center align-middle">
+                    @Html.DisplayNameFor(model => model.IsActive)
+                </th>
+                <th class="text-xs-center align-middle">عملیات</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.OrderByDescending(x => x.CreateDate))
+            {
+                <tr>
+                    <td class="text-xs-center align-middle">
+                        @item.CreateDate.ToShamsiWithTime()
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        @Html.DisplayFor(modelItem => item.FullName)
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        @Html.DisplayFor(modelItem => item.Cellphone)
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        @Html.DisplayFor(modelItem => item.Question)
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        @Html.DisplayFor(modelItem => item.Reply)
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        @if (item.IsActive)
+                        {
+                            <span class="fa fa-check-square cursor-pointer chk" data-id="@item.Id" data-status="0"></span>
+                        }
+                        else
+                        {
+                            <span class="fa fa-square-o cursor-pointer chk" data-id="@item.Id" data-status="1"></span>
+                        }
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        <a asp-action="Edit" asp-route-id="@item.Id">ویرایش</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">جزئیات</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">حذف</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".chk").click(function () {
+                if (confirm("آیا مطمئن به تغییر وضعیت پرسش هستید؟")) {
+                    var idd = $(this).attr("data-id");
+                    var st = $(this).attr("data-status");
+                    var th = $(this);
+                    $.ajax({
+                        url: "/Manage/FAQs/ChangeStatus",
+                        data: { id: idd, status: st },
+                        type: "GET",
+                        success: function (result) {
+
+                            if (result === true) {
+
+                                th.removeClass("fa-square-o").addClass("fa-check-square");
+                                th.attr("data-status", 0);
+                            }
+                            else {
+
+                                th.removeClass("fa-check-square").addClass("fa-square-o");
+                                th.attr("data-status", 1);
+                            }
+                        },
+                        error: function () {
+                            alert("error");
+                        }
+                    })
+                }
+
+            });
+        });
+    </script>
+}

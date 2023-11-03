@@ -1,0 +1,46 @@
+﻿using DataLayer.Entities.Blogs;
+using DataLayer.Entities.Store;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
+namespace Core.DTOs.General
+{
+    public class BlogDetailsVM
+    {
+        public Blog Blog { get; set; }
+
+        public Guid BlogId { get; set; }
+        public List<BlogGroup> BlogGroups { get; set; }
+        public List<Product> RelatedProducts { get; set; }
+        public List<Package> RelatedPackages { get; set; }
+        public int? GroupId { get; set; }
+        public string SearchType { get; set; }
+        public int? Year { get; set; }
+        public int? Mounth { get; set; }
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+        [Display(Name = "نام")]
+        [StringLength(50, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد!")]
+
+        public string Name { get; set; }
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+        [Display(Name = "نام خانوادگی")]
+        [StringLength(50, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد!")]
+
+        public string Family { get; set; }
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+        [Display(Name = "تلفن همراه")]
+        [RegularExpression("^[0][1-9]\\d{9}$|^[1-9]\\d{9}$", ErrorMessage = " شماره تلفن همراه نا معتبر است !")]
+        [StringLength(11, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد!")]
+
+        public string Cellphone { get; set; }
+        [Required(ErrorMessage = "لطفا نظر خود را وارد کنید")]
+        [Display(Name = "لطفا نظر خود را وارد کنید")]
+        [StringLength(500, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد!")]
+
+        public string Comment { get; set; }
+
+        public string BlogCode { get; set; }
+        public string AddedComment { get; set; }
+    }
+}

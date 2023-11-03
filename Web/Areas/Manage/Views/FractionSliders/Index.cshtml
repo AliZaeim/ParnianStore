@@ -1,0 +1,326 @@
+﻿@model IEnumerable<DataLayer.Entities.Supplementary.FractionSlider>
+@using Core.Convertors;
+@using Core.Services.Interfaces;
+@inject IUserService _userService
+@{
+    ViewData["Title"] = "اسلایدرهای تکه ای";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+    string burl = "-Manage-FractionSliders-Index";
+}
+
+<h1 class="text-xs-center alert alert-info">اسلایدرهای تکه ای</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">ثبت اسلایدر جدید</a>
+</p>
+<table class="table table-bordered">
+    <tbody>
+        @{ int rad = 1;}
+        @foreach (var item in Model.OrderBy(x => x.ShowRating))
+        {
+            <tr>
+                <td colspan="5" class="text-xs-center align-middle">
+                    <h3 class="bg-info text-white">اسلاید : @Html.DisplayFor(modelItem => item.Title)</h3>
+                </td>
+            </tr>
+            <tr>
+                <th class="text-xs-center align-middle">#</th>
+                <th class="text-xs-center align-middle">@Html.DisplayNameFor(model => model.ShowRating)</th>
+                <th class="text-xs-center align-middle">@Html.DisplayNameFor(model => model.CreatedDate)</th>
+                <th class="text-xs-center align-middle">@Html.DisplayNameFor(model => model.IsActive)</th>
+                <th class="text-xs-center align-middle">عملیات</th>
+            </tr>
+            <tr>
+                <td class="text-xs-center align-middle">
+                    @rad
+                </td>
+
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.ShowRating)
+                </td>
+                <td class="text-xs-center align-middle">
+                    @item.CreatedDate.ToShamsiN_WithTime()
+                </td>
+                <td class="text-xs-center align-middle">
+                    @if (item.IsActive)
+                    {
+                        <span class="fa fa-check-square cursor-pointer chk" data-id="@item.Id" data-status="0"></span>
+                    }
+                    else
+                    {
+                        <span class="fa fa-square-o cursor-pointer chk" data-id="@item.Id" data-status="1"></span>
+                    }
+                </td>
+                <td class="text-xs-center align-middle">
+                    @if (_userService.CheckPermissionByName("fractionslider", User.Identity.Name))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id">ویرایش</a> <span>|</span>
+                        <a asp-action="Details" asp-route-id="@item.Id">جزئیات</a> <span>|</span>
+                        <a asp-action="Delete" asp-route-id="@item.Id">حــذف</a>
+                    }
+                    else
+                    {
+                        <span>-</span>
+                    }
+
+                </td>
+            </tr>
+            <tr>
+                <td colspan="7">
+                    <div class="text-xs-center align-middle fs-20">
+                        <div class="col-md-8 alert alert-success align-middle">تصاویر</div>
+                        <div class="col-md-4 text-md-left align-middle">
+                            @if (_userService.CheckPermissionByName("fractionslider", User.Identity.Name))
+                            {
+                                <a asp-action="Create" asp-controller="FSImages" class="btn btn-primary" asp-route-fsId="@item.Id" asp-route-retUrl="@burl">تصویر جدید</a> 
+                                
+
+                            }
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+
+                <td colspan="7" class="p-0">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-xs-center align-middle">#</th>
+                                <th class="text-xs-center align-middle">تصویر</th>
+                                <th class="text-xs-center align-middle">موقعیت</th>
+                                <th class="text-xs-center align-middle">رتبه ورود</th>
+                                <th class="text-xs-center align-middle">رتبه نمایش</th>
+                                <th class="text-xs-center align-middle">فعال/غیرفعال</th>
+                                <th class="text-xs-center align-middle">عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{ int imgRad = 1;}
+                            @foreach (var img in item.FSImages.OrderBy(x => x.ShowRating))
+                            {
+                                <tr>
+                                    <td class="text-xs-center align-middle">
+                                        @imgRad
+                                    </td>
+                                    <td class="text-xs-center align-middle">
+                                        <img src="~/images/sliders/fs/@img.Image" width="75" height="50" />
+                                    </td>
+
+                                    <td class="text-xs-center align-middle" dir="ltr">
+                                        @Html.DisplayFor(modelItem => img.DataPosition)
+                                    </td>
+                                    <td class="text-xs-center align-middle">
+                                        @Html.DisplayFor(modelItem => img.DataStep)
+                                    </td>
+                                    <td class="text-xs-center align-middle">
+                                        @Html.DisplayFor(modelItem => img.ShowRating)
+                                    </td>
+                                    <td class="text-xs-center align-middle">
+                                        @if (img.IsActive)
+                                        {
+                                            <span class="fa fa-check-square cursor-pointer imgchk" data-id="@img.Id" data-status="0"></span>
+                                        }
+                                        else
+                                        {
+                                            <span class="fa fa-square-o cursor-pointer imgchk" data-id="@img.Id" data-status="1"></span>
+                                        }
+                                    </td>
+                                    <td class="text-xs-center align-middle">
+                                        @if (_userService.CheckPermissionByName("fractionslider", User.Identity.Name))
+                                        {
+                                            <a asp-action="Edit" asp-controller="FSImages" asp-route-id="@img.Id" asp-route-retUrl="@burl">ویرایش</a> <span> | </span>                                            
+                                            <a asp-action="Details" asp-controller="FSImages" asp-route-id="@img.Id" asp-route-retUrl="@burl">جزئیات</a> <span> | </span>
+                                            <a asp-action="Delete" asp-controller="FSImages" asp-route-id="@img.Id" asp-route-retUrl="@burl">حــذف</a>
+
+                                        }
+                                        else
+                                        {
+                                            <span>-</span>
+                                        }
+                                    </td>
+                                </tr>
+                                imgRad++;
+                            }
+                        </tbody>
+
+                    </table>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="align-middle" colspan="7">
+                    <div class="text-xs-center fs-20">
+                        <div class="col-md-8 alert alert-success align-middle">متن ها</div>
+                        <div class="col-md-4 text-md-left align-middle">
+                            @if (_userService.CheckPermissionByName("fractionslider", User.Identity.Name))
+                            {
+                                <a asp-action="Create" asp-controller="FSTexts" class="btn btn-primary" asp-route-fsId="@item.Id" asp-route-retUrl="@burl">متن جدید</a>
+
+
+                            }
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="7">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-xs-center align-middle">#</th>
+                                <th class="text-xs-center align-middle">متن</th>
+                                <th class="text-xs-center align-middle">موقعیت</th>
+                                <th class="text-xs-center align-middle">رتبه ورود</th>
+                                <th class="text-xs-center align-middle">رتبه نمایش</th>
+                                <th class="text-xs-center align-middle">فعال/غیرفعال</th>
+                                <th class="text-xs-center align-middle">عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{ int txtRad = 1;}
+                            @foreach (var txt in item.FSTexts.OrderBy(x => x.ShowRating))
+                            {
+                                <tr>
+                                    <td class="text-xs-center align-middle">@txtRad</td>
+                                    <td class="text-xs-center align-middle">
+                                        @Html.DisplayFor(modelItem => txt.Text)
+                                    </td>
+                                    <td class="text-xs-center align-middle">
+                                        @Html.DisplayFor(modelItem => txt.DataPosition)
+                                    </td>
+                                    <td class="text-xs-center align-middle">
+                                        @Html.DisplayFor(modelItem => txt.DataStep)
+                                    </td>
+                                    <td class="text-xs-center align-middle">
+                                        @Html.DisplayFor(modelItem => txt.ShowRating)
+                                    </td>
+                                    <td class="text-xs-center align-middle">
+                                        @if (txt.IsActive)
+                                        {
+                                            <span class="fa fa-check-square cursor-pointer txtchk" data-id="@txt.Id" data-status="0"></span>
+                                        }
+                                        else
+                                        {
+                                            <span class="fa fa-square-o cursor-pointer txtchk" data-id="@txt.Id" data-status="1"></span>
+                                        }
+                                    </td>
+
+                                    <td class="text-xs-center align-middle">
+                                        @if (_userService.CheckPermissionByName("fractionslider", User.Identity.Name))
+                                        {
+                                            <a asp-action="Edit" asp-controller="FSTexts" asp-route-id="@txt.Id" asp-route-retUrl="@burl">ویرایش</a> <span>|</span>
+                                            <a asp-action="Details" asp-controller="FSTexts" asp-route-id="@txt.Id" asp-route-retUrl="@burl">جزئیات</a> <span>|</span>
+                                            <a asp-action="Delete" asp-controller="FSTexts" asp-route-id="@txt.Id" asp-route-retUrl="@burl">حــذف</a>
+                                        }
+
+                                    </td>
+                                </tr>
+                                txtRad++;
+                            }
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            rad++;
+
+        }
+    </tbody>
+</table>
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".chk").click(function () {
+                if (confirm("آیا مطمئن به تغییر وضعیت اسلاید هستید؟")) {
+                    var idd = $(this).attr("data-id");
+                    var st = $(this).attr("data-status");
+                    var th = $(this);
+                    $.ajax({
+                        url: "/Manage/FractionSliders/ChangeStatus",
+                        data: { id: idd, status: st },
+                        type: "GET",
+                        async: true,
+                        success: function (result) {
+
+                            if (result === true) {
+
+                                th.removeClass("fa-square-o").addClass("fa-check-square");
+                                th.attr("data-status", 0);
+                            }
+                            else {
+
+                                th.removeClass("fa-check-square").addClass("fa-square-o");
+                                th.attr("data-status", 1);
+                            }
+                        },
+                        error: function () {
+                            alert("error");
+                        }
+                    })
+                }
+
+            });
+            $(".imgchk").click(function () {
+                if (confirm("آیا مطمئن به تغییر وضعیت عکس هستید؟")) {
+                    var idd = $(this).attr("data-id");
+                    var st = $(this).attr("data-status");
+                    var th = $(this);
+                    $.ajax({
+                        url: "/Manage/FSImages/ChangeStatus",
+                        data: { id: idd, status: st },
+                        type: "GET",
+                        async: true,
+                        success: function (result) {
+
+                            if (result === true) {
+
+                                th.removeClass("fa-square-o").addClass("fa-check-square");
+                                th.attr("data-status", 0);
+                            }
+                            else {
+
+                                th.removeClass("fa-check-square").addClass("fa-square-o");
+                                th.attr("data-status", 1);
+                            }
+                        },
+                        error: function () {
+                            alert("error");
+                        }
+                    })
+                }
+
+            });
+            $(".txtchk").click(function () {
+                if (confirm("آیا مطمئن به تغییر وضعیت متن هستید؟")) {
+                    var idd = $(this).attr("data-id");
+                    var st = $(this).attr("data-status");
+                    var th = $(this);
+                    $.ajax({
+                        url: "/Manage/FSTexts/ChangeStatus",
+                        data: { id: idd, status: st },
+                        type: "GET",
+                        async: true,
+                        success: function (result) {
+
+                            if (result === true) {
+
+                                th.removeClass("fa-square-o").addClass("fa-check-square");
+                                th.attr("data-status", 0);
+                            }
+                            else {
+
+                                th.removeClass("fa-check-square").addClass("fa-square-o");
+                                th.attr("data-status", 1);
+                            }
+                        },
+                        error: function () {
+                            alert("error");
+                        }
+                    })
+                }
+
+            });
+        });
+    </script>
+}

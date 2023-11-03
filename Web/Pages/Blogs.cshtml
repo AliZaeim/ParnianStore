@@ -1,0 +1,288 @@
+﻿@page "{gName?}/{Tag?}/{archive?}/{pageId:int?}"
+@model Web.Pages.BlogsModel
+@using Core.Services.Interfaces;
+@inject IUserService _userService
+@inject IBlogService _blogService
+@using Core.Convertors;
+@using System.Globalization;
+
+@{
+    Layout = null;
+    string cur = "ریال";
+    string canon = "https://aliansabz.com/Blogs";
+    if (Model.BlogVM.InitialInfo != null)
+    {
+        cur = Model.BlogVM.InitialInfo.SiteCurrency;
+    }
+    @if (Model.BlogVM.BlogGroup != null)
+    {
+        canon = "https://aliansabz.com/Blogs/" + Model.BlogVM.GroupEnName.Replace(" ","-");
+    }
+
+}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BYLT1K82JQ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-BYLT1K82JQ');
+    </script>
+    <title>مجله عالیان سبز</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:site_name" value="عالیان سبز">
+    <meta property="og:title" content="مجله عالیان سبز">
+    <meta property="og:url" content="https://aliansabz.com/Blogs">
+    <meta property="og:image" content="https://aliansabz.com/images/alian-sabz-shop-100.png">
+    <meta property="og:image:url" content="https://aliansabz.com/images/">
+    <meta property="og:image:type" content=image/png>
+    <meta property="og:image:type" content=image/jpg>
+    <meta property="og:image:alt" content="عالیان سبز" />
+    <meta property="og:price:currency" content="IRR">
+    <meta property="og:locale" content="ir_FA">
+    <meta name="description" content="پست های مختلف عالیان سبز در دسته های مختلف در مورد پک ها، محصولات و اجزای سازنده آنها و مطالب متنوع دیگر در این صفحه منتشر می شوند" />
+    <link rel="canonical" href="@canon" />
+    @{
+        string fav = "favicon.png";
+        if (Model.BlogVM.InitialInfo != null)
+        {
+            if (!string.IsNullOrEmpty(Model.BlogVM.InitialInfo.FavIcon))
+            {
+                fav = Model.BlogVM.InitialInfo.FavIcon;
+            }
+
+        }
+    }
+    <link rel="shortcut icon" href="/@fav" type="image/x-icon" />
+    <link rel="stylesheet" type="text/css" href="~/Layout/vendor/bootstrap/css/bootstrap.min.css">
+    <link href="~/lib/fonts/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/Layout/vendor/css-hamburgers/hamburgers.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Layout/Vendor/animsition/css/animsition.min.css">
+    <link href="~/Layout/css/util.css" rel="stylesheet" type="text/css" />
+    <link href="~/Layout/css/main.css" rel="stylesheet" type="text/css" />
+    <link href="~/Layout/css/tricklandstyle.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css">
+</head>
+<body class="animsition" dir="rtl">
+    <partial name="_Header" />
+    <nav class="breadcrumb-nav rtl fs-12" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            @if (string.IsNullOrEmpty(Model.BlogVM.SearchType))
+            {
+                <li class="breadcrumb-item"><a href="/">خانه</a></li>
+                <li class="breadcrumb-item active" aria-current="page">مجله عالیان</li>
+            }
+            else
+            {
+                <li class="breadcrumb-item"><a href="/">خانه</a></li>
+                <li class="breadcrumb-item"><a href="/Blogs">مجله عالیان</a></li>
+                if (Model.BlogVM.SearchType == "group")
+                {
+                    if (Model.BlogVM.BlogGroup != null)
+                    {
+                        <li class="breadcrumb-item active" aria-current="page">مقالات گروه  @Model.BlogVM.BlogGroup.BlogGroupTitle</li>
+                    }
+
+                }
+                else if (Model.BlogVM.SearchType == "archive")
+                {
+                    int mm = (int)Model.BlogVM.Mounth;
+                    int yy = (int)Model.BlogVM.Year;
+                    <li class="breadcrumb-item active" aria-current="page">مقالات  @mm @yy </li>
+                }
+                else if (Model.BlogVM.SearchType == "tag")
+                {
+                    <li class="breadcrumb-item active" aria-current="page">مقالات برچسب  @Model.BlogVM.SearchTag</li>
+                }
+
+            }
+
+        </ol>
+    </nav>
+    <section class="bg-title-page p-t-50 p-b-40 flex-col-c-m general-page-bg02">
+        <h2 class="l-text2 t-center">
+            مجله عالیان
+        </h2>
+        @if (Model.BlogVM.SearchType == "group")
+        {
+            @if (string.IsNullOrEmpty(Model.BlogVM.GroupEnName))
+            {
+                <p class="m-text13 t-center">
+                    مقالات ما رو دنبال کنید و به روز باشید
+                </p>
+            }
+            else
+            {
+                <p class="m-text13 t-center">
+                    مقالات  @Model.BlogVM.BlogGroup.BlogGroupTitle
+                </p>
+            }
+        }
+        else if (Model.BlogVM.SearchType == "archive")
+        {
+            int mm = (int)Model.BlogVM.Mounth;
+            int yy = (int)Model.BlogVM.Year;
+            <p class="m-text13 t-center">
+                مقالات  @mm.ToPersianMounth() @yy
+            </p>
+        }
+        else if (Model.BlogVM.SearchType == "tag")
+        {
+            <p class="m-text13 t-center">
+                برچسب  @Model.BlogVM.SearchTag
+            </p>
+        }
+        else
+        {
+            <p class="m-text13 t-center">
+                مقالات ما رو دنبال کنید و به روز باشید
+            </p>
+        }
+    </section>
+    <section class="bgwhite p-t-55 p-b-65">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-md-4 col-lg-3 p-b-50">
+                    <div class="leftbar tl-box make-me-sticky zmin-sticky-height-200">
+                        <h4 class="m-text23 p-b-20">
+                            دسته بندی ها
+                        </h4>
+
+                        <ul>
+                            <li class="p-t-6 p-b-1 m-b-30">
+                                <a href="/blogs" class="col-sm-12 @((Model.BlogVM.SearchType=="all") ? "text-info" : "")">همــه &ensp; <span>( @Model.BlogVM.TotalCount )</span></a>
+                            </li>
+                            @foreach (var bg in Model.BlogVM.BlogGroups)
+                            {
+                                <li class="p-t-6 p-b-1 m-b-30">
+                                    <a asp-page="blogs" asp-route-gName="@bg.BlogGroupEnTitle.Trim().Replace(" ","-")" class="col-sm-12 @((Model.BlogVM.BlogGroup?.BlogGroupEnTitle == bg.BlogGroupEnTitle && Model.BlogVM.SearchType=="group")? "text-info" : "")">@bg.BlogGroupTitle &ensp; <span>( @bg.Blogs.Count )</span></a>
+                                </li>
+                            }
+                        </ul>
+                        @if (Model.BlogVM.Blogs.Where(w => w.BlogIsActive).Count() != 0)
+                        {
+                            <h4 class="m-text23 p-t-50 p-b-16">
+                                آرشیو
+                            </h4>
+                            <ul>
+
+                                @for (int i = 0; i <= 12; i++)
+                                {
+                                    PersianCalendar pc = new PersianCalendar();
+
+                                    DateTime dt = DateTime.Now.AddMonths(-i);
+                                    int y = pc.GetYear(dt);
+                                    int m = pc.GetMonth(dt);
+                                    string ym = y.ToString() + "-" + m.ToString();
+
+                                    @if (await _blogService.ExistBlogsWithYearMounth(y, m))
+                                    {
+                                        List<DataLayer.Entities.Blogs.Blog>
+                                                      blogs = await _blogService.GetBlogsWithYearMounth(y, m);
+                                        <li class="p-t-6 p-b-1 m-b-30">
+                                            <a href="/blogs/?archive=@ym" class="col-sm-12  @((m==Model.BlogVM.Mounth && y==Model.BlogVM.Year && Model.BlogVM.SearchType=="archive" )? "text-info" : "")">@m.ToPersianMounth() @y &ensp; <span>( @blogs.Count )</span></a>
+
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        }
+
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-8 col-lg-9 p-b-50">
+                    <div class="row">
+                        @foreach (var item in Model.BlogVM.Blogs)
+                        {
+                            <div class="col-sm-12 col-lg-6 p-b-50">
+                                <div class="block2 tl-box">
+                                    <a href=/blog/d/@item.BlogShortKey class="block3-img dis-block hov-img-zoom tl-box">
+                                        <img src="/images/blogs/@item.BlogImageInBlog" width="360" height="300" alt="@item.BlogTitle">
+                                    </a>
+                                    <div class="block2-txt p-t-20">
+                                        <a href="/blog/d/@item.BlogShortKey" alt="@item.BlogTitle"><h4 class="blog-heading">@item.BlogTitle</h4></a>
+                                        <div class="blog-detail row m-t-20">                                            
+                                            <div class="calendar col">
+                                                @item.BlogDate.ToShamsi()
+                                            </div>
+                                            <div class="col text-center">
+                                                <i class="fa fa-eye"></i>
+                                                <span>@item.BlogViewsCount</span>
+                                            </div>
+                                            <div class="col text-left">
+                                                <a asp-page="blogs" asp-route-gName="@item.BlogGroup.BlogGroupEnTitle.Trim().Replace(' ','-')">@item.BlogGroup.BlogGroupTitle</a>
+                                            </div>
+                                        </div>
+                                        <p class="blog-content line-height-1">@item.BlogSummary</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        }
+                    </div>
+                    <div class="pages-counter pagination flex-m flex-w p-t-26">
+                        @for (int pg = 1; pg <= Model.BlogVM.TotalPages; pg++)
+                        {
+                            if (pg == Model.BlogVM.CurrentPage)
+                            {
+                                <a href="javascript:void(0)" class="item-pagination cursor-not-allowed flex-c-m trans-0-4  active-pagination">@pg</a>
+                            }
+                            else
+                            {
+                                //bool hasgroup = false;
+                                var group = Model.BlogVM.BlogGroup;
+                                string grEn = string.Empty;
+                                if (Model.BlogVM.BlogGroup != null)
+                                {
+                                    //hasgroup = true;
+                                    grEn = group.BlogGroupEnTitle;
+                                }
+                                string ym = string.Empty;
+                                ym = Model.BlogVM.Year.ToString() + "-" + Model.BlogVM.Mounth;
+                                string link = "/blogs";
+                                if (Model.BlogVM.BlogGroup != null)
+                                {
+                                    link += "/?gName=" + group.BlogGroupEnTitle;
+                                }
+                                if (!string.IsNullOrEmpty(Model.BlogVM.SearchTag))
+                                {
+                                    link += "/?Tag=" + Model.BlogVM.SearchTag;
+                                }
+                                if (Model.BlogVM.Year != null)
+                                {
+                                    link += "/?archive=" + ym;
+                                }
+                                if (link == "/blogs")
+                                {
+                                    link += "?pageId=" + pg;
+                                }
+                                else
+                                {
+                                    link += "&&pageId=" + pg;
+                                }
+                                <a href="@link" class="item-pagination cursor-pointer flex-c-m trans-0-4">@pg</a>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <partial name="_Footer" />
+    <div class="btn-back-to-top bg0-hov" id="myBtn">
+        <span class="symbol-btn-back-to-top">
+            &uArr;
+        </span>
+    </div>
+    <script type="text/javascript" src="~/Layout/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="~/Layout/vendor/animsition/js/animsition.min.js"></script>
+    <script type="text/javascript" src="~/Layout/vendor/bootstrap/js/popper.js"></script>
+    <script type="text/javascript" src="~/Layout/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/Layout/js/main.js"></script>
+</body>
+</html>

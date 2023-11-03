@@ -1,0 +1,72 @@
+﻿@model Core.DTOs.Admin.UserVM
+@{
+    ViewData["Title"] = "ثبت کاربر";
+    Layout = "~/Areas/Manage/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">ثبت کاربر</h1>
+<div>
+    <a asp-action="Registered">بازگشت</a>
+</div>
+
+<div class="row pt-5">
+    <div class="col-xs-12">
+        <form asp-action="CreateUser" >
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="offset-md-4 col-md-4 col-xs-12">
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Family" class="control-label"></label>
+                    <input asp-for="Family"  class="form-control" />
+                    <span asp-validation-for="Family" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Cellphone" class="control-label"></label>
+                    <input asp-for="Cellphone"  class="form-control" />
+                    <span asp-validation-for="Cellphone" class="text-danger"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label asp-for="Sex" class="control-label"></label>
+                    <select class="form-control" asp-for="Sex">
+                        <option value="">لطفا جنیست خود را مشخص کنید</option>
+                        <option value="مــرد">مــرد</option>
+                        <option value="زن">زن</option>
+                        <option value="حقوقی">حقوقی</option>
+                    </select>
+                    <span asp-validation-for="Sex" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="RoleId" class="control-label"></label>
+                    <select asp-for="RoleId" type="file" class="form-control">
+                        <option value="">انتخاب کنید...</option>
+                        @foreach (var item in Model.Roles)
+                        {
+                            <option value="@item.RoleId">@item.RoleTitle</option>
+                        }
+                    </select>
+                    <span asp-validation-for="RoleId" class="text-danger"></span>
+                </div>
+                
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="ثبت" class="btn btn-primary offset-md-4 col-md-4 col-xs-12" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">بازگشت</a>
+</div>
+
+@section Scripts
+{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
